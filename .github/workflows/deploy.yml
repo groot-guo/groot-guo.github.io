@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+ 
+on:
+ push:
+   branches:
+     - main  # Set this to your default branch
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # If you need full history for plugins like gitalk.
+ 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '21'  # Set this to the node version you are using.
+        
+    - name: Install Hexo dependencies
+      run: npm install
+    
+    - name: Generate static files
+      run: npm run build  # Make sure you have this script in your package.json
+  
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3.9.3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        publish_dir: ./public
+        cname: groot-guo.github.io  # Set this to your custom domain if you have one.
+        external_repository: groot-guo/groot-guo.github.io # 仓库B，格式为：user/repo
+        publish_branch: gh-pages # 仓库B的分支
+
