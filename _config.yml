@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: groot-guo's blog
-subtitle: ''
-description: ''
+title: 博客
+subtitle: 'Groot 的博客笔记'
+description: '个人笔记博客记录'
 keywords:
-author: John Doe
+author: genyuan
 language:
   - zh-CN
   - en
@@ -105,7 +105,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid  
+theme: next  
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
