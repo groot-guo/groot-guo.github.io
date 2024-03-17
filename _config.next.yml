@@ -479,11 +479,13 @@ exturl_icon: true
 
 # Google Webmaster tools verification.
 # See: https://developers.google.com/search
-google_site_verification:
+google_site_verification: FaSv6sE3Ke0fp0o-99wCK7Sq8n3EE6kD7rRMsKFNdL8
+# <meta name="google-site-verification" content="FaSv6sE3Ke0fp0o-99wCK7Sq8n3EE6kD7rRMsKFNdL8" />
 
 # Bing Webmaster tools verification.
 # See: https://www.bing.com/webmasters
 bing_site_verification: 141965EBBA612424B0BB633973389BBC
+# <meta name="msvalidate.01" content="141965EBBA612424B0BB633973389BBC" />
 
 # Yandex Webmaster tools verification.
 # See: https://webmaster.yandex.ru
