@@ -597,7 +597,7 @@ fixed : 　背景图像固定</p>
       <categories>
         <category>IT技术</category>
         <category>前端</category>
-        <category>css</category>
+        <category>CSS</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1175,7 +1175,7 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
       <categories>
         <category>IT技术</category>
         <category>后端</category>
-        <category>golang</category>
+        <category>Golang</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1226,7 +1226,7 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
       <categories>
         <category>IT技术</category>
         <category>系统网络</category>
-        <category>git</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1347,187 +1347,7 @@ utf-8是目前最常用的字符编码格式
       <categories>
         <category>IT技术</category>
         <category>前端</category>
-        <category>html</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql 简单入门</title>
-    <url>/2019/10/17/Mysql/</url>
-    <content><![CDATA[<h1 id="mysql"><a class="markdownIt-Anchor" href="#mysql"></a> MySql</h1>
-<h2 id="第一章mysql-入门"><a class="markdownIt-Anchor" href="#第一章mysql-入门"></a> 第一章mysql 入门</h2>
-<p>MySQL是基于 c/s 架构的软件</p>
-<h4 id="添加环境变量到path"><a class="markdownIt-Anchor" href="#添加环境变量到path"></a> 添加环境变量到path</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
-<h4 id="进程"><a class="markdownIt-Anchor" href="#进程"></a> 进程</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
-<h4 id="忘记密码"><a class="markdownIt-Anchor" href="#忘记密码"></a> 忘记密码</h4>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
-<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建</p>
-<h4 id="统一字符编码"><a class="markdownIt-Anchor" href="#统一字符编码"></a> 统一字符编码</h4>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
-<p>修改字符集也可以使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
-<h4 id="进入-mysql"><a class="markdownIt-Anchor" href="#进入-mysql"></a> 进入 MySQL</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
-<h5 id="创建-mysql-用户"><a class="markdownIt-Anchor" href="#创建-mysql-用户"></a> 创建 MySQL 用户</h5>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
-<p>可以修改为 192.168.1.% 表示本网用户</p>
-<h5 id="授权"><a class="markdownIt-Anchor" href="#授权"></a> 授权</h5>
-<p>@后面加的主机地址，需要设置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
-<p>登录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
-<h2 id="第二章mysql命令"><a class="markdownIt-Anchor" href="#第二章mysql命令"></a> 第二章MySQL命令</h2>
-<p>SQL命令</p>
-<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
-<ul>
-<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
-<li>DML 语句 数据库操作语言：插入删除修改查看</li>
-<li>DCL 语句 数据库控制语言：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
-<h4 id="数据库操作"><a class="markdownIt-Anchor" href="#数据库操作"></a> 数据库操作</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
-<h4 id="表的操作"><a class="markdownIt-Anchor" href="#表的操作"></a> 表的操作</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
-<h4 id="数据操作"><a class="markdownIt-Anchor" href="#数据操作"></a> 数据操作</h4>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
-<h4 id="存储引擎"><a class="markdownIt-Anchor" href="#存储引擎"></a> 存储引擎</h4>
-<p>mysql 5.5版本之后默认为innodb存储引擎<br />
-另外还有mysiam、memory、blackhone<br />
-#memory，在重启mysql或者重启机器后，表内数据清空<br />
-#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
-<h2 id="第三章数据类型"><a class="markdownIt-Anchor" href="#第三章数据类型"></a> 第三章数据类型</h2>
-<h4 id="整型"><a class="markdownIt-Anchor" href="#整型"></a> 整型</h4>
-<p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
-<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
-<h4 id="浮点型"><a class="markdownIt-Anchor" href="#浮点型"></a> 浮点型</h4>
-<p>FLOAT</p>
-<p>DOUBLE ,精度比 float 高</p>
-<p>decimal 更精准的小数</p>
-<h4 id="日期"><a class="markdownIt-Anchor" href="#日期"></a> 日期</h4>
-<p>YEAR<br />
-YYYY<br />
-DATE<br />
-YYYY-MM-DD<br />
-TIME<br />
-HH：MM：SS<br />
-DATETIME  用的最多</p>
-<h4 id="字符"><a class="markdownIt-Anchor" href="#字符"></a> 字符</h4>
-<p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
-<p>varchar 类型：变长，存储速度慢，节省空间</p>
-<h4 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h4>
-<p>enum 枚举 表示多选一</p>
-<p>set 集合 表示多选一，或者多选多</p>
-<h4 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h4>
-<p>小结：	<br />
-数据类型：<br />
-整型：tinyint int bigint<br />
-浮点型： float double decimal<br />
-时间：year date time datetime<br />
-字符：char 定长 &gt; varchar 变长 &gt; text 文本<br />
-枚举：enum<br />
-集合：set<br />
-布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br />
-函数： now() 根据字段的数据类型获取当前的时间格式<br />
-char_length: 获取字符长度<br />
-length():获取字节数<br />
-sql中默认是有符号的<br />
-如果设置无符号unsigned<br />
-用0填充 zefofill<br />
-对字段进行  约束</p>
-<h4 id="约束"><a class="markdownIt-Anchor" href="#约束"></a> 约束</h4>
-<p>保证数据的完整性和一致性</p>
-<p>表的设计<br />
-1.not null 与 default</p>
-<p>​				not null  不为空，default 默认值</p>
-<p>create table tb1(id int not null default 2,name char(20) not null);</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
-<p>​	2.unique</p>
-<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-<p>​					多列唯一  表示每列都唯一</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-<p>​					组合唯一</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-<p>​	3.primary key （索引优化查询）</p>
-<p>​			主键 = not null + unique</p>
-<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
-<p>​			primary key  (索引优化)</p>
-<p>​	4.auto_increment</p>
-<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
-<p>外键 foreign key</p>
-<p>被关联表   主表 先创建</p>
-<p>关联表 从表 后创建，因为先创外键无法匹配</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
-<h3 id="第三章表和表的关系"><a class="markdownIt-Anchor" href="#第三章表和表的关系"></a> 第三章表和表的关系</h3>
-<p>分析步骤：</p>
-<p>先左表：<br />
-1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
-<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
-<h4 id="31多对一"><a class="markdownIt-Anchor" href="#31多对一"></a> 3.1多对一</h4>
-<p>只有步骤 1 或者步骤 2 成立</p>
-<p>的关系，凡是多的都是外键。</p>
-<h4 id="32多对多"><a class="markdownIt-Anchor" href="#32多对多"></a> 3.2多对多</h4>
-<p>同时成立</p>
-<h4 id="33一对一"><a class="markdownIt-Anchor" href="#33一对一"></a> 3.3一对一</h4>
-<p>步骤 1 和 2 都不成立</p>
-<h3 id="第四章表的查询"><a class="markdownIt-Anchor" href="#第四章表的查询"></a> 第四章表的查询</h3>
-<h4 id="41单表查询"><a class="markdownIt-Anchor" href="#41单表查询"></a> 4.1单表查询</h4>
-<p>​			一、单表查询的语法<br />
-​			SELECT 字段1,字段2… FROM 表名<br />
-​                  WHERE 条件<br />
-​                  GROUP BY field<br />
-​                  HAVING 筛选<br />
-​                  ORDER BY field<br />
-​                  LIMIT 限制条数<br />
-​			二、关键字的执行优先级（重点）</p>
-<p>重点中的重点：关键字的执行优先级<br />
-from<br />
-where<br />
-group by<br />
-having 以前的版本不可以单独使用，现在可以<br />
-select<br />
-distinct<br />
-order by（asc升序，desc降序）<br />
-limit<br />
-1.找到表:from<br />
-2.拿着where指定的约束条件，去文件/表中取出一条条记录<br />
-3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br />
-4.将分组的结果进行having过滤<br />
-5.执行select<br />
-6.去重<br />
-7.将结果按条件排序：order by<br />
-8.限制结果的显示条数</p>
-<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY</p>
-<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
-<p>min()		求最小</p>
-<p>max()		求最大</p>
-<p>avg()		求平均</p>
-<p>sum() 		求和</p>
-<p>count（）求总个数</p>
-<h4 id="42多表查询"><a class="markdownIt-Anchor" href="#42多表查询"></a> 4.2多表查询</h4>
-<h5 id="421多表连接查询"><a class="markdownIt-Anchor" href="#421多表连接查询"></a> 4.2.1多表连接查询</h5>
-<p>外连接操作</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
-<p>​		内连接：符合条件查询</p>
-<p>​		左连接：有限显示左表记录</p>
-<p>​		右连接：优先显示右边记录</p>
-<p>​		全外连接：显示左右两个表全部记录</p>
-<h5 id="422符合条件连接查询"><a class="markdownIt-Anchor" href="#422符合条件连接查询"></a> 4.2.2符合条件连接查询</h5>
-<h5 id="423子查询"><a class="markdownIt-Anchor" href="#423子查询"></a> 4.2.3子查询</h5>
-<p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
-<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
-<p>级联删方式</p>
-]]></content>
-      <categories>
-        <category>IT技术</category>
-        <category>数据库</category>
-        <category>Mysql</category>
+        <category>HTML</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1936,7 +1756,187 @@ lighthttp</p>
       <categories>
         <category>IT技术</category>
         <category>系统网络</category>
-        <category>linux</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql 简单入门</title>
+    <url>/2019/10/17/Mysql/</url>
+    <content><![CDATA[<h1 id="mysql"><a class="markdownIt-Anchor" href="#mysql"></a> MySql</h1>
+<h2 id="第一章mysql-入门"><a class="markdownIt-Anchor" href="#第一章mysql-入门"></a> 第一章mysql 入门</h2>
+<p>MySQL是基于 c/s 架构的软件</p>
+<h4 id="添加环境变量到path"><a class="markdownIt-Anchor" href="#添加环境变量到path"></a> 添加环境变量到path</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
+<h4 id="进程"><a class="markdownIt-Anchor" href="#进程"></a> 进程</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
+<h4 id="忘记密码"><a class="markdownIt-Anchor" href="#忘记密码"></a> 忘记密码</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
+<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建</p>
+<h4 id="统一字符编码"><a class="markdownIt-Anchor" href="#统一字符编码"></a> 统一字符编码</h4>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
+<p>修改字符集也可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
+<h4 id="进入-mysql"><a class="markdownIt-Anchor" href="#进入-mysql"></a> 进入 MySQL</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
+<h5 id="创建-mysql-用户"><a class="markdownIt-Anchor" href="#创建-mysql-用户"></a> 创建 MySQL 用户</h5>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
+<p>可以修改为 192.168.1.% 表示本网用户</p>
+<h5 id="授权"><a class="markdownIt-Anchor" href="#授权"></a> 授权</h5>
+<p>@后面加的主机地址，需要设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<p>登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
+<h2 id="第二章mysql命令"><a class="markdownIt-Anchor" href="#第二章mysql命令"></a> 第二章MySQL命令</h2>
+<p>SQL命令</p>
+<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
+<ul>
+<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
+<li>DML 语句 数据库操作语言：插入删除修改查看</li>
+<li>DCL 语句 数据库控制语言：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
+<h4 id="数据库操作"><a class="markdownIt-Anchor" href="#数据库操作"></a> 数据库操作</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
+<h4 id="表的操作"><a class="markdownIt-Anchor" href="#表的操作"></a> 表的操作</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
+<h4 id="数据操作"><a class="markdownIt-Anchor" href="#数据操作"></a> 数据操作</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
+<h4 id="存储引擎"><a class="markdownIt-Anchor" href="#存储引擎"></a> 存储引擎</h4>
+<p>mysql 5.5版本之后默认为innodb存储引擎<br />
+另外还有mysiam、memory、blackhone<br />
+#memory，在重启mysql或者重启机器后，表内数据清空<br />
+#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
+<h2 id="第三章数据类型"><a class="markdownIt-Anchor" href="#第三章数据类型"></a> 第三章数据类型</h2>
+<h4 id="整型"><a class="markdownIt-Anchor" href="#整型"></a> 整型</h4>
+<p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
+<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
+<h4 id="浮点型"><a class="markdownIt-Anchor" href="#浮点型"></a> 浮点型</h4>
+<p>FLOAT</p>
+<p>DOUBLE ,精度比 float 高</p>
+<p>decimal 更精准的小数</p>
+<h4 id="日期"><a class="markdownIt-Anchor" href="#日期"></a> 日期</h4>
+<p>YEAR<br />
+YYYY<br />
+DATE<br />
+YYYY-MM-DD<br />
+TIME<br />
+HH：MM：SS<br />
+DATETIME  用的最多</p>
+<h4 id="字符"><a class="markdownIt-Anchor" href="#字符"></a> 字符</h4>
+<p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
+<p>varchar 类型：变长，存储速度慢，节省空间</p>
+<h4 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h4>
+<p>enum 枚举 表示多选一</p>
+<p>set 集合 表示多选一，或者多选多</p>
+<h4 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h4>
+<p>小结：	<br />
+数据类型：<br />
+整型：tinyint int bigint<br />
+浮点型： float double decimal<br />
+时间：year date time datetime<br />
+字符：char 定长 &gt; varchar 变长 &gt; text 文本<br />
+枚举：enum<br />
+集合：set<br />
+布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br />
+函数： now() 根据字段的数据类型获取当前的时间格式<br />
+char_length: 获取字符长度<br />
+length():获取字节数<br />
+sql中默认是有符号的<br />
+如果设置无符号unsigned<br />
+用0填充 zefofill<br />
+对字段进行  约束</p>
+<h4 id="约束"><a class="markdownIt-Anchor" href="#约束"></a> 约束</h4>
+<p>保证数据的完整性和一致性</p>
+<p>表的设计<br />
+1.not null 与 default</p>
+<p>​				not null  不为空，default 默认值</p>
+<p>create table tb1(id int not null default 2,name char(20) not null);</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
+<p>​	2.unique</p>
+<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+<p>​					多列唯一  表示每列都唯一</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+<p>​					组合唯一</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+<p>​	3.primary key （索引优化查询）</p>
+<p>​			主键 = not null + unique</p>
+<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
+<p>​			primary key  (索引优化)</p>
+<p>​	4.auto_increment</p>
+<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
+<p>外键 foreign key</p>
+<p>被关联表   主表 先创建</p>
+<p>关联表 从表 后创建，因为先创外键无法匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
+<h3 id="第三章表和表的关系"><a class="markdownIt-Anchor" href="#第三章表和表的关系"></a> 第三章表和表的关系</h3>
+<p>分析步骤：</p>
+<p>先左表：<br />
+1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
+<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
+<h4 id="31多对一"><a class="markdownIt-Anchor" href="#31多对一"></a> 3.1多对一</h4>
+<p>只有步骤 1 或者步骤 2 成立</p>
+<p>的关系，凡是多的都是外键。</p>
+<h4 id="32多对多"><a class="markdownIt-Anchor" href="#32多对多"></a> 3.2多对多</h4>
+<p>同时成立</p>
+<h4 id="33一对一"><a class="markdownIt-Anchor" href="#33一对一"></a> 3.3一对一</h4>
+<p>步骤 1 和 2 都不成立</p>
+<h3 id="第四章表的查询"><a class="markdownIt-Anchor" href="#第四章表的查询"></a> 第四章表的查询</h3>
+<h4 id="41单表查询"><a class="markdownIt-Anchor" href="#41单表查询"></a> 4.1单表查询</h4>
+<p>​			一、单表查询的语法<br />
+​			SELECT 字段1,字段2… FROM 表名<br />
+​                  WHERE 条件<br />
+​                  GROUP BY field<br />
+​                  HAVING 筛选<br />
+​                  ORDER BY field<br />
+​                  LIMIT 限制条数<br />
+​			二、关键字的执行优先级（重点）</p>
+<p>重点中的重点：关键字的执行优先级<br />
+from<br />
+where<br />
+group by<br />
+having 以前的版本不可以单独使用，现在可以<br />
+select<br />
+distinct<br />
+order by（asc升序，desc降序）<br />
+limit<br />
+1.找到表:from<br />
+2.拿着where指定的约束条件，去文件/表中取出一条条记录<br />
+3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br />
+4.将分组的结果进行having过滤<br />
+5.执行select<br />
+6.去重<br />
+7.将结果按条件排序：order by<br />
+8.限制结果的显示条数</p>
+<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY</p>
+<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
+<p>min()		求最小</p>
+<p>max()		求最大</p>
+<p>avg()		求平均</p>
+<p>sum() 		求和</p>
+<p>count（）求总个数</p>
+<h4 id="42多表查询"><a class="markdownIt-Anchor" href="#42多表查询"></a> 4.2多表查询</h4>
+<h5 id="421多表连接查询"><a class="markdownIt-Anchor" href="#421多表连接查询"></a> 4.2.1多表连接查询</h5>
+<p>外连接操作</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
+<p>​		内连接：符合条件查询</p>
+<p>​		左连接：有限显示左表记录</p>
+<p>​		右连接：优先显示右边记录</p>
+<p>​		全外连接：显示左右两个表全部记录</p>
+<h5 id="422符合条件连接查询"><a class="markdownIt-Anchor" href="#422符合条件连接查询"></a> 4.2.2符合条件连接查询</h5>
+<h5 id="423子查询"><a class="markdownIt-Anchor" href="#423子查询"></a> 4.2.3子查询</h5>
+<p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
+<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
+<p>级联删方式</p>
+]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>数据库</category>
+        <category>Mysql</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -4136,7 +4136,7 @@ request.blueprint---- None</p>
       <categories>
         <category>IT技术</category>
         <category>后端</category>
-        <category>node</category>
+        <category>Node Js</category>
       </categories>
       <tags>
         <tag>笔记</tag>
