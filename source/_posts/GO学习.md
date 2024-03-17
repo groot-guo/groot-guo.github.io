@@ -4,10 +4,11 @@ tags: 笔记
 categories:
 - IT技术
 - 后端
-- golang
+- Golang
 abbrlink: 3389314846
 description: 初步学习golang，了解基本语法。
 date: 2020-04-06 00:00:00
+updated: 2020-04-06 00:00:00
 ---
 
 ## go学习

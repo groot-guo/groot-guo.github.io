@@ -8,6 +8,7 @@ categories:
 abbrlink: 2358615956
 description: Django 框架初步使用，简单流程记录
 date: 2019-11-16 00:00:00
+updated: 2019-11-16 00:00:00
 ---
 
 # Django

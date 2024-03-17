@@ -8,6 +8,7 @@ categories:
 abbrlink: 3271143529
 description: flask 框架简单认识，初步使用
 date: 2019-12-07 00:00:00
+updated: 2019-12-07 00:00:00
 ---
 
 

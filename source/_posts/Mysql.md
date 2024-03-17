@@ -8,6 +8,7 @@ categories:
 abbrlink: 1397632726
 description: 认识mysql，部署、安装、熟悉sql 语法
 date: 2019-10-17 00:00:00
+updated: 2019-10-17 00:00:00
 ---
 
 # MySql

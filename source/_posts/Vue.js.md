@@ -8,6 +8,7 @@ categories:
 abbrlink: 3095576720
 description: vue 初识了解
 date: 2019-06-23 00:00:00
+updated: 2019-06-23 00:00:00
 ---
 
 # Vue.js
