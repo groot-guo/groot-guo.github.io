@@ -604,6 +604,104 @@ fixed : 　背景图像固定</p>
       </tags>
   </entry>
   <entry>
+    <title>golang 基本了解</title>
+    <url>/2020/04/06/GO%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="go学习"><a class="markdownIt-Anchor" href="#go学习"></a> go学习</h2>
+<h3 id="流程控制"><a class="markdownIt-Anchor" href="#流程控制"></a> 流程控制</h3>
+<h3 id="函数"><a class="markdownIt-Anchor" href="#函数"></a> 函数</h3>
+<blockquote>
+<p>声明语法： func 函数名 (参数列表) [返回值列表] {}</p>
+<p>type fun func(int,int) int</p>
+<p>函数可以赋值给变量</p>
+<p>defer 语句</p>
+</blockquote>
+<h4 id="内置函数"><a class="markdownIt-Anchor" href="#内置函数"></a> 内置函数</h4>
+<ul>
+<li>close : 主要用来关闭 channel</li>
+<li>len: 用来求长度，比如string、array、slice、map、channel</li>
+<li>new：用来分配内存，主要用来分配值类型，比如 int、struct。返回的是指针</li>
+<li>make：用来分配内存，主要用来分配引用类型，比如chan、map、slice</li>
+<li>append：用来追加元素到数组、slice中</li>
+<li>panic和recover：用来做错误处理</li>
+</ul>
+<p>闭包</p>
+<blockquote>
+<p>函数内部的值修改会被保存</p>
+</blockquote>
+<p>数组和切片</p>
+<blockquote>
+<p>数组：是同一种数据类型的固定长度的序列</p>
+<p>数组定义：var a [len] int，比如： var a[5] int</p>
+<p>长度是数组类型的一部分，因此，var a[5] int 和var a[10] in 是不同的类型</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age0 [<span class="number">5</span>]<span class="type">int</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>切片是数组的一个引用，因此切片是引用类型</p>
+<p>切片的长度可以改变，因此，切片是一个可变的数组</p>
+<p>切片遍历方式和数组一样，可以用len()求长度</p>
+<p>cap可以求出slice的长度</p>
+<p>切片是一个引用地址，可以直接修改，切片传地址</p>
+<p>slice、map、chan</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">var</span> slcie []<span class="type">int</span> = arr[start:end]</span><br></pre></td></tr></table></figure>
+<p>copy 拷贝切片</p>
+<p>排序和查找操作</p>
+<p><code>sort</code> 包</p>
+<h4 id="map-数据结构"><a class="markdownIt-Anchor" href="#map-数据结构"></a> Map 数据结构</h4>
+<blockquote>
+<p>key-value 的数据结构，又叫字典或关联数组</p>
+<p>声明不会分配内存，需要初始化make</p>
+</blockquote>
+<p>delete 删除key</p>
+<h4 id="线程同步"><a class="markdownIt-Anchor" href="#线程同步"></a> 线程同步</h4>
+<ul>
+<li><code>import(&quot;sync&quot;)</code></li>
+<li>互斥锁  var mu sync.Mutex</li>
+<li>读写锁  var mu sync.RMutex</li>
+</ul>
+<p>struct</p>
+<ol>
+<li>用来自定义复杂数据结构</li>
+<li>struct里面可以包含多个字段（属性）</li>
+<li>struct类型可以自定义方法，注意和函数的区分</li>
+<li>struct类型是值类型</li>
+<li>struct类型可以嵌套</li>
+<li>GO语言没有class类型，只有struct类型</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">  Age <span class="type">int</span></span><br><span class="line">  score <span class="type">float32</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 小写无法包外访问，大写可以</span></span><br></pre></td></tr></table></figure>
+<p>链表</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">  Next* Student</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>golang 中的struct 没有构造函数，一般可以使用工厂模式来解决这个问题</p>
+<p>匿名字段, 结构体字段可以没有名字。体现继承</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Car <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> ass <span class="keyword">struct</span> &#123;</span><br><span class="line">  Car</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法，golang中的方法是作用在特定类型的变量上，因此自定义类型，都可以有方法，而不仅仅是struct</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(recevier <span class="keyword">type</span>)</span></span> methodName(参数列表)(返回值列表)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>一个结构体嵌套另一个结构体就是组合</p>
+<p>接口</p>
+<p>Interface 类型可以定义一组方法，但是这些不需要实现。并且interface不能包含任何变量。</p>
+<p>反射</p>
+<h3 id="goroute"><a class="markdownIt-Anchor" href="#goroute"></a> Goroute</h3>
+<p>设置golang运行的cpu核数</p>
+<p>go build -race 查看线程竞争</p>
+<p>channel 声明</p>
+<p>管道通信的文件</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 变量 <span class="keyword">chan</span> 类型</span><br></pre></td></tr></table></figure>
+<p>对channel 进行 select 操作</p>
+<p>定时器</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line">t := time.NewTicker(time.Second)</span><br><span class="line">t.Stop()</span><br></pre></td></tr></table></figure>
+<p>Socket 编程</p>
+<p>Tcp编程</p>
+]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>后端</category>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Django 框架了解</title>
     <url>/2019/11/16/Django/</url>
     <content><![CDATA[<h1 id="django"><a class="markdownIt-Anchor" href="#django"></a> Django</h1>
@@ -1084,155 +1182,6 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
       </tags>
   </entry>
   <entry>
-    <title>golang 基本了解</title>
-    <url>/2020/04/06/GO%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="go学习"><a class="markdownIt-Anchor" href="#go学习"></a> go学习</h2>
-<h3 id="流程控制"><a class="markdownIt-Anchor" href="#流程控制"></a> 流程控制</h3>
-<h3 id="函数"><a class="markdownIt-Anchor" href="#函数"></a> 函数</h3>
-<blockquote>
-<p>声明语法： func 函数名 (参数列表) [返回值列表] {}</p>
-<p>type fun func(int,int) int</p>
-<p>函数可以赋值给变量</p>
-<p>defer 语句</p>
-</blockquote>
-<h4 id="内置函数"><a class="markdownIt-Anchor" href="#内置函数"></a> 内置函数</h4>
-<ul>
-<li>close : 主要用来关闭 channel</li>
-<li>len: 用来求长度，比如string、array、slice、map、channel</li>
-<li>new：用来分配内存，主要用来分配值类型，比如 int、struct。返回的是指针</li>
-<li>make：用来分配内存，主要用来分配引用类型，比如chan、map、slice</li>
-<li>append：用来追加元素到数组、slice中</li>
-<li>panic和recover：用来做错误处理</li>
-</ul>
-<p>闭包</p>
-<blockquote>
-<p>函数内部的值修改会被保存</p>
-</blockquote>
-<p>数组和切片</p>
-<blockquote>
-<p>数组：是同一种数据类型的固定长度的序列</p>
-<p>数组定义：var a [len] int，比如： var a[5] int</p>
-<p>长度是数组类型的一部分，因此，var a[5] int 和var a[10] in 是不同的类型</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> age0 [<span class="number">5</span>]<span class="type">int</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>切片是数组的一个引用，因此切片是引用类型</p>
-<p>切片的长度可以改变，因此，切片是一个可变的数组</p>
-<p>切片遍历方式和数组一样，可以用len()求长度</p>
-<p>cap可以求出slice的长度</p>
-<p>切片是一个引用地址，可以直接修改，切片传地址</p>
-<p>slice、map、chan</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">var</span> slcie []<span class="type">int</span> = arr[start:end]</span><br></pre></td></tr></table></figure>
-<p>copy 拷贝切片</p>
-<p>排序和查找操作</p>
-<p><code>sort</code> 包</p>
-<h4 id="map-数据结构"><a class="markdownIt-Anchor" href="#map-数据结构"></a> Map 数据结构</h4>
-<blockquote>
-<p>key-value 的数据结构，又叫字典或关联数组</p>
-<p>声明不会分配内存，需要初始化make</p>
-</blockquote>
-<p>delete 删除key</p>
-<h4 id="线程同步"><a class="markdownIt-Anchor" href="#线程同步"></a> 线程同步</h4>
-<ul>
-<li><code>import(&quot;sync&quot;)</code></li>
-<li>互斥锁  var mu sync.Mutex</li>
-<li>读写锁  var mu sync.RMutex</li>
-</ul>
-<p>struct</p>
-<ol>
-<li>用来自定义复杂数据结构</li>
-<li>struct里面可以包含多个字段（属性）</li>
-<li>struct类型可以自定义方法，注意和函数的区分</li>
-<li>struct类型是值类型</li>
-<li>struct类型可以嵌套</li>
-<li>GO语言没有class类型，只有struct类型</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">  Age <span class="type">int</span></span><br><span class="line">  score <span class="type">float32</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 小写无法包外访问，大写可以</span></span><br></pre></td></tr></table></figure>
-<p>链表</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">  Next* Student</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>golang 中的struct 没有构造函数，一般可以使用工厂模式来解决这个问题</p>
-<p>匿名字段, 结构体字段可以没有名字。体现继承</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Car <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> ass <span class="keyword">struct</span> &#123;</span><br><span class="line">  Car</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>方法，golang中的方法是作用在特定类型的变量上，因此自定义类型，都可以有方法，而不仅仅是struct</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(recevier <span class="keyword">type</span>)</span></span> methodName(参数列表)(返回值列表)&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>一个结构体嵌套另一个结构体就是组合</p>
-<p>接口</p>
-<p>Interface 类型可以定义一组方法，但是这些不需要实现。并且interface不能包含任何变量。</p>
-<p>反射</p>
-<h3 id="goroute"><a class="markdownIt-Anchor" href="#goroute"></a> Goroute</h3>
-<p>设置golang运行的cpu核数</p>
-<p>go build -race 查看线程竞争</p>
-<p>channel 声明</p>
-<p>管道通信的文件</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> 变量 <span class="keyword">chan</span> 类型</span><br></pre></td></tr></table></figure>
-<p>对channel 进行 select 操作</p>
-<p>定时器</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line">t := time.NewTicker(time.Second)</span><br><span class="line">t.Stop()</span><br></pre></td></tr></table></figure>
-<p>Socket 编程</p>
-<p>Tcp编程</p>
-]]></content>
-      <categories>
-        <category>IT技术</category>
-        <category>后端</category>
-        <category>Golang</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git 操作记录</title>
-    <url>/2020/01/06/Git/</url>
-    <content><![CDATA[<h1 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h1>
-<p>初始化Git</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-<p>查看被托管的文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-<p>托管文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add . # 点就代表所有文件，</span><br></pre></td></tr></table></figure>
-<p>第一次复制</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;名称&#x27;</span><br></pre></td></tr></table></figure>
-<p>文件检测到，需要重新提交</p>
-<p>查看修改日志</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
-<p>回到第一次提交状态，本地文件会回滚gitgit</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><span class="line"><span class="string">git</span> <span class="string">reset</span> <span class="built_in">--hard</span> <span class="comment"># + 第一次 commit 后面的内容或者 reflog 后面的内容</span></span><br></pre></td></tr></table></figure>
-<p>查看以前的状态：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
-<p>上线：</p>
-<p>1.git 删除远程地址</p>
-<p>git remote rm origin<br />
-2.git 更换远程地址</p>
-<p>git remote add origin <span class="exturl" data-url="aHR0cDovLzEwLjAwLjMuMjYwOjEwMDgwL3h4eHh4eC9zeHh4eS5naXQv">http://10.00.3.260:10080/xxxxxx/sxxxy.git/<i class="fa fa-external-link-alt"></i></span><br />
-3.把当前分支与远程分支进行关联(branchname要改成你的当前分支名称)</p>
-<p>git push --set-upstream origin branchname</p>
-<p>接下来，我们就要开始配置了。</p>
-<p>通过 <code>git remote add &lt;name&gt; &lt;url-of-remote&gt;</code> 指令来添加远程仓库。</p>
-<blockquote>
-<p>name 是远程仓库的别名，便于区分不同的远程仓库。</p>
-</blockquote>
-<blockquote>
-<p>url-of-remote 是我们的远程仓库链接，就是平时看到的以.git为后缀的链接啦！</p>
-</blockquote>
-<p>比如，我想添加github的远程仓库，并且取名为 github：</p>
-<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">git</span> remote <span class="keyword">add</span> github https:<span class="comment">//github.com/gongqingfeng/Drcom.git</span></span><br></pre></td></tr></table></figure>
-<p>至于链接来自于哪，这里就不用我多说了吧！添加码云的远程仓库也是类似的操作，因为我前面假设的是clone自码云，所有这里就不需要添加了。</p>
-<p>好，来看一下我们刚刚添加好的仓库：</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">git remote -v</span></span><br></pre></td></tr></table></figure>
-<p>这条指令就是用来查看远程仓库的。</p>
-<p>强制推送</p>
-<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">git push origin <span class="keyword">master</span> <span class="title">-f</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>IT技术</category>
-        <category>系统网络</category>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>html 基本了解</title>
     <url>/2019/06/10/Html/</url>
     <content><![CDATA[<h1 id="html"><a class="markdownIt-Anchor" href="#html"></a> HTML</h1>
@@ -1348,6 +1297,57 @@ utf-8是目前最常用的字符编码格式
         <category>IT技术</category>
         <category>前端</category>
         <category>HTML</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 操作记录</title>
+    <url>/2020/01/06/Git/</url>
+    <content><![CDATA[<h1 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h1>
+<p>初始化Git</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>查看被托管的文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>托管文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add . # 点就代表所有文件，</span><br></pre></td></tr></table></figure>
+<p>第一次复制</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git commit -m &#x27;名称&#x27;</span><br></pre></td></tr></table></figure>
+<p>文件检测到，需要重新提交</p>
+<p>查看修改日志</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+<p>回到第一次提交状态，本地文件会回滚gitgit</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><span class="line"><span class="string">git</span> <span class="string">reset</span> <span class="built_in">--hard</span> <span class="comment"># + 第一次 commit 后面的内容或者 reflog 后面的内容</span></span><br></pre></td></tr></table></figure>
+<p>查看以前的状态：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+<p>上线：</p>
+<p>1.git 删除远程地址</p>
+<p>git remote rm origin<br />
+2.git 更换远程地址</p>
+<p>git remote add origin <span class="exturl" data-url="aHR0cDovLzEwLjAwLjMuMjYwOjEwMDgwL3h4eHh4eC9zeHh4eS5naXQv">http://10.00.3.260:10080/xxxxxx/sxxxy.git/<i class="fa fa-external-link-alt"></i></span><br />
+3.把当前分支与远程分支进行关联(branchname要改成你的当前分支名称)</p>
+<p>git push --set-upstream origin branchname</p>
+<p>接下来，我们就要开始配置了。</p>
+<p>通过 <code>git remote add &lt;name&gt; &lt;url-of-remote&gt;</code> 指令来添加远程仓库。</p>
+<blockquote>
+<p>name 是远程仓库的别名，便于区分不同的远程仓库。</p>
+</blockquote>
+<blockquote>
+<p>url-of-remote 是我们的远程仓库链接，就是平时看到的以.git为后缀的链接啦！</p>
+</blockquote>
+<p>比如，我想添加github的远程仓库，并且取名为 github：</p>
+<figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">git</span> remote <span class="keyword">add</span> github https:<span class="comment">//github.com/gongqingfeng/Drcom.git</span></span><br></pre></td></tr></table></figure>
+<p>至于链接来自于哪，这里就不用我多说了吧！添加码云的远程仓库也是类似的操作，因为我前面假设的是clone自码云，所有这里就不需要添加了。</p>
+<p>好，来看一下我们刚刚添加好的仓库：</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">git remote -v</span></span><br></pre></td></tr></table></figure>
+<p>这条指令就是用来查看远程仓库的。</p>
+<p>强制推送</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">git push origin <span class="keyword">master</span> <span class="title">-f</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>系统网络</category>
+        <category>Git</category>
       </categories>
       <tags>
         <tag>笔记</tag>
