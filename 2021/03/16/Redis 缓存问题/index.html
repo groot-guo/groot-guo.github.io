@@ -22,28 +22,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"groot-guo.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="爬虫的安装与流程">
+    <meta name="description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="爬虫">
-<meta property="og:url" content="https://groot-guo.github.io/2020/03/15/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:title" content="Redis 缓存问题">
+<meta property="og:url" content="https://groot-guo.github.io/2021/03/16/Redis%20%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="爬虫的安装与流程">
+<meta property="og:description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-15T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-15T00:00:00.000Z">
+<meta property="article:published_time" content="2021-03-16T21:13:07.000Z">
+<meta property="article:modified_time" content="2021-04-16T11:20:11.000Z">
 <meta property="article:author" content="genyuan">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://groot-guo.github.io/2020/03/15/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+<link rel="canonical" href="https://groot-guo.github.io/2021/03/16/Redis%20%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://groot-guo.github.io/2020/03/15/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/","path":"2020/03/15/网络编程/","title":"爬虫"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://groot-guo.github.io/2021/03/16/Redis%20%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/","path":"2021/03/16/Redis 缓存问题/","title":"Redis 缓存问题"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>爬虫 | 博客</title>
+<title>Redis 缓存问题 | 博客</title>
   
 
 
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text"> 网络编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bs%E6%9E%B6%E6%9E%84"><span class="nav-number">1.0.1.</span> <span class="nav-text"> BS架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cs%E6%9E%B6%E6%9E%84"><span class="nav-number">1.0.2.</span> <span class="nav-text"> CS架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcptransmission-control-protocol"><span class="nav-number">1.0.3.</span> <span class="nav-text"> TCP（Transmission Control Protocol）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#udpuser-datagram-protocol"><span class="nav-number">1.0.4.</span> <span class="nav-text"> UDP（User Datagram Protocol）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E8%AF%86socket%E5%9F%BA%E4%BA%8Esocket%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1"><span class="nav-number">1.0.5.</span> <span class="nav-text"> 初识socket（基于socket实现网络通信）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%8F%E5%8C%85%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.0.6.</span> <span class="nav-text"> 黏包现象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9Fssh"><span class="nav-number">1.0.7.</span> <span class="nav-text"> 模拟SSH</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C"><span class="nav-number">2.</span> <span class="nav-text"> 并发和并行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gil%E9%94%81"><span class="nav-number">2.1.</span> <span class="nav-text"> GIL锁</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis-%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> Redis 缓存问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">1.1.</span> <span class="nav-text"> 缓存穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BA%E5%80%BC"><span class="nav-number">1.1.2.1.</span> <span class="nav-text"> 缓存空值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.1.2.2.</span> <span class="nav-text"> 布隆过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.2.2.1.</span> <span class="nav-text"> 原理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">1.2.</span> <span class="nav-text"> 缓存击穿</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> 互斥锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%83%AD%E7%82%B9%E6%95%B0%E6%8D%AE%E6%B0%B8%E4%B8%8D%E8%BF%87%E6%9C%9F"><span class="nav-number">1.2.2.2.</span> <span class="nav-text"> 热点数据永不过期</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">1.3.</span> <span class="nav-text"> 缓存雪崩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-3"><span class="nav-number">1.3.2.</span> <span class="nav-text"> 解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E5%88%86%E6%92%92"><span class="nav-number">1.3.2.1.</span> <span class="nav-text"> 过期时间分撒</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%A2%84%E7%83%AD"><span class="nav-number">1.3.2.2.</span> <span class="nav-text"> 缓存预热</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E9%99%8D%E7%BA%A7"><span class="nav-number">1.3.2.3.</span> <span class="nav-text"> 限流降级</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">1.4.</span> <span class="nav-text"> 参考文章</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -217,7 +217,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/2020/03/15/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/2021/03/16/Redis%20%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.PNG">
@@ -230,12 +230,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="爬虫 | 博客">
-      <meta itemprop="description" content="爬虫的安装与流程">
+      <meta itemprop="name" content="Redis 缓存问题 | 博客">
+      <meta itemprop="description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          爬虫
+          Redis 缓存问题
         </h1>
 
         <div class="post-meta-container">
@@ -246,7 +246,31 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-03-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-15T00:00:00+00:00">2020-03-15</time>
+      <time title="创建时间：2021-03-16 21:13:07" itemprop="dateCreated datePublished" datetime="2021-03-16T21:13:07+00:00">2021-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-04-16 11:20:11" itemprop="dateModified" datetime="2021-04-16T11:20:11+00:00">2021-04-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/IT%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">IT技术</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/IT%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/IT%E6%8A%80%E6%9C%AF/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
+        </span>
     </span>
 
   
@@ -259,58 +283,132 @@
     </span>
 </div>
 
-            <div class="post-description">爬虫的安装与流程</div>
+            <div class="post-description">Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="网络编程"><a class="markdownIt-Anchor" href="#网络编程"></a> 网络编程</h1>
-<h3 id="bs架构"><a class="markdownIt-Anchor" href="#bs架构"></a> BS架构</h3>
-<p>浏览器</p>
-<p>​		browser —&gt; server</p>
-<h3 id="cs架构"><a class="markdownIt-Anchor" href="#cs架构"></a> CS架构</h3>
-<p>客户端</p>
-<p>​		client   ----&gt; server</p>
-<h3 id="tcptransmission-control-protocol"><a class="markdownIt-Anchor" href="#tcptransmission-control-protocol"></a> TCP（Transmission Control Protocol）</h3>
-<p>可靠的、面向连接的协议（eg:打电话）、传输效率低全双工通信（发送缓存&amp;接收缓存）、面向字节流。使用TCP的应用：Web浏览器；电子邮件、文件传输程序。</p>
-<h3 id="udpuser-datagram-protocol"><a class="markdownIt-Anchor" href="#udpuser-datagram-protocol"></a> UDP（User Datagram Protocol）</h3>
-<p>不可靠的、无连接的服务，传输效率高（发送前时延小），一对一、一对多、多对一、多对多、面向报文，尽最大努力服务，无拥塞控制。使用UDP的应用：域名系统 (DNS)；视频流；IP语音(VoIP)。</p>
-<h3 id="初识socket基于socket实现网络通信"><a class="markdownIt-Anchor" href="#初识socket基于socket实现网络通信"></a> 初识socket（基于socket实现网络通信）</h3>
-<p>创建服务器</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建socket对象</span></span><br><span class="line">server = socket.socket()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定Ip和端口</span></span><br><span class="line">server.bind((<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">3000</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 后边可以等5个人</span></span><br><span class="line">server.listen(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待客户端来连接</span></span><br><span class="line">conn, addr = server.accept()</span><br><span class="line"><span class="built_in">print</span>(conn, addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过对象去获取（通过伞给我发送信息）</span></span><br><span class="line"><span class="comment"># 1024表示：服务端通过（伞）获取数据时，一次性最多拿1024字节。</span></span><br><span class="line">data = conn.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务端通过链接对象（伞）给客户端回复一个消息</span></span><br><span class="line">conn.send(<span class="string">b&#x27;stop&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 与客户端端口开链接（放开那把伞）</span></span><br><span class="line">conn.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭服务端的服务</span></span><br><span class="line">server.close()</span><br></pre></td></tr></table></figure>
-<p>创建客户端</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">client = socket.socket()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 客户向服务端发请求（递伞）</span></span><br><span class="line"><span class="comment"># 阻塞，去连接，直到连接成功</span></span><br><span class="line">client.connect((<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">3000</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接上服务端后，向服务端发送消息</span></span><br><span class="line">client.send(<span class="string">b&#x27;hello&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待服务端给他发送消息</span></span><br><span class="line">data = client.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭自己</span></span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
-<p>注意：</p>
-<p>​	py3，send / recv 都是字节，unicode，为了压缩数据</p>
-<p>​	py2 , send /recv 都是字符串</p>
-<p>windows中会话间关闭客户端，服务端会报错，而mac会返回空</p>
-<h3 id="黏包现象"><a class="markdownIt-Anchor" href="#黏包现象"></a> 黏包现象</h3>
-<p>客户端发送请求，服务端返回的数据超过固定读取的字节数，</p>
-<p>黏包：两次 sand 连在一起发送</p>
-<p>方式一：分为两次发送</p>
-<h3 id="模拟ssh"><a class="markdownIt-Anchor" href="#模拟ssh"></a> 模拟SSH</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以输入终端指令，进行验证</span></span><br><span class="line">res = subprocess.Popen(<span class="string">&#x27;dir&#x27;</span>, shell=<span class="literal">True</span>,</span><br><span class="line">                       stderr=subprocess.PIPE, stdout=subprocess.PIPE)</span><br><span class="line"><span class="comment"># 由于时在windows中 cmd 是 gbk，</span></span><br><span class="line"><span class="built_in">print</span>(res.stdout.read().decode(<span class="string">&#x27;gbk&#x27;</span>))</span><br></pre></td></tr></table></figure>
-<h1 id="并发和并行"><a class="markdownIt-Anchor" href="#并发和并行"></a> 并发和并行</h1>
-<p>并发，伪，由于执行速度特别快，人感觉不到停顿</p>
-<p>并行，真，创建10个人同时操作</p>
-<p>python多线程情况下：</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="redis-缓存问题"><a class="markdownIt-Anchor" href="#redis-缓存问题"></a> Redis 缓存问题</h1>
+<h2 id="缓存穿透"><a class="markdownIt-Anchor" href="#缓存穿透"></a> 缓存穿透</h2>
+<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<blockquote>
+<p>缓存穿透指：</p>
+<p>当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。</p>
+<p>当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。</p>
+</blockquote>
+ <span id="more"></span>
+<h3 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h3>
+<ol>
+<li>缓存空值</li>
+<li>布隆过滤器（key 校验）</li>
+</ol>
+<h4 id="缓存空值"><a class="markdownIt-Anchor" href="#缓存空值"></a> 缓存空值</h4>
+<blockquote>
+<p>将数据库中查询为空的key 也存储在缓存中，当再次查询时，则可以避免查询数据库。</p>
+</blockquote>
+<p>缓存空值会出现两个问题：</p>
+<ol>
+<li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
+<li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
+</ol>
+<h4 id="布隆过滤器"><a class="markdownIt-Anchor" href="#布隆过滤器"></a> 布隆过滤器</h4>
+<h5 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h5>
+<blockquote>
+<ol>
+<li>
+<p>利用 k 个哈希函数，对元素进行计算</p>
+</li>
+<li>
+<p>根据哈希值，将位数据组对应的下标置为1</p>
+</li>
+<li>
+<p>当需要查询时，重复过程 <code>1</code>，若查询对应位数据下标不全为1，则不存在，全为1，则存在</p>
+</li>
+</ol>
+</blockquote>
+<p>优点：</p>
+<blockquote>
+<p>数据空间小，不用存储数据本身</p>
+</blockquote>
+<p>缺点：</p>
+<blockquote>
 <ul>
-<li>计算密集型操作：效率低。（GIL锁）</li>
-<li>IO操作：效率高</li>
+<li>元素可以添加到集合中，不能删除</li>
+<li>匹配结果是“<code>绝对不在集合中</code>”，并不能保证匹配成功的值已经在集合中</li>
+<li>当集合快满时，即接近预估最大容量时，误报的概率会变大</li>
+<li>数据占用空间放大</li>
 </ul>
-<p>python多进程的情况下：</p>
+</blockquote>
+<h2 id="缓存击穿"><a class="markdownIt-Anchor" href="#缓存击穿"></a> 缓存击穿</h2>
+<h3 id="问题描述-2"><a class="markdownIt-Anchor" href="#问题描述-2"></a> 问题描述</h3>
+<blockquote>
+<p>当<font  color=red><strong>单个</strong></font>热点key 的缓存数据，<font  color=red>****</font>刚好过了有效时间，此时大量请求涌入，会导致数据查询流量大增，数据库可能崩溃。</p>
+</blockquote>
+<h3 id="解决方法-2"><a class="markdownIt-Anchor" href="#解决方法-2"></a> 解决方法</h3>
+<ol>
+<li>互斥锁</li>
+<li>热点数据永不过期</li>
+</ol>
+<h4 id="互斥锁"><a class="markdownIt-Anchor" href="#互斥锁"></a> 互斥锁</h4>
+<blockquote>
+<p>当第一个数据库查询请求发起后，就将缓存中该数据上锁；</p>
+<p>此时其他查询该缓存的请求，被阻塞等待；</p>
+<p>当第一个请求完成，然后更新缓存，释放锁；</p>
+<p>其他查询请求后续可以查询到。</p>
+</blockquote>
+<p><strong>注意</strong>：互斥锁可以避免某一个热点，但实际情况里往往是一批。</p>
+<p>将缓存的过期时间，设置为随机值，会降低这一概率。</p>
+<h4 id="热点数据永不过期"><a class="markdownIt-Anchor" href="#热点数据永不过期"></a> 热点数据永不过期</h4>
+<blockquote>
+<p>从缓存层面，确实没有设置过期时间，也就是物理不过期</p>
+<p>从功能层面，每一个value 都有对应逻辑时间，过期后，单独重新构建。</p>
+</blockquote>
+<p><strong>注意</strong>：在重新构建期间，可能会出现数据不一致的情况。</p>
+<p><strong>比较</strong>：</p>
 <ul>
-<li>计算密集型操作：效率高（浪费资源）</li>
-<li>IO操作：效率高（浪费资源）</li>
+<li>互斥锁
+<ul>
+<li>存在死锁和阻塞风险</li>
+<li>较好的降低后端负载，一致性比较好</li>
 </ul>
-<p>IO密集型多线程：文件/输入输出/socket网络通信</p>
-<p>计算密集型用多进程：</p>
-<h2 id="gil锁"><a class="markdownIt-Anchor" href="#gil锁"></a> GIL锁</h2>
-<p>全局解释器锁。用于限制一个进程中同一时刻只有一个线程被cpu调度。</p>
-<p>扩展：默认GIL锁在执行100个cpu指令.</p>
-<p>主线程会默认等子线程</p>
+</li>
+<li>永远不过期
+<ul>
+<li>数据不一致情况</li>
+<li>代码复杂度会增大</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存雪崩"><a class="markdownIt-Anchor" href="#缓存雪崩"></a> 缓存雪崩</h2>
+<h3 id="问题描述-3"><a class="markdownIt-Anchor" href="#问题描述-3"></a> 问题描述</h3>
+<blockquote>
+<p>指缓存中大量的数据同时过期，导致大量请求在短时间内直接到达数据库，对数据库造成巨大压力。</p>
+</blockquote>
+<h3 id="解决方法-3"><a class="markdownIt-Anchor" href="#解决方法-3"></a> 解决方法</h3>
+<ol>
+<li>过期时间分散</li>
+<li>缓存预热</li>
+<li>限流降级</li>
+</ol>
+<h4 id="过期时间分撒"><a class="markdownIt-Anchor" href="#过期时间分撒"></a> 过期时间分撒</h4>
+<blockquote>
+<p>使用 expire 命令设置过期时间，引入随机过期时间机制</p>
+</blockquote>
+<h4 id="缓存预热"><a class="markdownIt-Anchor" href="#缓存预热"></a> 缓存预热</h4>
+<blockquote>
+<p>使用 CacheWarmer 等工具在系统启动前预热缓存</p>
+</blockquote>
+<h4 id="限流降级"><a class="markdownIt-Anchor" href="#限流降级"></a> 限流降级</h4>
+<blockquote>
+<p>使用限流算法控制访问数据库的请求速率，当缓存失效导致请求过多时，进行降级处理。</p>
+<p>工具：<code>Hystrix</code>、<code>Sentinel</code> 等</p>
+</blockquote>
+<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
 
     </div>
 
@@ -327,14 +425,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/01/06/Git/" rel="prev" title="git 操作记录">
-                  <i class="fa fa-angle-left"></i> git 操作记录
+                <a href="/2020/04/06/GO%E5%AD%A6%E4%B9%A0/" rel="prev" title="golang 基本了解">
+                  <i class="fa fa-angle-left"></i> golang 基本了解
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/03/15/%E7%88%AC%E8%99%AB/" rel="next" title="爬虫">
-                  爬虫 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
