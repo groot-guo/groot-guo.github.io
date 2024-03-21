@@ -3,7 +3,6 @@ title: scrapy 爬虫
 tags: 笔记
 categories:
 - IT技术
-- 爬虫
 - scrapy
 abbrlink: 2297471041
 description: scrapy 爬虫认识、使用。

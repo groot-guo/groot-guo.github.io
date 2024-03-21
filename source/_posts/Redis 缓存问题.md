@@ -6,7 +6,6 @@ abbrlink: 389604739
 tags: 笔记
 categories:
 - IT技术
-- 数据库
 - Redis
 description: Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。
 ---

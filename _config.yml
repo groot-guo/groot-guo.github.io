@@ -75,7 +75,7 @@ index_generator:
 
 # Category & Tag
 default_category: uncategorized
-category_map: [IT技术, 前端, 后端, 系统网络, Python, Redis, Mysql]
+category_map: [IT技术, Python, Redis, Mysql]
 tag_map: [笔记]
 
 # Metadata elements

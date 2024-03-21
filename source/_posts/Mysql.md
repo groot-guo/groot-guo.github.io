@@ -3,7 +3,6 @@ title: mysql 简单入门
 tags: 笔记
 categories:
 - IT技术
-- 数据库
 - Mysql
 abbrlink: 1397632726
 description: 认识mysql，部署、安装、熟悉sql 语法

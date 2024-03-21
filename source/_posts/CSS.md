@@ -3,7 +3,6 @@ title: CSS 了解
 tags: 笔记
 categories:
 - IT技术
-- 前端
 - CSS
 abbrlink: 3744767357
 description: css 样式了解，初步认识

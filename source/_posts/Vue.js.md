@@ -3,7 +3,6 @@ title: Vue 初识
 tags: 笔记
 categories:
 - IT技术
-- 前端
 - Vue
 abbrlink: 3095576720
 description: vue 初识了解

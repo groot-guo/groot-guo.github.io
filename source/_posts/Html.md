@@ -3,7 +3,6 @@ title: html 基本了解
 tags: 笔记
 categories:
 - IT技术
-- 前端
 - HTML
 abbrlink: 1490421584
 description: 初步了解 html 语法，编写静态页面

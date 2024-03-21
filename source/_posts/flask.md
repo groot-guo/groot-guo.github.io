@@ -3,7 +3,6 @@ title: flask 框架了解
 tags: 笔记
 categories:
 - IT技术
-- 后端
 - Python
 abbrlink: 3271143529
 description: flask 框架简单认识，初步使用

@@ -3,7 +3,6 @@ title: git 操作记录
 tags: 笔记
 categories:
 - IT技术
-- 系统网络
 - Git
 abbrlink: 4232115266
 description: git 操作笔记，常用记录浏览

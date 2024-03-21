@@ -3,7 +3,6 @@ title: Redis 了解与安装
 tags: 笔记
 categories:
 - IT技术
-- 数据库
 - Redis
 abbrlink: 389604739
 description: Redis 了解、安装、常见使用场景练习

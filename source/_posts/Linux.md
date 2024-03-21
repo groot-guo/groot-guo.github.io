@@ -3,7 +3,6 @@ title: linux 基本认识
 tags: 笔记
 categories:
 - IT技术
-- 系统网络
 - Linux
 abbrlink: 127135607
 description: 初步了解 linux，学习常用操作命令和网络传输过程

@@ -3,7 +3,6 @@ title: Django 框架了解
 tags: 笔记
 categories:
 - IT技术
-- 后端
 - Python
 abbrlink: 2358615956
 description: Django 框架初步使用，简单流程记录
