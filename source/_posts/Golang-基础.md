@@ -3,6 +3,7 @@ layout: _post
 title: Golang-基础
 date: 2020-10-21 10:04:25
 updated: 2020-10-21 10:04:25
+abbrlink: 20
 tags: 笔记
 categories:
 - IT技术
