@@ -596,7 +596,6 @@ fixed : 　背景图像固定</p>
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>前端</category>
         <category>CSS</category>
       </categories>
       <tags>
@@ -1076,8 +1075,19 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>Python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Elasticsearch-基础</title>
+    <url>/2021/10/21/Elasticsearch-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>Elasticsearch</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1174,7 +1184,6 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>Golang</category>
       </categories>
       <tags>
@@ -1225,8 +1234,127 @@ Cookie 只能保管 ASCII 字符串，假如需求存取 Unicode 字符或则二
 <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">git push origin <span class="keyword">master</span> <span class="title">-f</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>IT技术</category>
-        <category>系统网络</category>
         <category>Git</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Golang-基础</title>
+    <url>/2020/10/21/Golang-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="golang-数据结构与关键字"><a class="markdownIt-Anchor" href="#golang-数据结构与关键字"></a> Golang 数据结构与关键字</h1>
+<h2 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h2>
+<h3 id="数组"><a class="markdownIt-Anchor" href="#数组"></a> 数组</h3>
+<blockquote>
+<p>数组：相同元素，内存地址连续，利用索引可以快速访问到元素，容量确定（不可以扩容）的一种数据结构</p>
+</blockquote>
+<h4 id="初始化方式"><a class="markdownIt-Anchor" href="#初始化方式"></a> 初始化方式</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">arr1 := [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;   <span class="comment">// 确定容量大小</span></span><br><span class="line">arr2 := [...]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; <span class="comment">// 编译器会转换成上面这一种，推导确定容量</span></span><br></pre></td></tr></table></figure>
+<h4 id="访问和赋值"><a class="markdownIt-Anchor" href="#访问和赋值"></a> 访问和赋值</h4>
+<blockquote>
+<p>利用下标进行索引查询每个元素，对应元素可以进行赋值操作，但不能超出数组长度的索引查询请求。</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">arr1 := [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> arr1 &#123;</span><br><span class="line">    arr1[i] = <span class="number">3</span> <span class="comment">// 将对应索引的元素值，赋值 = 3</span></span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(arr1)</span><br><span class="line">fmt.Println(arr1[<span class="number">3</span>]) <span class="comment">// 报错，因为索引的下标是从 0 开始 </span></span><br></pre></td></tr></table></figure>
+<h3 id="切片"><a class="markdownIt-Anchor" href="#切片"></a> 切片</h3>
+<blockquote>
+<p>动态数组：长度是动态的，可以在容量不足时扩容。</p>
+<p>切片其实内部引用的数组结构</p>
+</blockquote>
+<h4 id="数据结构-2"><a class="markdownIt-Anchor" href="#数据结构-2"></a> 数据结构</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> SliceHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">    Data <span class="type">uintptr</span> <span class="comment">// 数组</span></span><br><span class="line">    Len <span class="type">int</span></span><br><span class="line">    Cap <span class="type">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="切片操作"><a class="markdownIt-Anchor" href="#切片操作"></a> 切片操作</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 字面量初始化</span></span><br><span class="line">slice := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="comment">// 关键字 make </span></span><br><span class="line">slice := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">3</span>)</span><br><span class="line"><span class="comment">// 下标获得一部分</span></span><br><span class="line">arr := [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">slice := arr[:]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用 for range 访问元素</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> slice &#123;</span><br><span class="line">    slice[i] = <span class="number">1</span> <span class="comment">// 利用索引访问时，获取到的是当前索引在数组中的地址</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _, v := <span class="keyword">range</span> slice &#123;</span><br><span class="line">    v = <span class="number">1</span> <span class="comment">// 此方法访问时，切片元素没有修改，因为 v 变量是临时开辟的地址，每次读取会将对应的元素内容复制到 v 中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">slice = <span class="built_in">append</span>(slice, <span class="number">1</span>) <span class="comment">// 追加一个元素到 slice 中, 扩容操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 复制切片</span></span><br><span class="line">arr := []<span class="type">int</span>&#123;&#125;</span><br><span class="line"><span class="built_in">copy</span>(arr, slice)</span><br><span class="line"></span><br><span class="line">fmt.Println(<span class="built_in">len</span>(slice)) <span class="comment">// 查看长度</span></span><br><span class="line">fmt.Println(<span class="built_in">cap</span>(slice)) <span class="comment">// 查看容量</span></span><br></pre></td></tr></table></figure>
+<h4 id="切片扩容"><a class="markdownIt-Anchor" href="#切片扩容"></a> 切片扩容</h4>
+<blockquote>
+<p>切片是一个动态数组，容量不固定，所以当需要进行扩容时，会进行数组的复制，重新选择一个地址来存储数组。</p>
+<p>扩容的具体策略分为：</p>
+<ul>
+<li>当前期望容量大于当前容量两倍时，就会使用期望容量；</li>
+<li>当前切片长度小于 1024 时，就会将容量翻倍；</li>
+<li>当前切片长度大于 1024 时，就会每次按 25% 的容量扩容，直到新容量满足期望容量</li>
+</ul>
+</blockquote>
+<h3 id="哈希表"><a class="markdownIt-Anchor" href="#哈希表"></a> 哈希表</h3>
+<blockquote>
+<p>map 就是go 中应用 哈希表方式进行数据存储的结构。</p>
+<p>map 采用 <font color=red>哈希桶</font> 进行存储数据的方式，哈希桶的地址是连续的，分为<font color=blue>正常桶</font> 和 <font color=blue>溢出桶 </font> ，每个桶中数据通过 <font color=blue>链表</font> 存储当前 key 利用哈希函数生成的哈希值对应的数据。</p>
+<p>一个正常桶存储 8个键值对，当 正常桶装满时，会存储到溢出桶。正常桶与溢出桶通过链表连接。</p>
+</blockquote>
+<h4 id="数据结构-3"><a class="markdownIt-Anchor" href="#数据结构-3"></a> 数据结构</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> hmap <span class="keyword">struct</span> &#123;</span><br><span class="line">    count     	<span class="type">int</span>				<span class="comment">// 当前哈希表元素数量</span></span><br><span class="line">    flags     	<span class="type">uint8</span>			<span class="comment">// </span></span><br><span class="line">    B         	<span class="type">uint8</span>			<span class="comment">// 当前哈希表持有 buckets （哈希桶）数量</span></span><br><span class="line">    noverflow 	<span class="type">uint16</span>			</span><br><span class="line">    hash0     	<span class="type">uint32</span>			<span class="comment">// 哈希表的种子，值在创建时确定，引入随机性</span></span><br><span class="line">    </span><br><span class="line">    buckets		unsafe.Pointer</span><br><span class="line">    oldbuckets	unsafe.POinter</span><br><span class="line">    nevacuate 	<span class="type">uintptr</span></span><br><span class="line">    </span><br><span class="line">	extra		*mapextra</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> mapextra <span class="keyword">struct</span> &#123;</span><br><span class="line">    overflow		*[]*bmap</span><br><span class="line">    oldverflow		*[]*bmap</span><br><span class="line">    nextOverflow	*bmap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 溢出桶</span></span><br><span class="line"><span class="keyword">type</span> bmap <span class="keyword">struct</span> &#123;</span><br><span class="line">    tophash		[bucketCnt]<span class="type">uint8</span></span><br><span class="line">    topbits		[<span class="number">8</span>]<span class="type">uint8</span></span><br><span class="line">    keys		[<span class="number">8</span>]keytype</span><br><span class="line">    values		[<span class="number">8</span>]valuetype</span><br><span class="line">    pad			<span class="type">uintptr</span></span><br><span class="line">    overflow	<span class="type">uintptr</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="map-操作"><a class="markdownIt-Anchor" href="#map-操作"></a> map 操作</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">hash := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;</span><br><span class="line">    <span class="string">&quot;easy&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;mid&quot;</span>: 	<span class="number">2</span>,</span><br><span class="line">    <span class="string">&quot;hard&quot;</span>: <span class="number">3</span>,</span><br><span class="line">&#125;</span><br><span class="line">hash := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>) <span class="comment">// 注意 make 的方式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 访问</span></span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> hash &#123;</span><br><span class="line">    fmt.Println(key, value) 	<span class="comment">// 访问key 对应 value </span></span><br><span class="line">    hash[key] = <span class="number">1</span> 				<span class="comment">// 赋值修改</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 隐藏的布尔类型字段，用于判断元素是否存在</span></span><br><span class="line"><span class="keyword">if</span> v, ok := hash[<span class="string">&quot;ww&quot;</span>]; ok &#123;</span><br><span class="line">    fmt.Println(v, ok)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(v, ok)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">delete</span>(hash, <span class="string">&quot;easy&quot;</span>) <span class="comment">// 删除操作</span></span><br></pre></td></tr></table></figure>
+<h4 id="map-的扩容"><a class="markdownIt-Anchor" href="#map-的扩容"></a> map 的扩容</h4>
+<blockquote>
+<p>哈希扩容触发的两种情况：</p>
+<ul>
+<li>装载因子超过6.5；</li>
+<li>哈希表使用了太多溢出桶。</li>
+</ul>
+</blockquote>
+<h3 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串</h3>
+<blockquote>
+<p>字符串是go 中基础类型，可以当作一个由字符组成的数组，本身占用的内存空间是连续的。</p>
+</blockquote>
+<h4 id="数据结构-4"><a class="markdownIt-Anchor" href="#数据结构-4"></a> 数据结构</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> StringHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">    Data 	<span class="type">uintptr</span></span><br><span class="line">    Len 	<span class="type">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="字符操作"><a class="markdownIt-Anchor" href="#字符操作"></a> 字符操作</h4>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 初始化</span></span><br><span class="line">str1 := <span class="string">&quot;hello wolrd&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 拼接</span></span><br><span class="line">str2 := <span class="string">&quot;!&quot;</span></span><br><span class="line">str3 := str1 + str2</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> str1 &#123;</span><br><span class="line">    fmt.Println(str1[i]) <span class="comment">// 每一个都是 byte 类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="byte类型"><a class="markdownIt-Anchor" href="#byte类型"></a> Byte类型</h4>
+<blockquote>
+<p>byte 是一个 <font color=red>8</font>  位无符号整数类型，底层是 <strong>uint8</strong>。值范围 0~ 255，可以表示 ASCII 字符集的单个字节。</p>
+<p>在文件操作中，常用于读取和写入字节数据。</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 声明</span></span><br><span class="line">b := <span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// byte 转换为 int</span></span><br><span class="line">i：= <span class="type">int</span>(b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// int 转换为 byte</span></span><br><span class="line">b2 := <span class="type">byte</span>(<span class="number">65</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="rune-类型"><a class="markdownIt-Anchor" href="#rune-类型"></a> rune 类型</h4>
+<blockquote>
+<p>是 <strong>int32</strong> 类型的别名，表示一个 <strong>Unicode</strong> 字符。</p>
+<p><font color=red>可用于区分字符值和整数值。</font></p>
+<p>每个 rune 占用 4 个字节。</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 声明</span></span><br><span class="line">r := <span class="string">&#x27;呵呵&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是不是字母</span></span><br><span class="line">isLetter := unicode.IsLetter(r)</span><br><span class="line"></span><br><span class="line"><span class="comment">// rune 转换为 int32</span></span><br><span class="line">i := <span class="type">int32</span>(r)</span><br></pre></td></tr></table></figure>
+<h2 id="语言特性"><a class="markdownIt-Anchor" href="#语言特性"></a> 语言特性</h2>
+<h3 id="函数"><a class="markdownIt-Anchor" href="#函数"></a> 函数</h3>
+<blockquote></blockquote>
+<h4 id="特点"><a class="markdownIt-Anchor" href="#特点"></a> 特点</h4>
+<blockquote>
+<ul>
+<li>
+<p>值传递</p>
+</li>
+<li>
+<p>支持多返回值</p>
+</li>
+<li>
+<p>函数入参和出参的内存空间都在栈上进行分配</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 函数声明示例</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">(a <span class="type">int</span>)</span></span> (<span class="type">int</span>, <span class="type">int</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> + a, <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口"><a class="markdownIt-Anchor" href="#接口"></a> 接口</h3>
+<blockquote>
+<p>接口是一组方法的签名，</p>
+</blockquote>
+<h4 id="数据结构-5"><a class="markdownIt-Anchor" href="#数据结构-5"></a> 数据结构</h4>
+<h2 id="关键字"><a class="markdownIt-Anchor" href="#关键字"></a> 关键字</h2>
+<h3 id="for-和-range"><a class="markdownIt-Anchor" href="#for-和-range"></a> for 和 range</h3>
+<h3 id="select"><a class="markdownIt-Anchor" href="#select"></a> select</h3>
+<h3 id="defer"><a class="markdownIt-Anchor" href="#defer"></a> defer</h3>
+<h3 id="panic-和-recover"><a class="markdownIt-Anchor" href="#panic-和-recover"></a> panic 和 recover</h3>
+<h3 id="make-和-new"><a class="markdownIt-Anchor" href="#make-和-new"></a> make 和 new</h3>
+<h2 id="参考书籍"><a class="markdownIt-Anchor" href="#参考书籍"></a> 参考书籍</h2>
+<blockquote>
+<ul>
+<li>Go语言设计与实现</li>
+<li>Go语言高级编程</li>
+<li>Go语言底层原理剖析</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>Golang</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1346,8 +1474,19 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>前端</category>
         <category>HTML</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kakfa-基础</title>
+    <url>/2021/03/21/Kakfa-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>Kafka</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1755,7 +1894,6 @@ lighthttp</p>
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>系统网络</category>
         <category>Linux</category>
       </categories>
       <tags>
@@ -1935,7 +2073,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>数据库</category>
         <category>Mysql</category>
       </categories>
       <tags>
@@ -2039,7 +2176,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>PHP</category>
       </categories>
       <tags>
@@ -3114,7 +3250,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>Python</category>
       </categories>
       <tags>
@@ -3246,7 +3381,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>数据库</category>
         <category>Redis</category>
       </categories>
       <tags>
@@ -3418,7 +3552,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>数据库</category>
         <category>Redis</category>
       </categories>
       <tags>
@@ -3597,7 +3730,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>爬虫</category>
         <category>scrapy</category>
       </categories>
       <tags>
@@ -3765,7 +3897,6 @@ limit<br />
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>前端</category>
         <category>Vue</category>
       </categories>
       <tags>
@@ -3842,7 +3973,6 @@ request.blueprint---- None</p>
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>Python</category>
       </categories>
       <tags>
@@ -4267,7 +4397,6 @@ request.blueprint---- None</p>
 ]]></content>
       <categories>
         <category>IT技术</category>
-        <category>后端</category>
         <category>Node Js</category>
       </categories>
       <tags>
@@ -4433,6 +4562,18 @@ request.blueprint---- None</p>
 <p>持久化储存</p>
 <p>re模块</p>
 ]]></content>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法-哈希</title>
+    <url>/2020/09/21/%E7%AE%97%E6%B3%95-%E5%93%88%E5%B8%8C/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>算法</category>
+      </categories>
       <tags>
         <tag>笔记</tag>
       </tags>
