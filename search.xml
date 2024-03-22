@@ -3269,127 +3269,111 @@ limit<br />
       </tags>
   </entry>
   <entry>
-    <title>Redis 缓存问题</title>
-    <url>/blog/389604739.html</url>
-    <content><![CDATA[<h1 id="redis-缓存问题"><a class="markdownIt-Anchor" href="#redis-缓存问题"></a> Redis 缓存问题</h1>
-<h2 id="缓存穿透"><a class="markdownIt-Anchor" href="#缓存穿透"></a> 缓存穿透</h2>
-<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+    <title>Redis-基础</title>
+    <url>/blog/bf7639ff.html</url>
+    <content><![CDATA[<h1 id="redis-基础"><a class="markdownIt-Anchor" href="#redis-基础"></a> Redis 基础</h1>
+<h2 id="redis-基本认识"><a class="markdownIt-Anchor" href="#redis-基本认识"></a> redis 基本认识</h2>
+<h2 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h2>
+<h3 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串</h3>
+<h4 id="性质和特点"><a class="markdownIt-Anchor" href="#性质和特点"></a> 性质和特点</h4>
 <blockquote>
-<p>缓存穿透指：</p>
-<p>当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。</p>
-<p>当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。</p>
-</blockquote>
- <span id="more"></span>
-<h3 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h3>
-<ol>
-<li>缓存空值</li>
-<li>布隆过滤器（key 校验）</li>
-</ol>
-<h4 id="缓存空值"><a class="markdownIt-Anchor" href="#缓存空值"></a> 缓存空值</h4>
-<blockquote>
-<p>将数据库中查询为空的key 也存储在缓存中，当再次查询时，则可以避免查询数据库。</p>
-</blockquote>
-<p>缓存空值会出现两个问题：</p>
-<ol>
-<li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
-<li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
-</ol>
-<h4 id="布隆过滤器"><a class="markdownIt-Anchor" href="#布隆过滤器"></a> 布隆过滤器</h4>
-<h5 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h5>
-<blockquote>
-<ol>
-<li>
-<p>利用 k 个哈希函数，对元素进行计算</p>
-</li>
-<li>
-<p>根据哈希值，将位数据组对应的下标置为1</p>
-</li>
-<li>
-<p>当需要查询时，重复过程 <code>1</code>，若查询对应位数据下标不全为1，则不存在，全为1，则存在</p>
-</li>
-</ol>
-</blockquote>
-<p>优点：</p>
-<blockquote>
-<p>数据空间小，不用存储数据本身</p>
-</blockquote>
-<p>缺点：</p>
-<blockquote>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
 <ul>
-<li>元素可以添加到集合中，不能删除</li>
-<li>匹配结果是“<code>绝对不在集合中</code>”，并不能保证匹配成功的值已经在集合中</li>
-<li>当集合快满时，即接近预估最大容量时，误报的概率会变大</li>
-<li>数据占用空间放大</li>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
 </ul>
 </blockquote>
-<h2 id="缓存击穿"><a class="markdownIt-Anchor" href="#缓存击穿"></a> 缓存击穿</h2>
-<h3 id="问题描述-2"><a class="markdownIt-Anchor" href="#问题描述-2"></a> 问题描述</h3>
+<h4 id="sds-简单动态字符串"><a class="markdownIt-Anchor" href="#sds-简单动态字符串"></a> SDS （简单动态字符串）</h4>
 <blockquote>
-<p>当<font  color=red><strong>单个</strong></font>热点key 的缓存数据，<font  color=red>****</font>刚好过了有效时间，此时大量请求涌入，会导致数据查询流量大增，数据库可能崩溃。</p>
-</blockquote>
-<h3 id="解决方法-2"><a class="markdownIt-Anchor" href="#解决方法-2"></a> 解决方法</h3>
-<ol>
-<li>互斥锁</li>
-<li>热点数据永不过期</li>
-</ol>
-<h4 id="互斥锁"><a class="markdownIt-Anchor" href="#互斥锁"></a> 互斥锁</h4>
-<blockquote>
-<p>当第一个数据库查询请求发起后，就将缓存中该数据上锁；</p>
-<p>此时其他查询该缓存的请求，被阻塞等待；</p>
-<p>当第一个请求完成，然后更新缓存，释放锁；</p>
-<p>其他查询请求后续可以查询到。</p>
-</blockquote>
-<p><strong>注意</strong>：互斥锁可以避免某一个热点，但实际情况里往往是一批。</p>
-<p>将缓存的过期时间，设置为随机值，会降低这一概率。</p>
-<h4 id="热点数据永不过期"><a class="markdownIt-Anchor" href="#热点数据永不过期"></a> 热点数据永不过期</h4>
-<blockquote>
-<p>从缓存层面，确实没有设置过期时间，也就是物理不过期</p>
-<p>从功能层面，每一个value 都有对应逻辑时间，过期后，单独重新构建。</p>
-</blockquote>
-<p><strong>注意</strong>：在重新构建期间，可能会出现数据不一致的情况。</p>
-<p><strong>比较</strong>：</p>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
 <ul>
-<li>互斥锁
-<ul>
-<li>存在死锁和阻塞风险</li>
-<li>较好的降低后端负载，一致性比较好</li>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
 </ul>
-</li>
-<li>永远不过期
-<ul>
-<li>数据不一致情况</li>
-<li>代码复杂度会增大</li>
-</ul>
-</li>
-</ul>
-<h2 id="缓存雪崩"><a class="markdownIt-Anchor" href="#缓存雪崩"></a> 缓存雪崩</h2>
-<h3 id="问题描述-3"><a class="markdownIt-Anchor" href="#问题描述-3"></a> 问题描述</h3>
-<blockquote>
-<p>指缓存中大量的数据同时过期，导致大量请求在短时间内直接到达数据库，对数据库造成巨大压力。</p>
 </blockquote>
-<h3 id="解决方法-3"><a class="markdownIt-Anchor" href="#解决方法-3"></a> 解决方法</h3>
-<ol>
-<li>过期时间分散</li>
-<li>缓存预热</li>
-<li>限流降级</li>
-</ol>
-<h4 id="过期时间分撒"><a class="markdownIt-Anchor" href="#过期时间分撒"></a> 过期时间分撒</h4>
-<blockquote>
-<p>使用 expire 命令设置过期时间，引入随机过期时间机制</p>
-</blockquote>
-<h4 id="缓存预热"><a class="markdownIt-Anchor" href="#缓存预热"></a> 缓存预热</h4>
-<blockquote>
-<p>使用 CacheWarmer 等工具在系统启动前预热缓存</p>
-</blockquote>
-<h4 id="限流降级"><a class="markdownIt-Anchor" href="#限流降级"></a> 限流降级</h4>
-<blockquote>
-<p>使用限流算法控制访问数据库的请求速率，当缓存失效导致请求过多时，进行降级处理。</p>
-<p>工具：<code>Hystrix</code>、<code>Sentinel</code> 等</p>
-</blockquote>
-<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
-<blockquote>
-<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="列表"><a class="markdownIt-Anchor" href="#列表"></a> 列表</h3>
+<h4 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h4>
+<h4 id="操作-2"><a class="markdownIt-Anchor" href="#操作-2"></a> 操作</h4>
+<h3 id="哈希"><a class="markdownIt-Anchor" href="#哈希"></a> 哈希</h3>
+<h4 id="原理-2"><a class="markdownIt-Anchor" href="#原理-2"></a> 原理</h4>
+<h4 id="操作-3"><a class="markdownIt-Anchor" href="#操作-3"></a> 操作</h4>
+<h3 id="集合"><a class="markdownIt-Anchor" href="#集合"></a> 集合</h3>
+<h4 id="原理-3"><a class="markdownIt-Anchor" href="#原理-3"></a> 原理</h4>
+<h4 id="操作-4"><a class="markdownIt-Anchor" href="#操作-4"></a> 操作</h4>
+<h3 id="有序集合"><a class="markdownIt-Anchor" href="#有序集合"></a> 有序集合</h3>
+<h4 id="原理-4"><a class="markdownIt-Anchor" href="#原理-4"></a> 原理</h4>
+<h4 id="操作-5"><a class="markdownIt-Anchor" href="#操作-5"></a> 操作</h4>
+<h3 id="地理空间"><a class="markdownIt-Anchor" href="#地理空间"></a> 地理空间</h3>
+<h4 id="原理-5"><a class="markdownIt-Anchor" href="#原理-5"></a> 原理</h4>
+<h4 id="操作-6"><a class="markdownIt-Anchor" href="#操作-6"></a> 操作</h4>
+<h3 id="流"><a class="markdownIt-Anchor" href="#流"></a> 流</h3>
+<h4 id="原理-6"><a class="markdownIt-Anchor" href="#原理-6"></a> 原理</h4>
+<h4 id="操作-7"><a class="markdownIt-Anchor" href="#操作-7"></a> 操作</h4>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<blockquote></blockquote>
 ]]></content>
       <categories>
         <category>IT技术</category>
@@ -3743,6 +3727,137 @@ limit<br />
       <categories>
         <category>IT技术</category>
         <category>scrapy</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis 缓存问题</title>
+    <url>/blog/389604739.html</url>
+    <content><![CDATA[<h1 id="redis-缓存问题"><a class="markdownIt-Anchor" href="#redis-缓存问题"></a> Redis 缓存问题</h1>
+<h2 id="缓存穿透"><a class="markdownIt-Anchor" href="#缓存穿透"></a> 缓存穿透</h2>
+<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<blockquote>
+<p>缓存穿透指：</p>
+<p>当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。</p>
+<p>当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。</p>
+</blockquote>
+ <span id="more"></span>
+<h3 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h3>
+<ol>
+<li>缓存空值</li>
+<li>布隆过滤器（key 校验）</li>
+</ol>
+<h4 id="缓存空值"><a class="markdownIt-Anchor" href="#缓存空值"></a> 缓存空值</h4>
+<blockquote>
+<p>将数据库中查询为空的key 也存储在缓存中，当再次查询时，则可以避免查询数据库。</p>
+</blockquote>
+<p>缓存空值会出现两个问题：</p>
+<ol>
+<li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
+<li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
+</ol>
+<h4 id="布隆过滤器"><a class="markdownIt-Anchor" href="#布隆过滤器"></a> 布隆过滤器</h4>
+<h5 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h5>
+<blockquote>
+<ol>
+<li>
+<p>利用 k 个哈希函数，对元素进行计算</p>
+</li>
+<li>
+<p>根据哈希值，将位数据组对应的下标置为1</p>
+</li>
+<li>
+<p>当需要查询时，重复过程 <code>1</code>，若查询对应位数据下标不全为1，则不存在，全为1，则存在</p>
+</li>
+</ol>
+</blockquote>
+<p>优点：</p>
+<blockquote>
+<p>数据空间小，不用存储数据本身</p>
+</blockquote>
+<p>缺点：</p>
+<blockquote>
+<ul>
+<li>元素可以添加到集合中，不能删除</li>
+<li>匹配结果是“<code>绝对不在集合中</code>”，并不能保证匹配成功的值已经在集合中</li>
+<li>当集合快满时，即接近预估最大容量时，误报的概率会变大</li>
+<li>数据占用空间放大</li>
+</ul>
+</blockquote>
+<h2 id="缓存击穿"><a class="markdownIt-Anchor" href="#缓存击穿"></a> 缓存击穿</h2>
+<h3 id="问题描述-2"><a class="markdownIt-Anchor" href="#问题描述-2"></a> 问题描述</h3>
+<blockquote>
+<p>当<font  color=red><strong>单个</strong></font>热点key 的缓存数据，<font  color=red>****</font>刚好过了有效时间，此时大量请求涌入，会导致数据查询流量大增，数据库可能崩溃。</p>
+</blockquote>
+<h3 id="解决方法-2"><a class="markdownIt-Anchor" href="#解决方法-2"></a> 解决方法</h3>
+<ol>
+<li>互斥锁</li>
+<li>热点数据永不过期</li>
+</ol>
+<h4 id="互斥锁"><a class="markdownIt-Anchor" href="#互斥锁"></a> 互斥锁</h4>
+<blockquote>
+<p>当第一个数据库查询请求发起后，就将缓存中该数据上锁；</p>
+<p>此时其他查询该缓存的请求，被阻塞等待；</p>
+<p>当第一个请求完成，然后更新缓存，释放锁；</p>
+<p>其他查询请求后续可以查询到。</p>
+</blockquote>
+<p><strong>注意</strong>：互斥锁可以避免某一个热点，但实际情况里往往是一批。</p>
+<p>将缓存的过期时间，设置为随机值，会降低这一概率。</p>
+<h4 id="热点数据永不过期"><a class="markdownIt-Anchor" href="#热点数据永不过期"></a> 热点数据永不过期</h4>
+<blockquote>
+<p>从缓存层面，确实没有设置过期时间，也就是物理不过期</p>
+<p>从功能层面，每一个value 都有对应逻辑时间，过期后，单独重新构建。</p>
+</blockquote>
+<p><strong>注意</strong>：在重新构建期间，可能会出现数据不一致的情况。</p>
+<p><strong>比较</strong>：</p>
+<ul>
+<li>互斥锁
+<ul>
+<li>存在死锁和阻塞风险</li>
+<li>较好的降低后端负载，一致性比较好</li>
+</ul>
+</li>
+<li>永远不过期
+<ul>
+<li>数据不一致情况</li>
+<li>代码复杂度会增大</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存雪崩"><a class="markdownIt-Anchor" href="#缓存雪崩"></a> 缓存雪崩</h2>
+<h3 id="问题描述-3"><a class="markdownIt-Anchor" href="#问题描述-3"></a> 问题描述</h3>
+<blockquote>
+<p>指缓存中大量的数据同时过期，导致大量请求在短时间内直接到达数据库，对数据库造成巨大压力。</p>
+</blockquote>
+<h3 id="解决方法-3"><a class="markdownIt-Anchor" href="#解决方法-3"></a> 解决方法</h3>
+<ol>
+<li>过期时间分散</li>
+<li>缓存预热</li>
+<li>限流降级</li>
+</ol>
+<h4 id="过期时间分撒"><a class="markdownIt-Anchor" href="#过期时间分撒"></a> 过期时间分撒</h4>
+<blockquote>
+<p>使用 expire 命令设置过期时间，引入随机过期时间机制</p>
+</blockquote>
+<h4 id="缓存预热"><a class="markdownIt-Anchor" href="#缓存预热"></a> 缓存预热</h4>
+<blockquote>
+<p>使用 CacheWarmer 等工具在系统启动前预热缓存</p>
+</blockquote>
+<h4 id="限流降级"><a class="markdownIt-Anchor" href="#限流降级"></a> 限流降级</h4>
+<blockquote>
+<p>使用限流算法控制访问数据库的请求速率，当缓存失效导致请求过多时，进行降级处理。</p>
+<p>工具：<code>Hystrix</code>、<code>Sentinel</code> 等</p>
+</blockquote>
+<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>IT技术</category>
+        <category>Redis</category>
       </categories>
       <tags>
         <tag>笔记</tag>

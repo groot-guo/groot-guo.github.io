@@ -22,28 +22,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"groot-guo.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="flask 框架简单认识，初步使用">
+    <meta name="description" content="Redis 数据结构基础认识和使用，redis 本身的特点了解">
 <meta property="og:type" content="article">
-<meta property="og:title" content="flask 框架了解">
-<meta property="og:url" content="https://groot-guo.github.io/blog/3271143529.html">
+<meta property="og:title" content="Redis-基础">
+<meta property="og:url" content="https://groot-guo.github.io/blog/bf7639ff.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="flask 框架简单认识，初步使用">
+<meta property="og:description" content="Redis 数据结构基础认识和使用，redis 本身的特点了解">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-12-07T00:00:00.000Z">
-<meta property="article:modified_time" content="2019-12-07T00:00:00.000Z">
+<meta property="article:published_time" content="2020-02-12T15:40:45.000Z">
+<meta property="article:modified_time" content="2021-04-16T11:20:11.000Z">
 <meta property="article:author" content="genyuan">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://groot-guo.github.io/blog/3271143529.html">
+<link rel="canonical" href="https://groot-guo.github.io/blog/bf7639ff.html">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://groot-guo.github.io/blog/3271143529.html","path":"blog/3271143529.html","title":"flask 框架了解"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://groot-guo.github.io/blog/bf7639ff.html","path":"blog/bf7639ff.html","title":"Redis-基础"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>flask 框架了解 | 博客</title>
+<title>Redis-基础 | 博客</title>
   
 
 
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#flask"><span class="nav-number">1.</span> <span class="nav-text"> Flask</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#flask%E4%B8%AD%E7%9A%84request"><span class="nav-number">1.0.1.</span> <span class="nav-text"> flask中的request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jinja2"><span class="nav-number">1.0.2.</span> <span class="nav-text"> Jinja2</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text"> Redis 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis-%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%86"><span class="nav-number">1.1.</span> <span class="nav-text"> redis 基本认识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text"> 数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%A7%E8%B4%A8%E5%92%8C%E7%89%B9%E7%82%B9"><span class="nav-number">1.2.1.1.</span> <span class="nav-text"> 性质和特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sds-%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.2.1.2.</span> <span class="nav-text"> SDS （简单动态字符串）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.1.3.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-2"><span class="nav-number">1.2.2.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%88%E5%B8%8C"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 哈希</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-number">1.2.3.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-3"><span class="nav-number">1.2.3.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-number">1.2.4.</span> <span class="nav-text"> 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-3"><span class="nav-number">1.2.4.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-4"><span class="nav-number">1.2.4.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88"><span class="nav-number">1.2.5.</span> <span class="nav-text"> 有序集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-4"><span class="nav-number">1.2.5.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-5"><span class="nav-number">1.2.5.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E7%90%86%E7%A9%BA%E9%97%B4"><span class="nav-number">1.2.6.</span> <span class="nav-text"> 地理空间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-5"><span class="nav-number">1.2.6.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-6"><span class="nav-number">1.2.6.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81"><span class="nav-number">1.2.7.</span> <span class="nav-text"> 流</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-6"><span class="nav-number">1.2.7.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C-7"><span class="nav-number">1.2.7.2.</span> <span class="nav-text"> 操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text"> 参考</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -217,7 +217,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/3271143529.html">
+    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/bf7639ff.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.PNG">
@@ -230,12 +230,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="flask 框架了解 | 博客">
-      <meta itemprop="description" content="flask 框架简单认识，初步使用">
+      <meta itemprop="name" content="Redis-基础 | 博客">
+      <meta itemprop="description" content="Redis 数据结构基础认识和使用，redis 本身的特点了解">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          flask 框架了解
+          Redis-基础
         </h1>
 
         <div class="post-meta-container">
@@ -246,7 +246,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-12-07 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-07T00:00:00+00:00">2019-12-07</time>
+      <time title="创建时间：2020-02-12 15:40:45" itemprop="dateCreated datePublished" datetime="2020-02-12T15:40:45+00:00">2020-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2021-04-16 11:20:11" itemprop="dateModified" datetime="2021-04-16T11:20:11+00:00">2021-04-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -258,7 +265,7 @@
         </span>
           ，
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/IT%E6%8A%80%E6%9C%AF/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+          <a href="/categories/IT%E6%8A%80%E6%9C%AF/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
         </span>
     </span>
 
@@ -272,77 +279,116 @@
     </span>
 </div>
 
-            <div class="post-description">flask 框架简单认识，初步使用</div>
+            <div class="post-description">Redis 数据结构基础认识和使用，redis 本身的特点了解</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="flask"><a class="markdownIt-Anchor" href="#flask"></a> Flask</h2>
-<p>初次认识</p>
-<p>内置 session</p>
-<p>三方组件全，</p>
-<p>缺点：稳定性相对较差，核心要变，三方组件要更新</p>
-<p>最简单的使用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello World&quot;</span></span><br><span class="line"></span><br><span class="line">app.run()</span><br></pre></td></tr></table></figure>
-<p>Resopnse 三剑客：</p>
-<p>HttpppResponse: return  “Hello World”</p>
-<p>render:return render_template(“login.html”)</p>
-<p>与django中的render 使用一致</p>
-<p>redirect: return redirect (“/”)</p>
-<p>跳转，重定向</p>
-<p>Flask中小儿子：</p>
-<ol>
-<li>from flask import jsonify</li>
-</ol>
-<p>return jsonify()   返回 json 标准的字符串</p>
-<p>content-type：application/json</p>
-<ol start="2">
-<li>return send_file()（打开并返回文件内容，自动识别文件格式）</li>
-</ol>
-<h4 id="flask中的request"><a class="markdownIt-Anchor" href="#flask中的request"></a> flask中的request</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/login&quot;</span>, methods=[<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;login.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line">request.method <span class="comment"># 请求方式</span></span><br><span class="line">request.form  <span class="comment"># 存放 FormData 中的数据</span></span><br><span class="line">request.args  <span class="comment"># 存放URL中的数据</span></span><br><span class="line">request.path  <span class="comment"># 路由地址</span></span><br><span class="line">request.host  <span class="comment"># 主机地址</span></span><br><span class="line">request.host_url  <span class="comment"># 加 http 的主机地址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">先提交的是 POST，先序列化，然后GET，再序列化，</span><br></pre></td></tr></table></figure>
-<p><code>.headers</code>  请求头信息</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="redis-基础"><a class="markdownIt-Anchor" href="#redis-基础"></a> Redis 基础</h1>
+<h2 id="redis-基本认识"><a class="markdownIt-Anchor" href="#redis-基本认识"></a> redis 基本认识</h2>
+<h2 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h2>
+<h3 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串</h3>
+<h4 id="性质和特点"><a class="markdownIt-Anchor" href="#性质和特点"></a> 性质和特点</h4>
 <blockquote>
-<p>Host: 127.0.0.1:5000<br />
-Connection: keep-alive<br />
-Cache-Control: max-age=0<br />
-Upgrade-Insecure-Requests: 1<br />
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36<br />
-Sec-Fetch-Mode: navigate<br />
-Sec-Fetch-User: ?1<br />
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br />
-Sec-Fetch-Site: none<br />
-Accept-Encoding: gzip, deflate, br<br />
-Accept-Language: zh-CN,zh;q=0.9<br />
-Cookie: csrftoken=a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI; sessionid=7ftfeserhzki55h74um33j51lo410lj0</p>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
+<ul>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
+</ul>
 </blockquote>
-<p><code>.</code></p>
+<h4 id="sds-简单动态字符串"><a class="markdownIt-Anchor" href="#sds-简单动态字符串"></a> SDS （简单动态字符串）</h4>
 <blockquote>
-<p>request.path------ /login<br />
-request.data------ b’’<br />
-request.url------- <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMTo1MDAwL2xvZ2lu">http://127.0.0.1:5000/login<i class="fa fa-external-link-alt"></i></span><br />
-request.values---- CombinedMultiDict([ImmutableMultiDict([]), ImmutableMultiDict([])])<br />
-request.range----- None<br />
-request.user_agent----- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36<br />
-request.args------ ImmutableMultiDict([])<br />
-request.json------ None<br />
-request.form------ ImmutableMultiDict([])<br />
-request.authorization------ None<br />
-request.access_route------- ImmutableList([‘127.0.0.1’])<br />
-request.cookies------ {‘csrftoken’: ‘a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI’, ‘sessionid’: ‘7ftfeserhzki55h74um33j51lo410lj0’}<br />
-request.accept_encodings------ gzip,deflate,br<br />
-request.accept_languages------ zh-CN,zh;q=0.9<br />
-request.accept_mimetypes------ text/html,image/webp,image/apng,application/xhtml+xml,application/signed-exchange;v=b3,application/xml;q=0.9,<em>/</em>;q=0.8<br />
-request.content_length------ None<br />
-request.accept_charsets-----<br />
-request.files----- ImmutableMultiDict([])<br />
-request.blueprint---- None</p>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
+<ul>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
+</ul>
 </blockquote>
-<h4 id="jinja2"><a class="markdownIt-Anchor" href="#jinja2"></a> Jinja2</h4>
-<p><code>&#123;&#123; &#125;&#125;</code> 引用变量</p>
-<p>`</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="列表"><a class="markdownIt-Anchor" href="#列表"></a> 列表</h3>
+<h4 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h4>
+<h4 id="操作-2"><a class="markdownIt-Anchor" href="#操作-2"></a> 操作</h4>
+<h3 id="哈希"><a class="markdownIt-Anchor" href="#哈希"></a> 哈希</h3>
+<h4 id="原理-2"><a class="markdownIt-Anchor" href="#原理-2"></a> 原理</h4>
+<h4 id="操作-3"><a class="markdownIt-Anchor" href="#操作-3"></a> 操作</h4>
+<h3 id="集合"><a class="markdownIt-Anchor" href="#集合"></a> 集合</h3>
+<h4 id="原理-3"><a class="markdownIt-Anchor" href="#原理-3"></a> 原理</h4>
+<h4 id="操作-4"><a class="markdownIt-Anchor" href="#操作-4"></a> 操作</h4>
+<h3 id="有序集合"><a class="markdownIt-Anchor" href="#有序集合"></a> 有序集合</h3>
+<h4 id="原理-4"><a class="markdownIt-Anchor" href="#原理-4"></a> 原理</h4>
+<h4 id="操作-5"><a class="markdownIt-Anchor" href="#操作-5"></a> 操作</h4>
+<h3 id="地理空间"><a class="markdownIt-Anchor" href="#地理空间"></a> 地理空间</h3>
+<h4 id="原理-5"><a class="markdownIt-Anchor" href="#原理-5"></a> 原理</h4>
+<h4 id="操作-6"><a class="markdownIt-Anchor" href="#操作-6"></a> 操作</h4>
+<h3 id="流"><a class="markdownIt-Anchor" href="#流"></a> 流</h3>
+<h4 id="原理-6"><a class="markdownIt-Anchor" href="#原理-6"></a> 原理</h4>
+<h4 id="操作-7"><a class="markdownIt-Anchor" href="#操作-7"></a> 操作</h4>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<blockquote></blockquote>
 
     </div>
 
@@ -359,13 +405,13 @@ request.blueprint---- None</p>
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/blog/127135607.html" rel="prev" title="linux 基本认识">
-                  <i class="fa fa-angle-left"></i> linux 基本认识
+                <a href="/blog/4232115266.html" rel="prev" title="git 操作记录">
+                  <i class="fa fa-angle-left"></i> git 操作记录
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/blog/4232115266.html" rel="next" title="git 操作记录">
-                  git 操作记录 <i class="fa fa-angle-right"></i>
+                <a href="/blog/2061376863.html" rel="next" title="爬虫">
+                  爬虫 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
