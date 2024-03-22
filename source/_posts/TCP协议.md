@@ -6,7 +6,7 @@ tags: 笔记
 categories:
 - IT技术
 - 计算机网络
-abbrlink: 20
+abbrlink: 
 description: 微服务基本知识，常见策略，服务与注册中心的连接通信了解。
 ---
 

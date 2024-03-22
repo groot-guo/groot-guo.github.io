@@ -6,6 +6,6 @@ tags: 笔记
 categories:
 - IT技术
 - Elasticsearch
-abbrlink: 20
+abbrlink: 
 description: Elasticsearch-基础
 ---

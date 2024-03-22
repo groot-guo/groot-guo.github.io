@@ -6,6 +6,6 @@ tags: 笔记
 categories:
 - IT技术
 - 计算机网络
-abbrlink: 20
+abbrlink: 
 description: HTTP
 ---
