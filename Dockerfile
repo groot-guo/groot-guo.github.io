@@ -39,11 +39,13 @@ COPY . .
 
 # 第七部分：构建时的脚本执行
 # RUN ./configure && make && make install
-RUN npm ci 
-RUN npm install -g hexo-cli
+RUN <<EOF
+npm ci 
+npm install -g hexo-cli
+EOF
 
 # 第八部分：暴露端口
-EXPOSE 80 433 4000
+EXPOSE 4000
 # <端口1> <端口2>
 # 例如：EXPOSE 80 443
 
