@@ -48,7 +48,8 @@ EXPOSE 80 433 4000
 # 例如：EXPOSE 80 443
 
 # 第九部分：设置容器启动时执行的命令
-CMD ["npm", "start"]
+# CMD ["hexo", "sever"]
+CMD hexo sever
 # 或者用 shell 形式
 # CMD <命令>
 
