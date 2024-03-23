@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: . # 指原项目的文件路径，不是 dockerfile 创建的文件路径
+      target: builder
+    restart: always
+    container_name: blog-app
+    expose:
+      - 4000
+    ports:
+      -  '4000:4000'
+
+
+
+  
