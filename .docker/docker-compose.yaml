@@ -1,7 +1,7 @@
 services:
   web:
-    build:
-      context: . # 指原项目的文件路径，不是 dockerfile 创建的文件路径
+    build: #如果需要基于 Dockerfile 构建镜像，可以指定 build: . （其中.表示当前目录下Dockerfile），也可以指定构建上下文目录和其它构建参数。
+      context: . 
       target: builder
     restart: always
     container_name: blog-app
@@ -9,7 +9,3 @@ services:
       - 4000
     ports:
       -  '4000:4000'
-
-
-
-  

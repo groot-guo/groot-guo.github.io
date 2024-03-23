@@ -32,17 +32,18 @@ LABEL maintainer="genyuan.guo@qq.com"
 #     requirement2
 
 # 第六部分：文件复制
-COPY . .          
+# COPY . .          
+COPY package*.json ./
+
 # 将当前目录下所有文件复制到容器内的/app目录
 # COPY src /app/src      
 # 将src目录下的文件复制到容器内的/app/src目录
 
 # 第七部分：构建时的脚本执行
 # RUN ./configure && make && make install
-RUN <<EOF
-npm ci 
-npm install -g hexo-cli
-EOF
+RUN npm ci
+RUN npm install -g hexo-cli
+
 
 # 第八部分：暴露端口
 EXPOSE 4000
@@ -50,13 +51,13 @@ EXPOSE 4000
 # 例如：EXPOSE 80 443
 
 # 第九部分：设置容器启动时执行的命令
-# CMD ["hexo", "sever"]
-CMD hexo sever
+# CMD ["hexo server"]
+CMD hexo server
 # 或者用 shell 形式
 # CMD <命令>
 
 # 第十部分：使用ENTRYPOINT可以设置固定入口点
-# ENTRYPOINT ["executable", "param1", "param2"]
+# ENTRYPOINT ["hexo", "npm"]
 
 # 使用ARG传递构建参数
 # ARG <参数名>
