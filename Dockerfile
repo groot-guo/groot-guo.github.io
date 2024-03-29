@@ -12,7 +12,7 @@ LABEL maintainer="genyuan.guo@qq.com"
 # 例如：ENV NODE_VERSION 14
 
 # 第四部分：工作目录设置
-# WORKDIR /app
+WORKDIR /app
 # 设定工作目录，后续的 RUN、CMD、COPY、ADD 指令将在此目录下执行
 
 # 第五部分：依赖安装
@@ -33,7 +33,7 @@ LABEL maintainer="genyuan.guo@qq.com"
 
 # 第六部分：文件复制
 # COPY . .          
-COPY package*.json ./
+COPY ./ ./
 
 # 将当前目录下所有文件复制到容器内的/app目录
 # COPY src /app/src      
