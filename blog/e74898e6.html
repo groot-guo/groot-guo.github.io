@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#elasticsearch-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text"> Elasticsearch-基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#elasticsearch"><span class="nav-number">1.1.</span> <span class="nav-text"> Elasticsearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#luncne"><span class="nav-number">1.2.</span> <span class="nav-text"> Luncne</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 核心模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 核心术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AE%B5%E5%90%88%E5%B9%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 段合并</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">Elasticsearch-基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Elasticsearch"><span class="nav-number">1.1.</span> <span class="nav-text">Elasticsearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Luncne"><span class="nav-number">1.2.</span> <span class="nav-text">Luncne</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.1.</span> <span class="nav-text">核心模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.2.</span> <span class="nav-text">核心术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AE%B5%E5%90%88%E5%B9%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">段合并</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -279,24 +279,18 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="elasticsearch-基础"><a class="markdownIt-Anchor" href="#elasticsearch-基础"></a> Elasticsearch-基础</h1>
-<h2 id="elasticsearch"><a class="markdownIt-Anchor" href="#elasticsearch"></a> Elasticsearch</h2>
-<h2 id="luncne"><a class="markdownIt-Anchor" href="#luncne"></a> Luncne</h2>
-<h3 id="核心模块"><a class="markdownIt-Anchor" href="#核心模块"></a> 核心模块</h3>
-<p>analysis 模块</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h1><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
 <p>index 模块</p>
 <p>store 模块</p>
 <p>queryParser 模块</p>
 <p>search 模块</p>
 <p>similarity 模块</p>
-<h3 id="核心术语"><a class="markdownIt-Anchor" href="#核心术语"></a> 核心术语</h3>
-<p>Term：索引最小的存储单元和查询单元</p>
+<h3 id="核心术语"><a href="#核心术语" class="headerlink" title="核心术语"></a>核心术语</h3><p>Term：索引最小的存储单元和查询单元</p>
 <p>词典（字典）：Term 集合</p>
 <p>倒排表：多个词组成</p>
 <p>正向信息：原始文档信息</p>
 <p>段：索引中最小的独立存储单元。生成，只能读，不能写。</p>
-<h3 id="段合并"><a class="markdownIt-Anchor" href="#段合并"></a> 段合并</h3>
-
+<h3 id="段合并"><a href="#段合并" class="headerlink" title="段合并"></a>段合并</h3>
     </div>
 
     

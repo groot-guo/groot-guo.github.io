@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis"><span class="nav-number">1.</span> <span class="nav-text"> Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text"> Redis相关问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text"> 数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idredisobjectredisobjectspan"><span class="nav-number">1.2.1.</span> <span class="nav-text"> redisObject</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idstringstringspan"><span class="nav-number">1.2.2.</span> <span class="nav-text"> string</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#span-idsdssdsspan"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> SDS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idlistlistspan"><span class="nav-number">1.2.3.</span> <span class="nav-text"> list</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text"> 链表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.3.2.</span> <span class="nav-text"> 压缩列表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idhashhashspan"><span class="nav-number">1.2.4.</span> <span class="nav-text"> hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">1.2.4.1.</span> <span class="nav-text"> 字典</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idsetsetspan"><span class="nav-number">1.2.5.</span> <span class="nav-text"> set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-idzsetzsetspan"><span class="nav-number">1.2.6.</span> <span class="nav-text"> zset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#span-id%E8%B7%B3%E8%A1%A8spanskiplist"><span class="nav-number">1.2.7.</span> <span class="nav-text"> 跳表（skiplist）</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">Redis相关问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#redisObject"><span class="nav-number">1.2.1.</span> <span class="nav-text">redisObject</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#string"><span class="nav-number">1.2.2.</span> <span class="nav-text">string</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SDS"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">SDS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list"><span class="nav-number">1.2.3.</span> <span class="nav-text">list</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">压缩列表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hash"><span class="nav-number">1.2.4.</span> <span class="nav-text">hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">字典</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">1.2.5.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zset"><span class="nav-number">1.2.6.</span> <span class="nav-text">zset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%B3%E8%A1%A8%EF%BC%88skiplist%EF%BC%89"><span class="nav-number">1.2.7.</span> <span class="nav-text">跳表（skiplist）</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -279,9 +279,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="redis"><a class="markdownIt-Anchor" href="#redis"></a> Redis</h2>
-<h3 id="redis相关问题"><a class="markdownIt-Anchor" href="#redis相关问题"></a> Redis相关问题</h3>
-<ul>
+    <div class="post-body" itemprop="articleBody"><h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
 <li>Redis 和 memcached 区别？</li>
 </ul>
 <p>对比 Memcache的共同点：</p>
@@ -298,17 +296,12 @@
 <li>如何高效的找到redis中所有以oldboy开头的key</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>什么是一致性哈希</li>
 </ul>
 <blockquote>
-<p>首先一致性哈希满足以下几个方面：<br />
-平衡性<br />
-单调性<br />
-分散性<br />
-负载<br />
-平滑性<br />
-<span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
+<p>首先一致性哈希满足以下几个方面：<br>平衡性<br>单调性<br>分散性<br>负载<br>平滑性<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
 <p>将整个哈希空间虚拟成一个0 ~ 2^32无符号的圆形，然后把每个服务器进行哈希，然后将对应ip哈希到邻近服务器上。</p>
 <ul>
@@ -340,24 +333,20 @@
 </ul>
 <p>redis 是一个非关系型数据库（No -SQL）</p>
 <p>储存结构 字节 python读取时</p>
-<h3 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h3>
-<hr />
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><hr>
 <ul>
 <li><a href="#redisobject">redisObject</a></li>
-<li><a href="#junmp">string</a>
-<ul>
+<li><a href="#junmp">string</a><ul>
 <li><a href="#jump">int</a>（存放整数类型）</li>
 <li><a href="#jump">SDS</a>（存放浮点、字符串、字节类型）</li>
 </ul>
 </li>
-<li><a href="#jump">list</a>
-<ul>
+<li><a href="#jump">list</a><ul>
 <li><a href="#jump">链表</a>（linkedlist）双向链表</li>
 <li><a href="#jump">压缩列表</a>（ziplist）压缩列表</li>
 </ul>
 </li>
-<li><a href="#jump">hash</a>
-<ul>
+<li><a href="#jump">hash</a><ul>
 <li><a href="#jump">压缩列表</a> （以上述相同）</li>
 <li><a href="#jump">字典</a>（使用散列表解决，解决冲突的方法是链表法）</li>
 </ul>
@@ -366,10 +355,10 @@
 <li><a href="#jump">zset</a></li>
 <li><a href="#jump">跳表</a> skiplist</li>
 </ul>
-<h4 id="span-idredisobjectredisobjectspan"><a class="markdownIt-Anchor" href="#span-idredisobjectredisobjectspan"></a> <span id="redisobject">redisObject</span></h4>
-<hr />
+<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a><span id="redisobject">redisObject</span></h4><hr>
 <p>Redis的key是顶层模型，value是扁平化的。Redis中，所有value都是一个object，它的结构如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span>&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> [type] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [encoding] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [lru] REDIS_LRU_BITS;</span><br><span class="line">  <span class="type">int</span> refcount;</span><br><span class="line">  <span class="type">void</span> *prt;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
 <p>相关字段说明：</p>
 <ul>
 <li>type：数据类型，例如string、hash、list等。</li>
@@ -378,8 +367,7 @@
 <li>refcount：对象引用计数，用于GC。</li>
 <li>ptr：指针，指向以encoding的方式实现这个对象的实际地址。</li>
 </ul>
-<h4 id="span-idstringstringspan"><a class="markdownIt-Anchor" href="#span-idstringstringspan"></a> <span id="string">string</span></h4>
-<hr />
+<h4 id="string"><a href="#string" class="headerlink" title="string"></a><span id="string">string</span></h4><hr>
 <p>string类型有两种底层存储结构。Redis会根据存储的数据及用户的操作指令自动选择合适的结构：</p>
 <ul>
 <li>int：存放整型类型</li>
@@ -388,28 +376,24 @@
 <blockquote>
 <p>SDS：简单动态字符串（simple dynamic string）</p>
 </blockquote>
-<h5 id="span-idsdssdsspan"><a class="markdownIt-Anchor" href="#span-idsdssdsspan"></a> <span id="SDS">SDS</span></h5>
-<p>SDS的内部数据结构：</p>
+<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a><span id="SDS">SDS</span></h5><p>SDS的内部数据结构：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">  <span class="comment">// buf 中已占用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> len;</span><br><span class="line">  <span class="comment">// buf 中剩余可用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">  <span class="comment">// 数据空间</span></span><br><span class="line">  <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>其底层就是char数组。buf最大容量就是512M，可以放字符串、浮点数、字节。但为什么没用数组？</p>
 <p>因为buf 会有动态扩容和缩容的需求。如果直接使用数组，那每次对字符串的修改都会导致重新分配内存，效率很低。</p>
 <p>buf扩容过程如下：</p>
 <ul>
-<li>如果修改后len长度将小于1M，这时分配给 free 的大小 == len。<br />
-例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 = 21 byte</li>
-<li>如果修改后len长度 &gt;= 1M，这时分配给 free 的大小 == 1M。<br />
-例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
+<li>如果修改后len长度将小于1M，这时分配给 free 的大小 &#x3D;&#x3D; len。<br>例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 &#x3D; 21 byte</li>
+<li>如果修改后len长度 &gt;&#x3D; 1M，这时分配给 free 的大小 &#x3D;&#x3D; 1M。<br>例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
 </ul>
 <p>惰性空间释放指的是当字符串缩短时，并没有真正的缩容，而是移动 free 的指针。这样一来字符串长度增加时，就不用重新分配内存了。但这样会造成内存的浪费，redis 提供了api来真正释放内存。</p>
-<h4 id="span-idlistlistspan"><a class="markdownIt-Anchor" href="#span-idlistlistspan"></a> <span id="list">list</span></h4>
-<hr />
+<h4 id="list"><a href="#list" class="headerlink" title="list"></a><span id="list">list</span></h4><hr>
 <p>list 底层有两种数据结构：链表linklist和压缩列表ziplist。当list元素个数少且元素内容长度不大时，使用ziplist实现，否则linklist。</p>
-<h5 id="链表"><a class="markdownIt-Anchor" href="#链表"></a> 链表</h5>
-<p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
+<h5 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h5><p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">  <span class="comment">// 表头节点</span></span><br><span class="line">  listNode *head;</span><br><span class="line">  <span class="comment">// 表尾节点</span></span><br><span class="line">  listNode *tail;</span><br><span class="line">  <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">  <span class="comment">// 节点值复制函数</span></span><br><span class="line">  <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值释放函数</span></span><br><span class="line">  <span class="type">void</span> *(*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值对比函数</span></span><br><span class="line">  <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
 <p>data存的其实就是一个指针。链表里面的元素是上面介绍的string。因为是双向链表，所以可以方便地把它当成一个栈或者队列使用。</p>
-<h5 id="压缩列表"><a class="markdownIt-Anchor" href="#压缩列表"></a> 压缩列表</h5>
-<p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
+<h5 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h5><p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
 <p>上图字段的含义：</p>
 <ul>
 <li>zlbytes：列表的长度</li>
@@ -419,22 +403,17 @@
 <li>zlend：恒为0xFF，作为ziplist的定界符</li>
 </ul>
 <p>压缩列表不只是list的底层，也是hash的底层实现之一。当hash的元素个数少且内容长度不大时，使用压缩列表来实现。</p>
-<h4 id="span-idhashhashspan"><a class="markdownIt-Anchor" href="#span-idhashhashspan"></a> <span id="hash">hash</span></h4>
-<hr />
+<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a><span id="hash">hash</span></h4><hr>
 <p>Hash 底层有两种实现：压缩列表和字典（dict）。</p>
-<h5 id="字典"><a class="markdownIt-Anchor" href="#字典"></a> 字典</h5>
-<p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
+<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
 <p>在键增加或者减少时，会扩容或者缩容，并且进行rehash，根据hash值重新计算索引值。如果字典太大怎么办？</p>
 <p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。当负载因子触达阈值之后，只能申请新空间，但并不将老的数据搬移到新散列表中。当有新数据要插入时，将新数据插入新散列表中，并且从老的散列表中拿出一个数据放入到新散列表。每次插入一个数据到散列表，都重复上面的过程。经过多次插入操作之后，老的散列表中的数据就一点一点全部搬移到新散列表中了。这样没有了集中的一次一次性数据搬移，插入操作就都变得很快乐。这个被称为渐进式rehash。</p>
-<h4 id="span-idsetsetspan"><a class="markdownIt-Anchor" href="#span-idsetsetspan"></a> <span id="set">set</span></h4>
-<hr />
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a><span id="set">set</span></h4><hr>
 <p>set里面没有重复的集合。set的实现比较简单。如果是整数类型，就直接使用整数集合intset。使用二分查找来辅助，速度还是挺快的。不过在插入的时候由于要移动元素，时间复杂度是 O(N)。</p>
 <p>如果不是整数类型，就是用上面在hash那一节介绍的字典。key 为 set 的值，value 为空。</p>
-<h4 id="span-idzsetzsetspan"><a class="markdownIt-Anchor" href="#span-idzsetzsetspan"></a> <span id="zset">zset</span></h4>
-<hr />
+<h4 id="zset"><a href="#zset" class="headerlink" title="zset"></a><span id="zset">zset</span></h4><hr>
 <p>zset是可排序的set。与hash的实现方式类似，如果元素个数不大，就使用压缩列表ziplist来存储。不过由于zset包含了score的排序信息，所以在ziplist内部，是按照score排序递增来存储的。意味着每次插入数据都要移动之后的数据。</p>
-<h4 id="span-id跳表spanskiplist"><a class="markdownIt-Anchor" href="#span-id跳表spanskiplist"></a> <span id="">跳表</span>（skiplist）</h4>
-<p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
+<h4 id="跳表（skiplist）"><a href="#跳表（skiplist）" class="headerlink" title="跳表（skiplist）"></a><span id="">跳表</span>（skiplist）</h4><p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
 <p>如图所示，比如我们要查找8，先在最上层L2查找，发现在1 和9 之间；然后去L1层查找，发现在5和9之间；然后去L0查找，发现在7和9之间，然后找到8。</p>
 <p>当元素较多时，跳跃表可以显著减少查找次数。</p>
 <p>同list类似，Redis内部也不是直接使用的跳跃表，而是使用了一个自定义的数据结构来持有跳跃表。下图左边蓝色部分是skiplist，右边是4个zskiplistNode。zskiplistNode内部有很多层L1、L2等，指针指向这一层的下一个结点。BW是回退指针，用于查找的时候回退。然后下面是score和对象本身object。</p>

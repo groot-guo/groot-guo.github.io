@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#git"><span class="nav-number">1.</span> <span class="nav-text"> Git</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -279,29 +279,33 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h1>
-<p>初始化Git</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>初始化Git</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
 <p>查看被托管的文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
 <p>托管文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add . # 点就代表所有文件，</span><br></pre></td></tr></table></figure>
+
 <p>第一次复制</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;名称&#x27;</span><br></pre></td></tr></table></figure>
+
 <p>文件检测到，需要重新提交</p>
 <p>查看修改日志</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+
 <p>回到第一次提交状态，本地文件会回滚gitgit</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">git</span> <span class="string">reset</span> <span class="built_in">--hard</span> <span class="comment"># + 第一次 commit 后面的内容或者 reflog 后面的内容</span></span><br></pre></td></tr></table></figure>
+
 <p>查看以前的状态：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+
 <p>上线：</p>
 <p>1.git 删除远程地址</p>
-<p>git remote rm origin<br />
-2.git 更换远程地址</p>
-<p>git remote add origin <span class="exturl" data-url="aHR0cDovLzEwLjAwLjMuMjYwOjEwMDgwL3h4eHh4eC9zeHh4eS5naXQv">http://10.00.3.260:10080/xxxxxx/sxxxy.git/<i class="fa fa-external-link-alt"></i></span><br />
-3.把当前分支与远程分支进行关联(branchname要改成你的当前分支名称)</p>
-<p>git push --set-upstream origin branchname</p>
+<p>git remote rm origin<br>2.git 更换远程地址</p>
+<p> git remote add origin <span class="exturl" data-url="aHR0cDovLzEwLjAwLjMuMjYwOjEwMDgwL3h4eHh4eC9zeHh4eS5naXQv">http://10.00.3.260:10080/xxxxxx/sxxxy.git/<i class="fa fa-external-link-alt"></i></span><br>3.把当前分支与远程分支进行关联(branchname要改成你的当前分支名称)</p>
+<p>git push –set-upstream origin branchname</p>
 <p>接下来，我们就要开始配置了。</p>
 <p>通过 <code>git remote add &lt;name&gt; &lt;url-of-remote&gt;</code> 指令来添加远程仓库。</p>
 <blockquote>
@@ -312,9 +316,11 @@
 </blockquote>
 <p>比如，我想添加github的远程仓库，并且取名为 github：</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> remote <span class="keyword">add</span> github https:<span class="comment">//github.com/gongqingfeng/Drcom.git</span></span><br></pre></td></tr></table></figure>
+
 <p>至于链接来自于哪，这里就不用我多说了吧！添加码云的远程仓库也是类似的操作，因为我前面假设的是clone自码云，所有这里就不需要添加了。</p>
 <p>好，来看一下我们刚刚添加好的仓库：</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git remote -v</span></span><br></pre></td></tr></table></figure>
+
 <p>这条指令就是用来查看远程仓库的。</p>
 <p>强制推送</p>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin <span class="keyword">master</span> <span class="title">-f</span></span><br></pre></td></tr></table></figure>

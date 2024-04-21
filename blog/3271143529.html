@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#flask"><span class="nav-number">1.</span> <span class="nav-text"> Flask</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#flask%E4%B8%AD%E7%9A%84request"><span class="nav-number">1.0.1.</span> <span class="nav-text"> flask中的request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jinja2"><span class="nav-number">1.0.2.</span> <span class="nav-text"> Jinja2</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flask"><span class="nav-number">1.</span> <span class="nav-text">Flask</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#flask%E4%B8%AD%E7%9A%84request"><span class="nav-number">1.0.1.</span> <span class="nav-text">flask中的request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jinja2"><span class="nav-number">1.0.2.</span> <span class="nav-text">Jinja2</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -279,70 +279,40 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="flask"><a class="markdownIt-Anchor" href="#flask"></a> Flask</h2>
-<p>初次认识</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="Flask"><a href="#Flask" class="headerlink" title="Flask"></a>Flask</h2><p>初次认识</p>
 <p>内置 session</p>
 <p>三方组件全，</p>
 <p>缺点：稳定性相对较差，核心要变，三方组件要更新</p>
 <p>最简单的使用</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello World&quot;</span></span><br><span class="line"></span><br><span class="line">app.run()</span><br></pre></td></tr></table></figure>
+
 <p>Resopnse 三剑客：</p>
 <p>HttpppResponse: return  “Hello World”</p>
 <p>render:return render_template(“login.html”)</p>
 <p>与django中的render 使用一致</p>
-<p>redirect: return redirect (“/”)</p>
+<p>redirect: return redirect (“&#x2F;”)</p>
 <p>跳转，重定向</p>
 <p>Flask中小儿子：</p>
 <ol>
 <li>from flask import jsonify</li>
 </ol>
 <p>return jsonify()   返回 json 标准的字符串</p>
-<p>content-type：application/json</p>
+<p>content-type：application&#x2F;json</p>
 <ol start="2">
 <li>return send_file()（打开并返回文件内容，自动识别文件格式）</li>
 </ol>
-<h4 id="flask中的request"><a class="markdownIt-Anchor" href="#flask中的request"></a> flask中的request</h4>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/login&quot;</span>, methods=[<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;login.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line">request.method <span class="comment"># 请求方式</span></span><br><span class="line">request.form  <span class="comment"># 存放 FormData 中的数据</span></span><br><span class="line">request.args  <span class="comment"># 存放URL中的数据</span></span><br><span class="line">request.path  <span class="comment"># 路由地址</span></span><br><span class="line">request.host  <span class="comment"># 主机地址</span></span><br><span class="line">request.host_url  <span class="comment"># 加 http 的主机地址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">先提交的是 POST，先序列化，然后GET，再序列化，</span><br></pre></td></tr></table></figure>
+<h4 id="flask中的request"><a href="#flask中的request" class="headerlink" title="flask中的request"></a>flask中的request</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/login&quot;</span>, methods=[<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;login.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line">request.method <span class="comment"># 请求方式</span></span><br><span class="line">request.form  <span class="comment"># 存放 FormData 中的数据</span></span><br><span class="line">request.args  <span class="comment"># 存放URL中的数据</span></span><br><span class="line">request.path  <span class="comment"># 路由地址</span></span><br><span class="line">request.host  <span class="comment"># 主机地址</span></span><br><span class="line">request.host_url  <span class="comment"># 加 http 的主机地址</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">先提交的是 POST，先序列化，然后GET，再序列化，</span><br></pre></td></tr></table></figure>
+
 <p><code>.headers</code>  请求头信息</p>
 <blockquote>
-<p>Host: 127.0.0.1:5000<br />
-Connection: keep-alive<br />
-Cache-Control: max-age=0<br />
-Upgrade-Insecure-Requests: 1<br />
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36<br />
-Sec-Fetch-Mode: navigate<br />
-Sec-Fetch-User: ?1<br />
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,<em>/</em>;q=0.8,application/signed-exchange;v=b3<br />
-Sec-Fetch-Site: none<br />
-Accept-Encoding: gzip, deflate, br<br />
-Accept-Language: zh-CN,zh;q=0.9<br />
-Cookie: csrftoken=a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI; sessionid=7ftfeserhzki55h74um33j51lo410lj0</p>
+<p>Host: 127.0.0.1:5000<br>Connection: keep-alive<br>Cache-Control: max-age&#x3D;0<br>Upgrade-Insecure-Requests: 1<br>User-Agent: Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;76.0.3809.132 Safari&#x2F;537.36<br>Sec-Fetch-Mode: navigate<br>Sec-Fetch-User: ?1<br>Accept: text&#x2F;html,application&#x2F;xhtml+xml,application&#x2F;xml;q&#x3D;0.9,image&#x2F;webp,image&#x2F;apng,<em>&#x2F;</em>;q&#x3D;0.8,application&#x2F;signed-exchange;v&#x3D;b3<br>Sec-Fetch-Site: none<br>Accept-Encoding: gzip, deflate, br<br>Accept-Language: zh-CN,zh;q&#x3D;0.9<br>Cookie: csrftoken&#x3D;a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI; sessionid&#x3D;7ftfeserhzki55h74um33j51lo410lj0</p>
 </blockquote>
 <p><code>.</code></p>
 <blockquote>
-<p>request.path------ /login<br />
-request.data------ b’’<br />
-request.url------- <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMTo1MDAwL2xvZ2lu">http://127.0.0.1:5000/login<i class="fa fa-external-link-alt"></i></span><br />
-request.values---- CombinedMultiDict([ImmutableMultiDict([]), ImmutableMultiDict([])])<br />
-request.range----- None<br />
-request.user_agent----- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36<br />
-request.args------ ImmutableMultiDict([])<br />
-request.json------ None<br />
-request.form------ ImmutableMultiDict([])<br />
-request.authorization------ None<br />
-request.access_route------- ImmutableList([‘127.0.0.1’])<br />
-request.cookies------ {‘csrftoken’: ‘a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI’, ‘sessionid’: ‘7ftfeserhzki55h74um33j51lo410lj0’}<br />
-request.accept_encodings------ gzip,deflate,br<br />
-request.accept_languages------ zh-CN,zh;q=0.9<br />
-request.accept_mimetypes------ text/html,image/webp,image/apng,application/xhtml+xml,application/signed-exchange;v=b3,application/xml;q=0.9,<em>/</em>;q=0.8<br />
-request.content_length------ None<br />
-request.accept_charsets-----<br />
-request.files----- ImmutableMultiDict([])<br />
-request.blueprint---- None</p>
+<p>request.path—— &#x2F;login<br>request.data—— b’’<br>request.url——- <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMTo1MDAwL2xvZ2lu">http://127.0.0.1:5000/login<i class="fa fa-external-link-alt"></i></span><br>request.values—- CombinedMultiDict([ImmutableMultiDict([]), ImmutableMultiDict([])])<br>request.range—– None<br>request.user_agent—– Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;76.0.3809.132 Safari&#x2F;537.36<br>request.args—— ImmutableMultiDict([])<br>request.json—— None<br>request.form—— ImmutableMultiDict([])<br>request.authorization—— None<br>request.access_route——- ImmutableList([‘127.0.0.1’])<br>request.cookies—— {‘csrftoken’: ‘a4HVpqpS12F8eRZch58n2ToMJeCerukhbRuy20MKB3cLZTwok8gs8um9PoDkbFhI’, ‘sessionid’: ‘7ftfeserhzki55h74um33j51lo410lj0’}<br>request.accept_encodings—— gzip,deflate,br<br>request.accept_languages—— zh-CN,zh;q&#x3D;0.9<br>request.accept_mimetypes—— text&#x2F;html,image&#x2F;webp,image&#x2F;apng,application&#x2F;xhtml+xml,application&#x2F;signed-exchange;v&#x3D;b3,application&#x2F;xml;q&#x3D;0.9,<em>&#x2F;</em>;q&#x3D;0.8<br>request.content_length—— None<br>request.accept_charsets—–<br>request.files—– ImmutableMultiDict([])<br>request.blueprint—- None</p>
 </blockquote>
-<h4 id="jinja2"><a class="markdownIt-Anchor" href="#jinja2"></a> Jinja2</h4>
-<p><code>&#123;&#123; &#125;&#125;</code> 引用变量</p>
-<p>`</p>
+<h4 id="Jinja2"><a href="#Jinja2" class="headerlink" title="Jinja2"></a>Jinja2</h4><p><code>&#123;&#123; &#125;&#125;</code> 引用变量</p>
+<p>&#96;</p>
 
     </div>
 

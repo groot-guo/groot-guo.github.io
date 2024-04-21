@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text"> 微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%9F%BA%E6%9C%AC%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.</span> <span class="nav-text"> 微服务基本策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7-fallback"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 降级 (Fallback)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.2.</span> <span class="nav-text"> 使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.1.3.</span> <span class="nav-text"> 降级过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%86%94%E6%96%AD-circuit-breaker"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 熔断 (Circuit Breaker)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-number">1.1.2.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="nav-number">1.1.2.2.</span> <span class="nav-text"> 使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%86%94%E6%96%AD%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.3.</span> <span class="nav-text"> 熔断过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E6%B5%81-rate-limiting"><span class="nav-number">1.1.3.</span> <span class="nav-text"> 限流 (Rate Limiting)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-3"><span class="nav-number">1.1.3.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-3"><span class="nav-number">1.1.3.2.</span> <span class="nav-text"> 使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.3.3.</span> <span class="nav-text"> 限流过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">1.2.</span> <span class="nav-text"> 注册中心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 什么是注册中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%88%86%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 注册中心分发过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> 1.服务注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-number">1.2.2.2.</span> <span class="nav-text"> 2. 服务发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text"> 3. 负载均衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E5%88%86%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.4.</span> <span class="nav-text"> 4.分发过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%8A%A8%E6%80%81%E6%9B%B4%E6%96%B0"><span class="nav-number">1.2.2.5.</span> <span class="nav-text"> 5. 动态更新</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%9F%BA%E6%9C%AC%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.</span> <span class="nav-text">微服务基本策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7-Fallback"><span class="nav-number">1.1.1.</span> <span class="nav-text">降级 (Fallback)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">降级过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%86%94%E6%96%AD-Circuit-Breaker"><span class="nav-number">1.1.2.</span> <span class="nav-text">熔断 (Circuit Breaker)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%86%94%E6%96%AD%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">熔断过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E6%B5%81-Rate-Limiting"><span class="nav-number">1.1.3.</span> <span class="nav-text">限流 (Rate Limiting)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">限流过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">1.2.</span> <span class="nav-text">注册中心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是注册中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%88%86%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">注册中心分发过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">1.服务注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2. 服务发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">3. 负载均衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%88%86%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">4.分发过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%8A%A8%E6%80%81%E6%9B%B4%E6%96%B0"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">5. 动态更新</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -286,21 +286,15 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="微服务"><a class="markdownIt-Anchor" href="#微服务"></a> 微服务</h1>
-<h2 id="微服务基本策略"><a class="markdownIt-Anchor" href="#微服务基本策略"></a> 微服务基本策略</h2>
-<h3 id="降级-fallback"><a class="markdownIt-Anchor" href="#降级-fallback"></a> 降级 (Fallback)</h3>
-<h4 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h4>
-<blockquote>
+    <div class="post-body" itemprop="articleBody"><h1 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h1><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
 <p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
 </blockquote>
-<h4 id="使用方法"><a class="markdownIt-Anchor" href="#使用方法"></a> 使用方法</h4>
-<ul>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
 <li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
 <li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
 <li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
 </ul>
-<h4 id="降级过程"><a class="markdownIt-Anchor" href="#降级过程"></a> 降级过程</h4>
-<p><strong>配置阶段</strong>：</p>
+<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
 <ul>
 <li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
 </ul>
@@ -318,19 +312,15 @@
 <ul>
 <li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
 </ul>
-<h3 id="熔断-circuit-breaker"><a class="markdownIt-Anchor" href="#熔断-circuit-breaker"></a> 熔断 (Circuit Breaker)</h3>
-<h4 id="原理-2"><a class="markdownIt-Anchor" href="#原理-2"></a> 原理</h4>
-<blockquote>
+<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
 <p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
 </blockquote>
-<h4 id="使用方法-2"><a class="markdownIt-Anchor" href="#使用方法-2"></a> 使用方法</h4>
-<ul>
+<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
 <li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
 <li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
 <li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
 </ul>
-<h4 id="熔断过程"><a class="markdownIt-Anchor" href="#熔断过程"></a> 熔断过程</h4>
-<p><strong>配置阶段</strong>：</p>
+<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
 <ul>
 <li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
 </ul>
@@ -349,19 +339,15 @@
 <li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
 <li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
 </ul>
-<h3 id="限流-rate-limiting"><a class="markdownIt-Anchor" href="#限流-rate-limiting"></a> 限流 (Rate Limiting)</h3>
-<h4 id="原理-3"><a class="markdownIt-Anchor" href="#原理-3"></a> 原理</h4>
-<blockquote>
-<p>限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
 </blockquote>
-<h4 id="使用方法-3"><a class="markdownIt-Anchor" href="#使用方法-3"></a> 使用方法</h4>
-<ul>
+<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
 <li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
 <li>使用不同的限流算法，如令牌桶、漏桶等。</li>
 <li>开发者可以针对不同服务或API设置不同的限流策略。</li>
 </ul>
-<h4 id="限流过程"><a class="markdownIt-Anchor" href="#限流过程"></a> 限流过程</h4>
-<p><strong>配置阶段</strong>：</p>
+<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
 <ul>
 <li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
 </ul>
@@ -379,37 +365,29 @@
 <ul>
 <li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
 </ul>
-<h2 id="注册中心"><a class="markdownIt-Anchor" href="#注册中心"></a> 注册中心</h2>
-<h3 id="什么是注册中心"><a class="markdownIt-Anchor" href="#什么是注册中心"></a> 什么是注册中心</h3>
-<h3 id="注册中心分发过程"><a class="markdownIt-Anchor" href="#注册中心分发过程"></a> 注册中心分发过程</h3>
-<h4 id="1服务注册"><a class="markdownIt-Anchor" href="#1服务注册"></a> 1.服务注册</h4>
-<ul>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
 <li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
 <li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
 </ul>
-<h4 id="2-服务发现"><a class="markdownIt-Anchor" href="#2-服务发现"></a> 2. 服务发现</h4>
-<ul>
+<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
 <li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
 <li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
 </ul>
-<h4 id="3-负载均衡"><a class="markdownIt-Anchor" href="#3-负载均衡"></a> 3. 负载均衡</h4>
-<p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
 <ul>
 <li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
 <li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
 <li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
 <li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
 </ul>
-<h4 id="4分发过程"><a class="markdownIt-Anchor" href="#4分发过程"></a> 4.分发过程</h4>
-<p>以下是注册中心分发请求的具体步骤：</p>
+<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
 <ul>
 <li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
 <li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
 <li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
 <li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
 </ul>
-<h4 id="5-动态更新"><a class="markdownIt-Anchor" href="#5-动态更新"></a> 5. 动态更新</h4>
-<ul>
+<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
 <li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
 <li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
 </ul>

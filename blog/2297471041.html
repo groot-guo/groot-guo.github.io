@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.2.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#scrapy"><span class="nav-number">1.</span> <span class="nav-text"> Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 同步与异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8-scrapy"><span class="nav-number">1.0.2.</span> <span class="nav-text"> 初次使用 scrapy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.0.3.</span> <span class="nav-text"> 项目说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log%E6%97%A5%E5%BF%97"><span class="nav-number">1.0.4.</span> <span class="nav-text"> log日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pymysql"><span class="nav-number">1.0.5.</span> <span class="nav-text"> pymysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scrapy-redis-%E5%8E%9F%E7%90%86"><span class="nav-number">1.0.6.</span> <span class="nav-text"> scrapy-redis 原理</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scrapy"><span class="nav-number">1.</span> <span class="nav-text">Scrapy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5"><span class="nav-number">1.0.1.</span> <span class="nav-text">同步与异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E4%BD%BF%E7%94%A8-scrapy"><span class="nav-number">1.0.2.</span> <span class="nav-text">初次使用 scrapy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.0.3.</span> <span class="nav-text">项目说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log%E6%97%A5%E5%BF%97"><span class="nav-number">1.0.4.</span> <span class="nav-text">log日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pymysql"><span class="nav-number">1.0.5.</span> <span class="nav-text">pymysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scrapy-redis-%E5%8E%9F%E7%90%86"><span class="nav-number">1.0.6.</span> <span class="nav-text">scrapy-redis 原理</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -279,10 +279,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="scrapy"><a class="markdownIt-Anchor" href="#scrapy"></a> Scrapy</h1>
-<p>scrapy 框架，异步爬虫框架。</p>
-<h3 id="同步与异步"><a class="markdownIt-Anchor" href="#同步与异步"></a> 同步与异步</h3>
-<p>同步：下一个方法依赖上一个方法，上一个没执行完，则下一个不会执行。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h1><p>scrapy 框架，异步爬虫框架。</p>
+<h3 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h3><p>同步：下一个方法依赖上一个方法，上一个没执行完，则下一个不会执行。</p>
 <p>异步：下一个方法不依赖上一个方法，上一个没执行完，下一个依旧会执行。</p>
 <p>组成：Pipeline  、Scheduler、Downloader、Spiders。以及Scrapy Engine 引擎（队列）</p>
 <p>中间件：Spider Middlewares、Downloader Middlewares</p>
@@ -293,95 +291,105 @@
 <p>Scrapy Engine 引擎控制整个运转</p>
 <p>spider middlewares 一般不用，爬虫将请求交给调度器时，进行处理。</p>
 <p>Downloader Middlewares  加入请求头，加入代理 ip</p>
-<h3 id="初次使用-scrapy"><a class="markdownIt-Anchor" href="#初次使用-scrapy"></a> 初次使用 scrapy</h3>
-<p>安装 scrapy</p>
+<h3 id="初次使用-scrapy"><a href="#初次使用-scrapy" class="headerlink" title="初次使用 scrapy"></a>初次使用 scrapy</h3><p>安装 scrapy</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scrapy</span><br></pre></td></tr></table></figure>
+
 <p>创建项目</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建项目</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; scrapy startproject  项目名字</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; <span class="built_in">cd</span>   项目名字</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建爬虫文件</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; scrapy genspider  爬虫名字  <span class="string">&quot;host 地址&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行爬虫文件</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; scrapy crawl  爬虫名字</span></span><br></pre></td></tr></table></figure>
+
 <p>常用配置</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Settings中的常用配置： </span><br><span class="line">	USER_AGENT = <span class="string">&quot;&quot;</span> <span class="comment"># User-Agent </span></span><br><span class="line">	ROBOTSTXT_OBEY = <span class="literal">True</span>|<span class="literal">False</span> <span class="comment"># 是否遵守机器人协议 </span></span><br><span class="line">	DEFAULT_REQUEST_HEADERS = &#123;&#125; <span class="comment"># 默认Headers </span></span><br><span class="line">	CONCURRENT_REQUESTS = <span class="number">16</span> <span class="comment"># 下载器最大处理的请求数 </span></span><br><span class="line">	DOWNLOAD_DELAY = <span class="number">3</span> <span class="comment"># 下载延时 </span></span><br><span class="line">	SPIDER_MIDDLEWARES <span class="comment"># Spider中间件 </span></span><br><span class="line">	DOWNLOADER_MIDDLEWARES <span class="comment"># Downloader中间件 </span></span><br><span class="line">	ITEM_PIPELINES <span class="comment"># 管道文件</span></span><br></pre></td></tr></table></figure>
+
 <p>创建文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; scrapy genspider s1 <span class="string">&quot;blog.csdn.net&quot;</span></span></span><br></pre></td></tr></table></figure>
+
 <p>创建好的爬虫文件</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">S1Spider</span>(scrapy.Spider):</span><br><span class="line">    <span class="comment"># 爬虫名字</span></span><br><span class="line">    name = <span class="string">&#x27;s1&#x27;</span></span><br><span class="line">    <span class="comment"># 如果 url 地址的 host 不属于 allowed_domains, 则过滤掉给请求</span></span><br><span class="line">    allowed_domains = [<span class="string">&#x27;blog.csdn.net&#x27;</span>]</span><br><span class="line">    <span class="comment"># 项目启动时，访问的 url 地址</span></span><br><span class="line">    start_urls = [<span class="string">&#x27;http://blog.csdn.net/&#x27;</span>]</span><br><span class="line">	</span><br><span class="line">    <span class="comment"># 访问start_urls, 得到响应后调用的方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self, response</span>):  <span class="comment"># reponse 为响应对象</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">  	</span><br></pre></td></tr></table></figure>
+
 <p>下面方法执行相当于 start_urls ,但是可以跳过限定的请求头</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">start_requests</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">yield</span> scrapy.Request(				 <span class="comment"># 向调度器发送一个 Request 对象</span></span><br><span class="line">    	url = <span class="string">&#x27;http://edu.csdn.net&#x27;</span>,      <span class="comment"># 请求地址，默认 GET 方式</span></span><br><span class="line">        callback = self.parse2  		  <span class="comment"># 得到响应后， 调用的函数 </span></span><br><span class="line">    	)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse2</span>(<span class="params">self, respones</span>):				 <span class="comment"># 得到响应后， 调用的函数</span></span><br><span class="line">    <span class="built_in">print</span>(response.body)				<span class="comment"># 得到字节类型的数据</span></span><br></pre></td></tr></table></figure>
+
 <p>爬取网页时，一般默认机器人设置为 False</p>
 <p>加入请求头</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在这个中间件中添加</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Scrapy01DownloaderMiddleware</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># Not all methods need to be defined. If a method is not defined,</span></span><br><span class="line">    <span class="comment"># scrapy acts as if the downloader middleware does not modify the</span></span><br><span class="line">    <span class="comment"># passed objects.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request, spider</span>):</span><br><span class="line">        request.headers = Headers(</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&#x27;User-Agent&#x27;</span>: user_agent.get_user_agent_pc()</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Called for each request that goes through the downloader</span></span><br><span class="line">        <span class="comment"># middleware.</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Must either:</span></span><br><span class="line">        <span class="comment"># - return None: continue processing this request</span></span><br><span class="line">        <span class="comment"># - or return a Response object</span></span><br><span class="line">        <span class="comment"># - or return a Request object</span></span><br><span class="line">        <span class="comment"># - or raise IgnoreRequest: process_exception() methods of</span></span><br><span class="line">        <span class="comment">#   installed downloader middleware will be called</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
 <p>开启这个中间件</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py 在这个中间件取消注释</span></span><br><span class="line"></span><br><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">   <span class="string">&#x27;scrapy01.middlewares.Scrapy01DownloaderMiddleware&#x27;</span>: <span class="number">543</span>, <span class="comment"># 数字表示优先级，越小越高 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>加入代理 Ip</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request, spider</span>):</span><br><span class="line">        request.headers = Headers(</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&#x27;User-Agent&#x27;</span>: user_agent.get_user_agent_pc()</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line">        request.meta[<span class="string">&#x27;proxy&#x27;</span>] = <span class="string">&#x27;http://IP:PORT&#x27;</span> + ur.urlopen(<span class="string">&quot;代理 ip 接口&quot;</span>).read().decode(<span class="string">&#x27;utf-8&#x27;</span>).strip()</span><br></pre></td></tr></table></figure>
-<p>为了方便我们使用，可以增加一个 <span class="exturl" data-url="aHR0cDovL3N0YXJ0LnB5">start.py<i class="fa fa-external-link-alt"></i></span></p>
+
+<p>为了方便我们使用，可以增加一个 start.py</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line"></span><br><span class="line">cmdline.execute(<span class="string">&#x27;scrapy crawl s1&#x27;</span>.split())</span><br></pre></td></tr></table></figure>
+
 <p>保存文件，修改文件如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">parse2</span>(<span class="params">self, response</span>):</span><br><span class="line">      <span class="comment"># print(&quot;--&quot; * 30)</span></span><br><span class="line">      <span class="comment"># print(response.body.decode(&#x27;utf-8&#x27;))</span></span><br><span class="line">      <span class="comment"># print(&quot;--&quot; * 30)</span></span><br><span class="line">      data = response.body.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">      item = &#123;&#125;</span><br><span class="line">      item[<span class="string">&#x27;data&#x27;</span>] = data</span><br><span class="line">      <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+
 <p>在 setting 中</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启管道文件，settings.py 中</span></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">&#x27;scrapy01.pipelines.Scrapy01Pipeline&#x27;</span>: <span class="number">300</span>, <span class="comment"># 数字越小优先级越高， </span></span><br><span class="line">   <span class="string">&#x27;scrapy01.pipelines.Scrapy01Pipeline&#x27;</span>: <span class="number">300</span>, <span class="comment"># 如果再加入一个，那么会将文件交给下一个管道文件处理</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="项目说明"><a class="markdownIt-Anchor" href="#项目说明"></a> 项目说明</h3>
-<table>
+
+
+
+<h3 id="项目说明"><a href="#项目说明" class="headerlink" title="项目说明"></a>项目说明</h3><table>
 <thead>
 <tr>
-<th style="text-align:left">关键字</th>
-<th style="text-align:left">说明</th>
+<th align="left">关键字</th>
+<th align="left">说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:left">projectcode</td>
-<td style="text-align:left">项目编号</td>
+<tbody><tr>
+<td align="left">projectcode</td>
+<td align="left">项目编号</td>
 </tr>
 <tr>
-<td style="text-align:left">web</td>
-<td style="text-align:left">信息来源网站（例如：必联网）</td>
+<td align="left">web</td>
+<td align="left">信息来源网站（例如：必联网）</td>
 </tr>
 <tr>
-<td style="text-align:left">keyword</td>
-<td style="text-align:left">关键字</td>
+<td align="left">keyword</td>
+<td align="left">关键字</td>
 </tr>
 <tr>
-<td style="text-align:left">detail_url</td>
-<td style="text-align:left">招标详细页网址</td>
+<td align="left">detail_url</td>
+<td align="left">招标详细页网址</td>
 </tr>
 <tr>
-<td style="text-align:left">title</td>
-<td style="text-align:left">第三方网站发布标题</td>
+<td align="left">title</td>
+<td align="left">第三方网站发布标题</td>
 </tr>
 <tr>
-<td style="text-align:left">toptype</td>
-<td style="text-align:left">信息类型</td>
+<td align="left">toptype</td>
+<td align="left">信息类型</td>
 </tr>
 <tr>
-<td style="text-align:left">province</td>
-<td style="text-align:left">归属省份</td>
+<td align="left">province</td>
+<td align="left">归属省份</td>
 </tr>
 <tr>
-<td style="text-align:left">product</td>
-<td style="text-align:left">产品范畴</td>
+<td align="left">product</td>
+<td align="left">产品范畴</td>
 </tr>
 <tr>
-<td style="text-align:left">industry</td>
-<td style="text-align:left">归属行业</td>
+<td align="left">industry</td>
+<td align="left">归属行业</td>
 </tr>
 <tr>
-<td style="text-align:left">tendering_manner</td>
-<td style="text-align:left">招标方式</td>
+<td align="left">tendering_manner</td>
+<td align="left">招标方式</td>
 </tr>
 <tr>
-<td style="text-align:left">publicity_date</td>
-<td style="text-align:left">招标公示日期</td>
+<td align="left">publicity_date</td>
+<td align="left">招标公示日期</td>
 </tr>
 <tr>
-<td style="text-align:left">expiry_date</td>
-<td style="text-align:left">招标截止日期</td>
+<td align="left">expiry_date</td>
+<td align="left">招标截止日期</td>
 </tr>
-</tbody>
-</table>
-<h3 id="log日志"><a class="markdownIt-Anchor" href="#log日志"></a> log日志</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOG_FILE = <span class="string">&quot;日志文件地址&quot;</span></span><br><span class="line">LOG_LEVEL = <span class="string">&quot;日志级别&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志级别：</span></span><br><span class="line">	CRITICAL  严重错误 (critical)</span><br><span class="line">	ERROR     一般错误(regular errors)</span><br><span class="line">    WARNING   警告信息(warning messages)</span><br><span class="line">    INFO      一般信息(informational messages)</span><br><span class="line">    DEBUG    调式信息 (debugging messages)</span><br></pre></td></tr></table></figure>
-<h3 id="pymysql"><a class="markdownIt-Anchor" href="#pymysql"></a> pymysql</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line">mysql_conn = pymysql.Connection(</span><br><span class="line">		host=<span class="string">&#x27;localhost&#x27;</span>,  <span class="comment"># 主机地址</span></span><br><span class="line">    	port=<span class="number">3306</span>,         <span class="comment"># 端口号</span></span><br><span class="line">    	user=<span class="string">&#x27;root&#x27;</span>,       <span class="comment"># 登录用户</span></span><br><span class="line">    	password=<span class="string">&quot;&quot;</span>,       <span class="comment"># 登录密码</span></span><br><span class="line">    	database=<span class="string">&#x27;连接数据库名字&#x27;</span>,</span><br><span class="line">    	charset=<span class="string">&#x27;utf8&#x27;</span>,    <span class="comment"># utf-8 得编码</span></span><br><span class="line">	)</span><br><span class="line"><span class="comment"># 创建光标对象</span></span><br><span class="line">cs = mysql_conn.cursor()</span><br><span class="line"><span class="comment"># 定义要执行得SQL 语句</span></span><br><span class="line">cs.execute(<span class="string">&#x27;SQL&#x27;</span>)</span><br><span class="line">mysql_conn.commit()</span><br></pre></td></tr></table></figure>
+</tbody></table>
+<h3 id="log日志"><a href="#log日志" class="headerlink" title="log日志"></a>log日志</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LOG_FILE = <span class="string">&quot;日志文件地址&quot;</span></span><br><span class="line">LOG_LEVEL = <span class="string">&quot;日志级别&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志级别：</span></span><br><span class="line">	CRITICAL  严重错误 (critical)</span><br><span class="line">	ERROR     一般错误(regular errors)</span><br><span class="line">    WARNING   警告信息(warning messages)</span><br><span class="line">    INFO      一般信息(informational messages)</span><br><span class="line">    DEBUG    调式信息 (debugging messages)</span><br></pre></td></tr></table></figure>
+
+<h3 id="pymysql"><a href="#pymysql" class="headerlink" title="pymysql"></a>pymysql</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line">mysql_conn = pymysql.Connection(</span><br><span class="line">		host=<span class="string">&#x27;localhost&#x27;</span>,  <span class="comment"># 主机地址</span></span><br><span class="line">    	port=<span class="number">3306</span>,         <span class="comment"># 端口号</span></span><br><span class="line">    	user=<span class="string">&#x27;root&#x27;</span>,       <span class="comment"># 登录用户</span></span><br><span class="line">    	password=<span class="string">&quot;&quot;</span>,       <span class="comment"># 登录密码</span></span><br><span class="line">    	database=<span class="string">&#x27;连接数据库名字&#x27;</span>,</span><br><span class="line">    	charset=<span class="string">&#x27;utf8&#x27;</span>,    <span class="comment"># utf-8 得编码</span></span><br><span class="line">	)</span><br><span class="line"><span class="comment"># 创建光标对象</span></span><br><span class="line">cs = mysql_conn.cursor()</span><br><span class="line"><span class="comment"># 定义要执行得SQL 语句</span></span><br><span class="line">cs.execute(<span class="string">&#x27;SQL&#x27;</span>)</span><br><span class="line">mysql_conn.commit()</span><br></pre></td></tr></table></figure>
+
 <p>Redis的数据库结构</p>
 <p>Redis 中有16个数据库</p>
 <p>select [ index ] 切换数据库</p>
@@ -392,8 +400,7 @@
 <th>表示</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>字符串（数字属于特殊的字符串）</td>
 <td>String</td>
 </tr>
@@ -413,8 +420,7 @@
 <td>有序集合</td>
 <td>Zset</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>键的操作：</p>
 <table>
 <thead>
@@ -423,8 +429,7 @@
 <th>命令</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>查找</td>
 <td>keys [ pattern ]</td>
 </tr>
@@ -440,11 +445,10 @@
 <td>查看键的类型</td>
 <td>type [ key ]</td>
 </tr>
-</tbody>
-</table>
-<h3 id="scrapy-redis-原理"><a class="markdownIt-Anchor" href="#scrapy-redis-原理"></a> scrapy-redis 原理</h3>
-<p>将调度器和</p>
+</tbody></table>
+<h3 id="scrapy-redis-原理"><a href="#scrapy-redis-原理" class="headerlink" title="scrapy-redis 原理"></a>scrapy-redis 原理</h3><p>将调度器和</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动Scrapy-Redis去重过滤器，取消Scrapy的去重功能 </span></span><br><span class="line">DUPEFILTER_CLASS = <span class="string">&quot;scrapy_redis.dupefilter.RFPDupeFilter&quot;</span> </span><br><span class="line"><span class="comment"># 启用Scrapy-Redis的调度器，取消Scrapy的调度器 </span></span><br><span class="line">SCHEDULER = <span class="string">&quot;scrapy_redis.scheduler.Scheduler&quot;</span> </span><br><span class="line"><span class="comment"># Scrapy-Redis断点续爬 </span></span><br><span class="line">SCHEDULER_PERSIST = <span class="literal">True</span> </span><br><span class="line"><span class="comment"># 配置Redis数据库的连接 </span></span><br><span class="line">REDIS_URL = <span class="string">&#x27;redis://127.0.0.1:6379&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -466,8 +470,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/blog/3632233996.html" rel="next" title="test">
-                  test <i class="fa fa-angle-right"></i>
+                <a href="/blog/1397632726.html" rel="next" title="mysql 简单入门">
+                  mysql 简单入门 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
