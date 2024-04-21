@@ -1,11 +1,11 @@
 # Dockerfile 示例
 
 # 第一部分：基础镜像信息
-FROM node:21 AS builder
+FROM node:18 AS builder
 # 例如：FROM ubuntu:22.04 或 FROM python:3.10-slim-buster
 
 # 第二部分：维护者信息（可选）
-LABEL maintainer="genyuan.guo@qq.com"
+# LABEL 
 
 # 第三部分：环境变量设置
 # ENV <环境变量名>=<值>

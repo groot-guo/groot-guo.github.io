@@ -1,7 +1,7 @@
 services:
   web:
     build: #如果需要基于 Dockerfile 构建镜像，可以指定 build: . （其中.表示当前目录下Dockerfile），也可以指定构建上下文目录和其它构建参数。
-      context: . 
+      context: ../.docker
       target: builder
     restart: always
     container_name: blog-app
