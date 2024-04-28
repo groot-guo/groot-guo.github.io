@@ -6,7 +6,7 @@ date: 2020-03-15 00:00:00
 updated: 2020-03-15 00:00:00
 ---
 
-# 网络编程
+## 网络编程
 
 ### BS架构
 
@@ -115,7 +115,7 @@ res = subprocess.Popen('dir', shell=True,
 print(res.stdout.read().decode('gbk'))
 ```
 
-# 并发和并行
+## 并发和并行
 
 并发，伪，由于执行速度特别快，人感觉不到停顿
 

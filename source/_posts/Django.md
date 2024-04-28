@@ -7,7 +7,7 @@ date: 2019-11-16 00:00:00
 updated: 2019-11-16 00:00:00
 ---
 
-# Django
+## Django
 
 项目与应用的关系
 
@@ -361,7 +361,7 @@ middleware
 
 钩子的应用
 
-# CRM
+## CRM
 
 ### 表结构
 
@@ -387,7 +387,7 @@ createsuperuser
 
 
 
-# PEP8规范
+## PEP8规范
 
 PEP8规范时约束我们在书写 python 时的一种代码规范，在此罗列出一些常用的规范。详细可以区查看官网具体定义。[PEP8规范](https://www.python.org/dev/peps/pep-0008/)
 

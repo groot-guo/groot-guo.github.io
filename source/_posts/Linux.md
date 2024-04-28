@@ -7,7 +7,7 @@ date: 2019-11-22 00:00:00
 updated: 2019-11-22 00:00:00
 ---
 
-# Linux
+## Linux
 
 redhat 发行版，收费版的Linux
 

@@ -1,14 +1,12 @@
 ---
 layout: _post
-title: Golang-基础
+title: Golang 数据结构与关键字
 date: 2020-10-21 10:04:25
 updated: 2020-10-21 10:04:25
 tags: 笔记
 categories: Golang
-abbrlink:
+abbrlink: ca04d71e1
 ---
-
-# Golang 数据结构与关键字
 
 ## 数据结构
 
