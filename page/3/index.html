@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -204,91 +204,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/Node-Js/4fc23aae.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.PNG">
-      <meta itemprop="name" content="Groot">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Groot 博客">
-      <meta itemprop="description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Groot 博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/blog/Node-Js/4fc23aae.html" class="post-title-link" itemprop="url">node js 基础</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-09-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-10T00:00:00+08:00">2019-09-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Node-Js/" itemprop="url" rel="index"><span itemprop="name">Node Js</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>初步了解node，做一些后端的简单实践</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/Node-Js/4fc23aae.html">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -349,10 +264,30 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Redis 了解、安装、常见使用场景练习</p>
+          <h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
+<li>Redis 和 memcached 区别？</li>
+</ul>
+<p>对比 Memcache的共同点：</p>
+<ol>
+<li>redis 是缓存到内存中，</li>
+<li>属于 key - value</li>
+</ol>
+<p>不同的;</p>
+<ol>
+<li>redis 可以做持久化（将数据保存磁盘上）</li>
+<li>支持更丰富的数据类型，value 可以是字符串，链表，哈希，memcache只支持字符串</li>
+</ol>
+<ul>
+<li>如何高效的找到redis中所有以oldboy开头的key</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么是一致性哈希</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/Redis/1738e583.html">
+              <a class="btn" href="/blog/Redis/1738e583.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -434,10 +369,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>利用 Python 做web 开发，爬虫，认识ptyhon 的不同。</p>
+          <h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><h2 id="Python第一天"><a href="#Python第一天" class="headerlink" title="Python第一天"></a>Python第一天</h2><h3 id="初识编码"><a href="#初识编码" class="headerlink" title="初识编码"></a>初识编码</h3><ul>
+<li>Python2默认英文编码    	Ascii  	英文，8位表示一个信息，2^8</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line">//输入编码格式python2中需要输入</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Unicode   万国码，32位表示一个东西，2^32</li>
+<li>Python3默认UTF-8    UTF-8  给Unicode压缩</li>
+</ul>
+<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><ul>
+<li>编写文件时，保存文件要用UTF-8格式，</li>
+<li>以什么格式保存就用什么格式读取</li>
+<li>win10 中可以更改 cmd 编码 <code>chcp 65001</code></li>
+</ul>
+<h4 id="解释器"><a href="#解释器" class="headerlink" title="解释器"></a>解释器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- conding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;你好&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行：解释器 文件路径</p>
+<p>在linux上右一种特殊的执行方法</p>
+<ul>
+<li>给文件赋予一个可执行的权限</li>
+<li>.&#x2F;a.py 自动去找文件的第一行 &#x3D; &#x2F;usr&#x2F;bin&#x2F;env&#x2F;python a.py</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/Python/5b415ee.html">
+              <a class="btn" href="/blog/Python/5b415ee.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -519,10 +475,21 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>利用 PHP 做web 开发，初步了解 php</p>
+          <h1 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h1><h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&#x27;hell php!&#x27;</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果遇到字符串输出</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&quot;sdfa&quot;</span>; <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="number">12</span>*<span class="number">3</span>;<span class="meta">?&gt;</span> <span class="comment">/*数字运算*/</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：输出，一定以  <code>;</code> 间隔</p>
+<p>安装 wamp 集合控软件</p>
+<p>修改 wamp 路径</p>
+<p>找到 wampmanager.ini 和 .tpl 文件</p>
+<p>查找 menu.left</p>
+<p>修改 www目录为项目目录路径</p>
+<p>修改 ${w_wwwDirectory} 变为项目路径</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/PHP/442c7832.html">
+              <a class="btn" href="/blog/PHP/442c7832.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -604,10 +571,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>css 样式了解，初步认识</p>
+          <h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><h2 id="引入CSS样式表"><a href="#引入CSS样式表" class="headerlink" title="引入CSS样式表"></a>引入CSS样式表</h2><h3 id="内部样式表"><a href="#内部样式表" class="headerlink" title="内部样式表"></a>内部样式表</h3><p>内嵌式式在HTML内部书写放在<head>中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span></span><br><span class="line">        .div&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="行内式（内联样式）"><a href="#行内式（内联样式）" class="headerlink" title="行内式（内联样式）"></a>行内式（内联样式）</h3><p>内样式，行间样式，内嵌样式。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签名</span> <span class="attr">style</span>=<span class="string">&quot;属性：属性值&quot;</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">标签名</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="外部样式表（外链式）"><a href="#外部样式表（外链式）" class="headerlink" title="外部样式表（外链式）"></a>外部样式表（外链式）</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;css文件路径&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>href：定义所链接外部样式表文件的URL，可以是相对路径，也可以是绝对路径。<br>type：定义所链接文档的类型，在这里需要指定为“text&#x2F;CSS”，表示链接的外部文件为CSS样式表。<br>rel：定义当前文档与被链接文档之间的关系，在这里需要指定为“stylesheet”，表示被链接的文档是一个样式表文件。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/df349d7d.html">
+              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/df349d7d.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -689,10 +664,44 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>vue 初识了解</p>
+          <h1 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h1><h2 id="单页面应用程序"><a href="#单页面应用程序" class="headerlink" title="单页面应用程序"></a>单页面应用程序</h2><blockquote>
+<p>Single Page Application</p>
+<p>简称 SPA</p>
+</blockquote>
+<h3 id="网站交互方式"><a href="#网站交互方式" class="headerlink" title="网站交互方式"></a>网站交互方式</h3><ul>
+<li>经典的多页面<ul>
+<li>前后端糅合在一起，开发效率低</li>
+<li>用户体验一般，点击刷新跳转，等待时间过长</li>
+<li>每个页面都要重新加载</li>
+<li>有利于 SEO 搜索引擎搜索（蜘蛛会爬链接）</li>
+</ul>
+</li>
+<li>现代式的单页面<ul>
+<li>开发方式好： 前后端分离<ul>
+<li>服务端不关心页面，只关心数据</li>
+<li>客户端不关心数据库及操作，只关心通过接口拿数据和服务端交互，处理页面</li>
+</ul>
+</li>
+<li>用户体验好，像客户端</li>
+<li>只需要加载渲染局部视图</li>
+<li>单页面应用开发技术复杂，所以有很多框架<ul>
+<li>AngularJS</li>
+<li>ReactJs</li>
+<li>VueJS</li>
+</ul>
+</li>
+<li>单页面技术很成熟了，无法兼容低版本浏览器</li>
+<li>现在除了电商网站，其实已经很少需要兼容了</li>
+<li>大部分IE9以上</li>
+<li>单页面由于数据异步加载，所以不利于 SEO 搜索</li>
+<li>手机 Web 网页</li>
+<li>管理系统</li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/b882c090.html">
+              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/b882c090.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -774,10 +783,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>初步了解 html 语法，编写静态页面</p>
+          <h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><h2 id="HTML初识"><a href="#HTML初识" class="headerlink" title="HTML初识"></a>HTML初识</h2><h3 id="HTML骨架格式"><a href="#HTML骨架格式" class="headerlink" title="HTML骨架格式"></a>HTML骨架格式</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span>#头部</span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>眼睛<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    主题内容</span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML标签分类"><a href="#HTML标签分类" class="headerlink" title="HTML标签分类"></a>HTML标签分类</h3><p>双标签：例如 <code>&lt;html&gt;&lt;/html&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签名</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">标签名</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>单标签：例如 <code>&lt;br/&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML标签关系"><a href="#HTML标签关系" class="headerlink" title="HTML标签关系"></a>HTML标签关系</h3><p>嵌套关系</p>
+<p>并列关系</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/58d60750.html">
+              <a class="btn" href="/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/58d60750.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

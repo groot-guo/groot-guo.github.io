@@ -22,12 +22,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"groot-guo.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="微服务基本知识，常见策略，服务与注册中心的连接通信了解。">
+    <meta name="description" content="TCP协议TCP流程建立连接（三次握手） 双方初始阶段都是从 close 状态开始， 服务端从close 状态，监听某个端口，然后进行 listen 状态。 客户端主动发起连接，发送 SYN，变成 SYN-SENT 状态。 服务端收到，将连接插入到半连接队列，返回 SYN 和 ACK（客户端得 SYN），自己变成 SYN-REVD 客户端发送 ACK 给 服务端， 变更为 ESTABLISHED">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP协议">
 <meta property="og:url" content="https://groot-guo.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/51aeee82.html">
 <meta property="og:site_name" content="Groot 博客">
-<meta property="og:description" content="微服务基本知识，常见策略，服务与注册中心的连接通信了解。">
+<meta property="og:description" content="TCP协议TCP流程建立连接（三次握手） 双方初始阶段都是从 close 状态开始， 服务端从close 状态，监听某个端口，然后进行 listen 状态。 客户端主动发起连接，发送 SYN，变成 SYN-SENT 状态。 服务端收到，将连接插入到半连接队列，返回 SYN 和 ACK（客户端得 SYN），自己变成 SYN-REVD 客户端发送 ACK 给 服务端， 变更为 ESTABLISHED">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-21T14:46:13.000Z">
 <meta property="article:modified_time" content="2021-03-21T14:10:53.000Z">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -231,7 +231,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="TCP协议 | Groot 博客">
-      <meta itemprop="description" content="微服务基本知识，常见策略，服务与注册中心的连接通信了解。">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -275,7 +275,6 @@
     </span>
 </div>
 
-            <div class="post-description">微服务基本知识，常见策略，服务与注册中心的连接通信了解。</div>
         </div>
       </header>
 
@@ -300,6 +299,8 @@
 <li>服务端收到关闭，客户端进入等待， 最长 2MSL 后或者没有服务端重发请求后，客户端关闭，否则要重新 发送 ACK</li>
 </ol>
 <p><strong>画图</strong> ———————————————–</p>
+<span id="more"></span>
+
 <h2 id="建立连接的问题"><a href="#建立连接的问题" class="headerlink" title="建立连接的问题"></a>建立连接的问题</h2><h3 id="为什么不是两次"><a href="#为什么不是两次" class="headerlink" title="为什么不是两次"></a>为什么不是两次</h3><p>根本原因：无法确认客户端得接受能力</p>
 <p>如果存在客户端发送 SYN 报文滞留在网络中，进行重传，可能会建立两次连接，</p>
 <p>这时客户端连接已经关闭，服务端却发送资源，造成资源浪费。</p>

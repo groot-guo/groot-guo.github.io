@@ -22,12 +22,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"groot-guo.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
+    <meta name="description" content="Redis 缓存问题缓存穿透问题描述 缓存穿透指： 当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。 当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis 缓存问题">
 <meta property="og:url" content="https://groot-guo.github.io/blog/Redis/6827b7f6.html">
 <meta property="og:site_name" content="Groot 博客">
-<meta property="og:description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
+<meta property="og:description" content="Redis 缓存问题缓存穿透问题描述 缓存穿透指： 当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。 当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-16T13:13:07.000Z">
 <meta property="article:modified_time" content="2021-04-16T03:20:11.000Z">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -231,7 +231,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="Redis 缓存问题 | Groot 博客">
-      <meta itemprop="description" content="Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -275,7 +275,6 @@
     </span>
 </div>
 
-            <div class="post-description">Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。</div>
         </div>
       </header>
 
@@ -301,6 +300,8 @@
 <li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
 <li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
 </ol>
+<!-- more -->
+
 <h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
 <ol>
 <li><p>利用 k 个哈希函数，对元素进行计算</p>

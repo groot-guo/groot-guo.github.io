@@ -22,12 +22,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"groot-guo.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.19.2","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="go 中数组、切片、哈希表、字符串数据结构的基础认识，函数和接口的认识，关键字 for 和 range、select、defer、panic 和 recover、make 和 new 的使用。">
+    <meta name="description" content="Golang 数据结构与关键字数据结构数组 数组：相同元素，内存地址连续，利用索引可以快速访问到元素，容量确定（不可以扩容）的一种数据结构  初始化方式12arr1 :&#x3D; [3]int&#123;1, 2, 3&#125;   &#x2F;&#x2F; 确定容量大小arr2 :&#x3D; [...]int&#123;1, 2, 3&#125; &#x2F;&#x2F; 编译器会转换成上面这一种，推导确定容量  访问和赋值 利用下标进行索引查询每">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang-基础">
 <meta property="og:url" content="https://groot-guo.github.io/blog/Golang/null.html">
 <meta property="og:site_name" content="Groot 博客">
-<meta property="og:description" content="go 中数组、切片、哈希表、字符串数据结构的基础认识，函数和接口的认识，关键字 for 和 range、select、defer、panic 和 recover、make 和 new 的使用。">
+<meta property="og:description" content="Golang 数据结构与关键字数据结构数组 数组：相同元素，内存地址连续，利用索引可以快速访问到元素，容量确定（不可以扩容）的一种数据结构  初始化方式12arr1 :&#x3D; [3]int&#123;1, 2, 3&#125;   &#x2F;&#x2F; 确定容量大小arr2 :&#x3D; [...]int&#123;1, 2, 3&#125; &#x2F;&#x2F; 编译器会转换成上面这一种，推导确定容量  访问和赋值 利用下标进行索引查询每">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-21T02:04:25.000Z">
 <meta property="article:modified_time" content="2020-10-21T02:04:25.000Z">
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -231,7 +231,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="Golang-基础 | Groot 博客">
-      <meta itemprop="description" content="go 中数组、切片、哈希表、字符串数据结构的基础认识，函数和接口的认识，关键字 for 和 range、select、defer、panic 和 recover、make 和 new 的使用。">
+      <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -268,7 +268,6 @@
     </span>
 </div>
 
-            <div class="post-description">go 中数组、切片、哈希表、字符串数据结构的基础认识，函数和接口的认识，关键字 for 和 range、select、defer、panic 和 recover、make 和 new 的使用。</div>
         </div>
       </header>
 
@@ -285,7 +284,7 @@
 </blockquote>
 <figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">arr1 := [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> arr1 &#123;</span><br><span class="line">    arr1[i] = <span class="number">3</span> <span class="comment">// 将对应索引的元素值，赋值 = 3</span></span><br><span class="line">&#125;</span><br><span class="line">fmt.Println(arr1)</span><br><span class="line">fmt.Println(arr1[<span class="number">3</span>]) <span class="comment">// 报错，因为索引的下标是从 0 开始 </span></span><br></pre></td></tr></table></figure>
 
-
+<span id="more"></span>
 
 <h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><blockquote>
 <p>动态数组：长度是动态的，可以在容量不足时扩容。</p>
