@@ -3,18 +3,18 @@
   <entry>
     <title>CSS 了解</title>
     <url>/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/df349d7d.html</url>
-    <content><![CDATA[<h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><h2 id="引入CSS样式表"><a href="#引入CSS样式表" class="headerlink" title="引入CSS样式表"></a>引入CSS样式表</h2><h3 id="内部样式表"><a href="#内部样式表" class="headerlink" title="内部样式表"></a>内部样式表</h3><p>内嵌式式在HTML内部书写放在<head>中</p>
+    <content><![CDATA[<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="引入CSS样式表"><a href="#引入CSS样式表" class="headerlink" title="引入CSS样式表"></a>引入CSS样式表</h3><h4 id="内部样式表"><a href="#内部样式表" class="headerlink" title="内部样式表"></a>内部样式表</h4><p>内嵌式式在HTML内部书写放在<head>中</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span></span><br><span class="line">        .div&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="行内式（内联样式）"><a href="#行内式（内联样式）" class="headerlink" title="行内式（内联样式）"></a>行内式（内联样式）</h3><p>内样式，行间样式，内嵌样式。</p>
+<h4 id="行内式（内联样式）"><a href="#行内式（内联样式）" class="headerlink" title="行内式（内联样式）"></a>行内式（内联样式）</h4><p>内样式，行间样式，内嵌样式。</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签名</span> <span class="attr">style</span>=<span class="string">&quot;属性：属性值&quot;</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">标签名</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="外部样式表（外链式）"><a href="#外部样式表（外链式）" class="headerlink" title="外部样式表（外链式）"></a>外部样式表（外链式）</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;css文件路径&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="外部样式表（外链式）"><a href="#外部样式表（外链式）" class="headerlink" title="外部样式表（外链式）"></a>外部样式表（外链式）</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;css文件路径&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>href：定义所链接外部样式表文件的URL，可以是相对路径，也可以是绝对路径。<br>type：定义所链接文档的类型，在这里需要指定为“text&#x2F;CSS”，表示链接的外部文件为CSS样式表。<br>rel：定义当前文档与被链接文档之间的关系，在这里需要指定为“stylesheet”，表示被链接的文档是一个样式表文件。</p>
 <span id="more"></span>
 
-<h2 id="三种样式表总结（位置）"><a href="#三种样式表总结（位置）" class="headerlink" title="三种样式表总结（位置）"></a>三种样式表总结（位置）</h2><table>
+<h4 id="三种样式表总结（位置）"><a href="#三种样式表总结（位置）" class="headerlink" title="三种样式表总结（位置）"></a>三种样式表总结（位置）</h4><table>
 <thead>
 <tr>
 <th>样式表</th>
@@ -46,21 +46,21 @@
 <td>控制整个站点（多）</td>
 </tr>
 </tbody></table>
-<h1 id="CSS样式规则"><a href="#CSS样式规则" class="headerlink" title="CSS样式规则"></a>CSS样式规则</h1><p>使用HTML时，需要遵从一定的规范。CSS亦如此，要想熟练地使用CSS对网页进行修饰，首先需要了解CSS样式规则，具体格式如下：                                          </p>
+<h2 id="CSS样式规则"><a href="#CSS样式规则" class="headerlink" title="CSS样式规则"></a>CSS样式规则</h2><p>使用HTML时，需要遵从一定的规范。CSS亦如此，要想熟练地使用CSS对网页进行修饰，首先需要了解CSS样式规则，具体格式如下：                                          </p>
 <figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">在上面的样式规则中:</span></span><br><span class="line"></span><br><span class="line">1.选择器用于指定CSS样式作用的HTML对象，花括号内是对该对象设置的具体样式。</span><br><span class="line">2.属性和属性值以“键值对”的形式出现。</span><br><span class="line">3.属性是对指定的对象设置的样式属性，例如字体大小、文本颜色等。</span><br><span class="line"><span class="section">4.属性和属性值之间用英文“:”连接。</span></span><br><span class="line">5.多个“键值对”之间用英文“;”进行区分。</span><br><span class="line">可以用段落 和 表格的对齐的演示。</span><br></pre></td></tr></table></figure>
 
-<h1 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h1><h2 id="css基础选择器"><a href="#css基础选择器" class="headerlink" title="css基础选择器"></a>css基础选择器</h2><h3 id="标签选择器（元素选择器）"><a href="#标签选择器（元素选择器）" class="headerlink" title="标签选择器（元素选择器）"></a>标签选择器（元素选择器）</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">color</span>:red;&#125;</span><br><span class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">font-size</span>:<span class="number">10px</span>;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><h3 id="css基础选择器"><a href="#css基础选择器" class="headerlink" title="css基础选择器"></a>css基础选择器</h3><h4 id="标签选择器（元素选择器）"><a href="#标签选择器（元素选择器）" class="headerlink" title="标签选择器（元素选择器）"></a>标签选择器（元素选择器）</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">color</span>:red;&#125;</span><br><span class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">font-size</span>:<span class="number">10px</span>;&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">.it&#123;color:red;&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;it&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">.it&#123;color:red;&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;it&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="多类名选择器"><a href="#多类名选择器" class="headerlink" title="多类名选择器"></a>多类名选择器</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pink fontWeight font20&quot;</span>&gt;</span>亚瑟<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font20&quot;</span>&gt;</span>刘备<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font14 pink&quot;</span>&gt;</span>安其拉<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font14&quot;</span>&gt;</span>貂蝉<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="多类名选择器"><a href="#多类名选择器" class="headerlink" title="多类名选择器"></a>多类名选择器</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;pink fontWeight font20&quot;</span>&gt;</span>亚瑟<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font20&quot;</span>&gt;</span>刘备<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font14 pink&quot;</span>&gt;</span>安其拉<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;font14&quot;</span>&gt;</span>貂蝉<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="id-选择器"><a href="#id-选择器" class="headerlink" title="id 选择器"></a>id 选择器</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">#id&#123;color:red;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="id-选择器"><a href="#id-选择器" class="headerlink" title="id 选择器"></a>id 选择器</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">#id&#123;color:red;&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="id-选择器和类名选择器区别"><a href="#id-选择器和类名选择器区别" class="headerlink" title="id 选择器和类名选择器区别"></a>id 选择器和类名选择器区别</h3><p>id 是唯一的，类名可以重复</p>
-<h3 id="通配符选择器"><a href="#通配符选择器" class="headerlink" title="通配符选择器"></a>通配符选择器</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">*&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="id-选择器和类名选择器区别"><a href="#id-选择器和类名选择器区别" class="headerlink" title="id 选择器和类名选择器区别"></a>id 选择器和类名选择器区别</h4><p>id 是唯一的，类名可以重复</p>
+<h4 id="通配符选择器"><a href="#通配符选择器" class="headerlink" title="通配符选择器"></a>通配符选择器</h4><figure class="highlight css"><table><tr><td class="code"><pre><span class="line">*&#123;&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="CSS字体样式"><a href="#CSS字体样式" class="headerlink" title="CSS字体样式"></a>CSS字体样式</h1><h3 id="font-size：字号大小"><a href="#font-size：字号大小" class="headerlink" title="font-size：字号大小"></a>font-size：字号大小</h3><h3 id="font-family：字体"><a href="#font-family：字体" class="headerlink" title="font-family：字体"></a>font-family：字体</h3><h3 id="CSS-Unicode字体"><a href="#CSS-Unicode字体" class="headerlink" title="CSS Unicode字体"></a>CSS Unicode字体</h3><p>在 CSS 中设置字体名称，直接写中文是可以的。但是在文件编码（GB2312、UTF-8 等）不匹配时会产生乱码的错误。xp 系统不支持 类似微软雅黑的中文。</p>
+<h2 id="CSS字体样式"><a href="#CSS字体样式" class="headerlink" title="CSS字体样式"></a>CSS字体样式</h2><h3 id="font-size：字号大小"><a href="#font-size：字号大小" class="headerlink" title="font-size：字号大小"></a>font-size：字号大小</h3><h3 id="font-family：字体"><a href="#font-family：字体" class="headerlink" title="font-family：字体"></a>font-family：字体</h3><h3 id="CSS-Unicode字体"><a href="#CSS-Unicode字体" class="headerlink" title="CSS Unicode字体"></a>CSS Unicode字体</h3><p>在 CSS 中设置字体名称，直接写中文是可以的。但是在文件编码（GB2312、UTF-8 等）不匹配时会产生乱码的错误。xp 系统不支持 类似微软雅黑的中文。</p>
 <p>方案一： 你可以使用英文来替代。 比如 font-family:”Microsoft Yahei”。</p>
 <p>方案二： 在 CSS 直接使用 Unicode 编码来写字体名称可以避免这些错误。使用 Unicode 写中文字体名称，浏览器是可以正确的解析的。<br>font-family: “\5FAE\8F6F\96C5\9ED1”，表示设置字体为“微软雅黑”。</p>
 <p>可以通过escape()  来测试属于什么字体。</p>
@@ -135,7 +135,7 @@
 <h3 id="font：综合设置字体样式"><a href="#font：综合设置字体样式" class="headerlink" title="font：综合设置字体样式"></a>font：综合设置字体样式</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">font</span>:font-size font-weight font-size/line-height font-family;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用font属性时，必须按上面语法格式中的顺序书写，不能更换顺序，各个属性以空格隔开。<br>注意：其中不需要设置的属性可以省略（取默认值），但必须保留font-size和font-family属性，否则font属性将不起作用。</p>
-<h1 id="CSS外观属性"><a href="#CSS外观属性" class="headerlink" title="CSS外观属性"></a>CSS外观属性</h1><h3 id="color-文本颜色"><a href="#color-文本颜色" class="headerlink" title="color:文本颜色"></a>color:文本颜色</h3><p>1.预定颜色值，例如 red blue</p>
+<h2 id="CSS外观属性"><a href="#CSS外观属性" class="headerlink" title="CSS外观属性"></a>CSS外观属性</h2><h3 id="color-文本颜色"><a href="#color-文本颜色" class="headerlink" title="color:文本颜色"></a>color:文本颜色</h3><p>1.预定颜色值，例如 red blue</p>
 <p>2.十六进制，例如 <code>#FF0000</code>，<code>#FF6600</code></p>
 <p>3.RGB代码，rgb(255,0,0)</p>
 <h3 id="line-height：行间距"><a href="#line-height：行间距" class="headerlink" title="line-height：行间距"></a>line-height：行间距</h3><ol>
@@ -183,7 +183,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h1 id="CSS符合选择器"><a href="#CSS符合选择器" class="headerlink" title="CSS符合选择器"></a>CSS符合选择器</h1><h3 id="交集选择器"><a href="#交集选择器" class="headerlink" title="交集选择器"></a>交集选择器</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span> <span class="selector-class">.one</span>&#123;&#125; 例如 类名 + <span class="selector-class">.one</span> 的段落标签</span><br></pre></td></tr></table></figure>
+<h2 id="CSS符合选择器"><a href="#CSS符合选择器" class="headerlink" title="CSS符合选择器"></a>CSS符合选择器</h2><h3 id="交集选择器"><a href="#交集选择器" class="headerlink" title="交集选择器"></a>交集选择器</h3><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span> <span class="selector-class">.one</span>&#123;&#125; 例如 类名 + <span class="selector-class">.one</span> 的段落标签</span><br></pre></td></tr></table></figure>
 
 <h3 id="并集选择器"><a href="#并集选择器" class="headerlink" title="并集选择器"></a>并集选择器</h3><p>通过 ， 相连接</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span>,<span class="selector-tag">a</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
@@ -208,15 +208,15 @@
 </ul>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123;   <span class="comment">/* a是标签选择器  所有的链接 */</span></span><br><span class="line">			<span class="attribute">font-weight</span>: <span class="number">700</span>;</span><br><span class="line">			<span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">			<span class="attribute">color</span>: gray;</span><br><span class="line">		&#125;</span><br><span class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;   <span class="comment">/* :hover 是链接伪类选择器 鼠标经过 */</span></span><br><span class="line">			<span class="attribute">color</span>: red; <span class="comment">/*  鼠标经过的时候，由原来的 灰色 变成了红色 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="CSS注释"><a href="#CSS注释" class="headerlink" title="CSS注释"></a>CSS注释</h1><p>通常使用 <code>/**/</code></p>
-<h1 id="标签显示模式（display）"><a href="#标签显示模式（display）" class="headerlink" title="标签显示模式（display）"></a>标签显示模式（display）</h1><h3 id="块级元素（block-level）"><a href="#块级元素（block-level）" class="headerlink" title="块级元素（block-level）"></a>块级元素（block-level）</h3><h3 id="行内元素（inline-level）"><a href="#行内元素（inline-level）" class="headerlink" title="行内元素（inline-level）"></a>行内元素（inline-level）</h3><p>块级元素和行内元素区别</p>
+<h2 id="CSS注释"><a href="#CSS注释" class="headerlink" title="CSS注释"></a>CSS注释</h2><p>通常使用 <code>/**/</code></p>
+<h2 id="标签显示模式（display）"><a href="#标签显示模式（display）" class="headerlink" title="标签显示模式（display）"></a>标签显示模式（display）</h2><h3 id="块级元素（block-level）"><a href="#块级元素（block-level）" class="headerlink" title="块级元素（block-level）"></a>块级元素（block-level）</h3><h3 id="行内元素（inline-level）"><a href="#行内元素（inline-level）" class="headerlink" title="行内元素（inline-level）"></a>行内元素（inline-level）</h3><p>块级元素和行内元素区别</p>
 <p>块级元素的特点：<br>（1）总是从新行开始<br>（2）高度，行高、外边距以及内边距都可以控制。<br>（3）宽度默认是容器的100%<br>（4）可以容纳内联元素和其他块元素。</p>
 <p>行内元素的特点：<br>（1）和相邻行内元素在一行上。<br>（2）高、宽无效，但水平方向的padding和margin可以设置，垂直方向的无效。<br>（3）默认宽度就是它本身内容的宽度。<br>（4）行内元素只能容纳文本或则其他行内元素。</p>
 <h3 id="行内块元素（inline-block）"><a href="#行内块元素（inline-block）" class="headerlink" title="行内块元素（inline-block）"></a>行内块元素（inline-block）</h3><p>行内块元素的特点：<br>（1）和相邻行内元素（行内块）在一行上,但是之间会有空白缝隙。<br>（2）默认宽度就是它本身内容的宽度。<br>（3）高度，行高、外边距以及内边距都可以控制。</p>
 <h2 id="标签显示模式转换-display"><a href="#标签显示模式转换-display" class="headerlink" title="标签显示模式转换 display"></a>标签显示模式转换 display</h2><p>块转行内：display:inline;</p>
 <p>行内转块：display:block;</p>
 <p>块、行内元素转换为行内块： display: inline-block;</p>
-<h1 id="行高的测量"><a href="#行高的测量" class="headerlink" title="行高的测量"></a>行高的测量</h1><h1 id="CSS三大特性"><a href="#CSS三大特性" class="headerlink" title="CSS三大特性"></a>CSS三大特性</h1><h2 id="CSS层叠性"><a href="#CSS层叠性" class="headerlink" title="CSS层叠性"></a>CSS层叠性</h2><p>样式叠加</p>
+<h2 id="行高的测量"><a href="#行高的测量" class="headerlink" title="行高的测量"></a>行高的测量</h2><h2 id="CSS三大特性"><a href="#CSS三大特性" class="headerlink" title="CSS三大特性"></a>CSS三大特性</h2><h2 id="CSS层叠性"><a href="#CSS层叠性" class="headerlink" title="CSS层叠性"></a>CSS层叠性</h2><p>样式叠加</p>
 <h2 id="css继承性"><a href="#css继承性" class="headerlink" title="css继承性"></a>css继承性</h2><p>子承父业</p>
 <h2 id="CSS优先级"><a href="#CSS优先级" class="headerlink" title="CSS优先级"></a>CSS优先级</h2><p>优先权重较高的</p>
 <h3 id="CSS特殊性（Specificity）"><a href="#CSS特殊性（Specificity）" class="headerlink" title="CSS特殊性（Specificity）"></a>CSS特殊性（Specificity）</h3><p>关于CSS权重，我们需要一套计算公式来去计算，这个就是 CSS Specificity，我们称为CSS 特性或称非凡性，它是一个衡量CSS值优先级的一个标准 具体规范入如下：</p>
@@ -263,7 +263,7 @@
 <li>只包含一个通用选择器的规则。</li>
 <li>同一类选择器则遵循就近原则。</li>
 </ol>
-<h1 id="css背景（background）"><a href="#css背景（background）" class="headerlink" title="css背景（background）"></a>css背景（background）</h1><p>CSS 可以添加背景颜色和背景图片，以及来进行图片设置。</p>
+<h2 id="css背景（background）"><a href="#css背景（background）" class="headerlink" title="css背景（background）"></a>css背景（background）</h2><p>CSS 可以添加背景颜色和背景图片，以及来进行图片设置。</p>
 <table>
 <thead>
 <tr>
@@ -344,7 +344,7 @@
 
 <p> 最后一个参数是alpha 透明度  取值范围 0~1之间</p>
 <p> 注意：  背景半透明是指盒子背景半透明， 盒子里面的内容不收影响。</p>
-<h1 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h1><h2 id="盒子边框（border）"><a href="#盒子边框（border）" class="headerlink" title="盒子边框（border）"></a>盒子边框（border）</h2><p>边框就是那层皮。  橘子皮。。柚子皮。。橙子皮。。。</p>
+<h2 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h2><h3 id="盒子边框（border）"><a href="#盒子边框（border）" class="headerlink" title="盒子边框（border）"></a>盒子边框（border）</h3><p>边框就是那层皮。  橘子皮。。柚子皮。。橙子皮。。。</p>
 <p>语法： </p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="attribute">border</span> : border-width || border-style || border-color </span><br></pre></td></tr></table></figure>
 
@@ -354,7 +354,7 @@
 
 
 
-<h3 id="盒子边框写法总结表"><a href="#盒子边框写法总结表" class="headerlink" title="盒子边框写法总结表"></a>盒子边框写法总结表</h3><table>
+<h4 id="盒子边框写法总结表"><a href="#盒子边框写法总结表" class="headerlink" title="盒子边框写法总结表"></a>盒子边框写法总结表</h4><table>
 <thead>
 <tr>
 <th></th>
@@ -540,7 +540,7 @@
   <entry>
     <title>Django 框架了解</title>
     <url>/blog/Python/8c959f94.html</url>
-    <content><![CDATA[<h1 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h1><p>项目与应用的关系</p>
+    <content><![CDATA[<h2 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h2><p>项目与应用的关系</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">django-admin startproject 项目名称</span><br></pre></td></tr></table></figure>
 
 <p>创建应用</p>
@@ -643,7 +643,7 @@
 <h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>middleware </p>
 <h3 id="forms组件"><a href="#forms组件" class="headerlink" title="forms组件"></a>forms组件</h3><p>源码解析</p>
 <p>钩子的应用</p>
-<h1 id="CRM"><a href="#CRM" class="headerlink" title="CRM"></a>CRM</h1><h3 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h3><p>modelForm</p>
+<h2 id="CRM"><a href="#CRM" class="headerlink" title="CRM"></a>CRM</h2><h3 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h3><p>modelForm</p>
 <p>CBV 与 FBV</p>
 <p>FBV —– function based view</p>
 <p>CBV —– class based view</p>
@@ -655,7 +655,7 @@
 
 
 
-<h1 id="PEP8规范"><a href="#PEP8规范" class="headerlink" title="PEP8规范"></a>PEP8规范</h1><p>PEP8规范时约束我们在书写 python 时的一种代码规范，在此罗列出一些常用的规范。详细可以区查看官网具体定义。<span class="exturl" data-url="aHR0cHM6Ly93d3cucHl0aG9uLm9yZy9kZXYvcGVwcy9wZXAtMDAwOC8=">PEP8规范<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="PEP8规范"><a href="#PEP8规范" class="headerlink" title="PEP8规范"></a>PEP8规范</h2><p>PEP8规范时约束我们在书写 python 时的一种代码规范，在此罗列出一些常用的规范。详细可以区查看官网具体定义。<span class="exturl" data-url="aHR0cHM6Ly93d3cucHl0aG9uLm9yZy9kZXYvcGVwcy9wZXAtMDAwOC8=">PEP8规范<i class="fa fa-external-link-alt"></i></span></p>
 <h3 id="导包的顺序"><a href="#导包的顺序" class="headerlink" title="导包的顺序"></a>导包的顺序</h3><p>标准库  –&gt; 第三方库   –&gt; 自己的，一共三层，每层之间空开一行</p>
 <h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释多行一般采用双引号注释，函数注释，写完双引号 在中间按 Enter  ，可以生成快速注释（在pycharm中），对于注释可以进行详细解释。</p>
 <p>单行注释，一般用于局部注释信息，书写时要与 <code># </code>空一格</p>
@@ -967,7 +967,7 @@
   <entry>
     <title>Elasticsearch-基础</title>
     <url>/blog/Elasticsearch/e74898e6.html</url>
-    <content><![CDATA[<h1 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h1><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
+    <content><![CDATA[<h2 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h2><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
 <p>index 模块</p>
 <p>store 模块</p>
 <p>queryParser 模块</p>
@@ -1086,7 +1086,7 @@
   <entry>
     <title>git 操作记录</title>
     <url>/blog/Git/fc40f442.html</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>初始化Git</p>
+    <content><![CDATA[<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p>初始化Git</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
 
 <p>查看被托管的文件</p>
@@ -1144,7 +1144,7 @@
     <title>Golang init函数分析</title>
     <url>/blog/Golang/38d3f8f.html</url>
     <content><![CDATA[<blockquote>
-<p>​	博主第一次文章编写，前面均为笔记记录，本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎建议。</p>
+<p>​	本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎建议。</p>
 <p>本次代码用例环境：</p>
 <p>go version: 1.19.13</p>
 </blockquote>
@@ -1210,9 +1210,105 @@
       </tags>
   </entry>
   <entry>
-    <title>Golang-基础</title>
-    <url>/blog/Golang/null.html</url>
-    <content><![CDATA[<h1 id="Golang-数据结构与关键字"><a href="#Golang-数据结构与关键字" class="headerlink" title="Golang 数据结构与关键字"></a>Golang 数据结构与关键字</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
+    <title>html 基本了解</title>
+    <url>/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/58d60750.html</url>
+    <content><![CDATA[<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h2 id="HTML初识"><a href="#HTML初识" class="headerlink" title="HTML初识"></a>HTML初识</h2><h3 id="HTML骨架格式"><a href="#HTML骨架格式" class="headerlink" title="HTML骨架格式"></a>HTML骨架格式</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span>#头部</span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>眼睛<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    主题内容</span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML标签分类"><a href="#HTML标签分类" class="headerlink" title="HTML标签分类"></a>HTML标签分类</h3><p>双标签：例如 <code>&lt;html&gt;&lt;/html&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签名</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">标签名</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>单标签：例如 <code>&lt;br/&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="HTML标签关系"><a href="#HTML标签关系" class="headerlink" title="HTML标签关系"></a>HTML标签关系</h3><p>嵌套关系</p>
+<p>并列关系</p>
+<span id="more"></span>
+
+<h2 id="文档类型"><a href="#文档类型" class="headerlink" title="文档类型&lt;!DOCTYPE&gt;"></a>文档类型&lt;!DOCTYPE&gt;</h2><!DOCTYPE><p>声名文档类型：例如 xhtml 或者 html ，不过现在统一使用 html。</p>
+<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><meta charset="UTF-8" />
+utf-8是目前最常用的字符编码格式
+
+<p>gb23121 简单中文 包括6763个汉字</p>
+<p>BIG5 繁体中文 港澳台等用</p>
+<p>GBK 包涵全部中文字符，是GB2312的扩展</p>
+<h2 id="标签语义化"><a href="#标签语义化" class="headerlink" title="标签语义化"></a>标签语义化</h2><p>主要是方便代码阅读、便于维护。</p>
+<p>遵循原则：先确定语义的HTML，在选合适的css。</p>
+<h2 id="HTML常用标签"><a href="#HTML常用标签" class="headerlink" title="HTML常用标签"></a>HTML常用标签</h2><h3 id="排版标签"><a href="#排版标签" class="headerlink" title="排版标签"></a>排版标签</h3><h4 id="标题标签"><a href="#标题标签" class="headerlink" title="标题标签"></a>标题标签</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span>  <span class="tag">&lt;<span class="name">title</span>&gt;</span> <span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span>等等</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="段落标签"><a href="#段落标签" class="headerlink" title="段落标签"></a>段落标签</h4><p>p</p>
+<h4 id="水平线标签"><a href="#水平线标签" class="headerlink" title="水平线标签"></a>水平线标签</h4><p>hr</p>
+<h4 id="换行标签"><a href="#换行标签" class="headerlink" title="换行标签"></a>换行标签</h4><p>br</p>
+<h4 id="div、span-标签"><a href="#div、span-标签" class="headerlink" title="div、span 标签"></a>div、span 标签</h4><p>div  span</p>
+<h3 id="标签的属性"><a href="#标签的属性" class="headerlink" title="标签的属性"></a>标签的属性</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">hr</span> <span class="attr">width</span>=<span class="string">&quot;223&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="图像标签"><a href="#图像标签" class="headerlink" title="图像标签"></a>图像标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;url&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="连接标签"><a href="#连接标签" class="headerlink" title="连接标签"></a>连接标签</h3><h4 id="锚点定位"><a href="#锚点定位" class="headerlink" title="锚点定位"></a>锚点定位</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">使用“a href=“#id名”</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#teo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">id</span>=<span class="string">&quot;teo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="base标签"><a href="#base标签" class="headerlink" title="base标签"></a>base标签</h4><p>base 可以设置整体连接的打开状态</p>
+<p>base 写到 <head>  </head> 之间</p>
+<p>把所有的连接都默认添加 target&#x3D;”_blank”</p>
+<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><h3 id="注释标签"><a href="#注释标签" class="headerlink" title="注释标签"></a>注释标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!---- 注释语句 ----&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><h4 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h4><h4 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h4><h2 id="列表标签"><a href="#列表标签" class="headerlink" title="列表标签"></a>列表标签</h2><h3 id="无序标签-ul"><a href="#无序标签-ul" class="headerlink" title="无序标签 ul"></a>无序标签 ul</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>就是没有数字排序</p>
+<h3 id="有序标签-ol"><a href="#有序标签-ol" class="headerlink" title="有序标签 ol"></a>有序标签 ol</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数字排序 1.2.3.</p>
+<h3 id="自定义标签"><a href="#自定义标签" class="headerlink" title="自定义标签"></a>自定义标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dl</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dt</span>&gt;</span><span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="表格-table"><a href="#表格-table" class="headerlink" title="表格 table"></a>表格 table</h2><h3 id="创建表格"><a href="#创建表格" class="headerlink" title="创建表格"></a>创建表格</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">td</span>&gt;</span>单元格的文字<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    ....</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>tr 中只能套用 td</p>
+<h3 id="表格的属性"><a href="#表格的属性" class="headerlink" title="表格的属性"></a>表格的属性</h3><h3 id="表头标签"><a href="#表头标签" class="headerlink" title="表头标签"></a>表头标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">th</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="表格结构"><a href="#表格结构" class="headerlink" title="表格结构"></a>表格结构</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">thead</span>&gt;</span><span class="tag">&lt;/<span class="name">thead</span>&gt;</span>表头</span><br><span class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span>表格主体</span><br></pre></td></tr></table></figure>
+
+<h3 id="表格标题"><a href="#表格标题" class="headerlink" title="表格标题"></a>表格标题</h3><p>caption</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">caption</span>&gt;</span>表格标题<span class="tag">&lt;/<span class="name">caption</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="合并单元格"><a href="#合并单元格" class="headerlink" title="合并单元格"></a>合并单元格</h3><p>跨行合并：rowspan  跨列合并：colspan</p>
+<h2 id="表单标签"><a href="#表单标签" class="headerlink" title="表单标签"></a>表单标签</h2><h3 id="input-控件"><a href="#input-控件" class="headerlink" title="input 控件"></a>input 控件</h3><h3 id="label标签"><a href="#label标签" class="headerlink" title="label标签"></a>label标签</h3><p>label 标签为 input 元素定义标注（标签）</p>
+<p>作用：用于绑定一个表单元素，当点击label标签的时候，会自动定位到当前表单</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;male&quot;</span>&gt;</span>Male<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">id</span>=<span class="string">&quot;male&quot;</span> <span class="attr">value</span>=<span class="string">&quot;male&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="textarea-控件"><a href="#textarea-控件" class="headerlink" title="textarea 控件"></a>textarea 控件</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">cols</span>=<span class="string">&quot;每行中的字符数&quot;</span> <span class="attr">row</span>=<span class="string">&quot;显示行数&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="下拉菜单"><a href="#下拉菜单" class="headerlink" title="下拉菜单"></a>下拉菜单</h3><p>使用 select 控件定义下拉菜单的基本语法：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>选项1<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>选项2<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>&lt;select&gt;&lt;&#x2F;select&gt;中至少应包含一对&lt;option&gt;&lt;&#x2F;option&gt;。</li>
+<li>在option 中定义selected &#x3D;” selected “时，当前项即为默认选中项。</li>
+</ol>
+<h3 id="表单域（from）"><a href="#表单域（from）" class="headerlink" title="表单域（from）"></a>表单域（from）</h3><p>from标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">from</span> <span class="attr">action</span>=<span class="string">&quot;url地址&quot;</span> <span class="attr">method</span>=<span class="string">&quot;提交方式&quot;</span> <span class="attr">name</span>=<span class="string">&quot;表单名称&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">from</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>常用属性：</p>
+<ol>
+<li>Action<br>在表单收集到信息后，需要将信息传递给服务器进行处理，action属性用于指定接收并处理表单数据的服务器程序的url地址。</li>
+<li>method<br>用于设置表单数据的提交方式，其取值为get或post。</li>
+<li>name<br>用于指定表单的名称，以区分同一个页面中的多个表单。</li>
+</ol>
+<p>注意：  每个表单都应该有自己表单域。</p>
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">20</span>;</span><br><span class="line">num1 = num1 ^ num2;</span><br><span class="line">num2 = num1 ^ num2;</span><br><span class="line">num2 = num1 ^ num2;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>前端基础</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Golang 数据结构与关键字</title>
+    <url>/blog/Golang/ca04d71e1.html</url>
+    <content><![CDATA[<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
 <p>数组：相同元素，内存地址连续，利用索引可以快速访问到元素，容量确定（不可以扩容）的一种数据结构</p>
 </blockquote>
 <h4 id="初始化方式"><a href="#初始化方式" class="headerlink" title="初始化方式"></a>初始化方式</h4><figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">arr1 := [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;   <span class="comment">// 确定容量大小</span></span><br><span class="line">arr2 := [...]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; <span class="comment">// 编译器会转换成上面这一种，推导确定容量</span></span><br></pre></td></tr></table></figure>
@@ -1314,96 +1410,118 @@
       </tags>
   </entry>
   <entry>
-    <title>html 基本了解</title>
-    <url>/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/58d60750.html</url>
-    <content><![CDATA[<h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><h2 id="HTML初识"><a href="#HTML初识" class="headerlink" title="HTML初识"></a>HTML初识</h2><h3 id="HTML骨架格式"><a href="#HTML骨架格式" class="headerlink" title="HTML骨架格式"></a>HTML骨架格式</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span>#头部</span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>眼睛<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    主题内容</span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="HTML标签分类"><a href="#HTML标签分类" class="headerlink" title="HTML标签分类"></a>HTML标签分类</h3><p>双标签：例如 <code>&lt;html&gt;&lt;/html&gt;</code></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签名</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">标签名</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>单标签：例如 <code>&lt;br/&gt;</code></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">标签</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="HTML标签关系"><a href="#HTML标签关系" class="headerlink" title="HTML标签关系"></a>HTML标签关系</h3><p>嵌套关系</p>
-<p>并列关系</p>
+    <title>微服务</title>
+    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
+    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
+</blockquote>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
+<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
+<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
+</ul>
 <span id="more"></span>
 
-<h2 id="文档类型"><a href="#文档类型" class="headerlink" title="文档类型&lt;!DOCTYPE&gt;"></a>文档类型&lt;!DOCTYPE&gt;</h2><!DOCTYPE><p>声名文档类型：例如 xhtml 或者 html ，不过现在统一使用 html。</p>
-<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><meta charset="UTF-8" />
-utf-8是目前最常用的字符编码格式
-
-<p>gb23121 简单中文 包括6763个汉字</p>
-<p>BIG5 繁体中文 港澳台等用</p>
-<p>GBK 包涵全部中文字符，是GB2312的扩展</p>
-<h2 id="标签语义化"><a href="#标签语义化" class="headerlink" title="标签语义化"></a>标签语义化</h2><p>主要是方便代码阅读、便于维护。</p>
-<p>遵循原则：先确定语义的HTML，在选合适的css。</p>
-<h2 id="HTML常用标签"><a href="#HTML常用标签" class="headerlink" title="HTML常用标签"></a>HTML常用标签</h2><h3 id="排版标签"><a href="#排版标签" class="headerlink" title="排版标签"></a>排版标签</h3><h4 id="标题标签"><a href="#标题标签" class="headerlink" title="标题标签"></a>标题标签</h4><head>  <title> </title>
-    <h1></h1>等等
-
-<h4 id="段落标签"><a href="#段落标签" class="headerlink" title="段落标签"></a>段落标签</h4><p>p</p>
-<h4 id="水平线标签"><a href="#水平线标签" class="headerlink" title="水平线标签"></a>水平线标签</h4><p>hr</p>
-<h4 id="换行标签"><a href="#换行标签" class="headerlink" title="换行标签"></a>换行标签</h4><p>br</p>
-<h4 id="div、span-标签"><a href="#div、span-标签" class="headerlink" title="div、span 标签"></a>div、span 标签</h4><p>div  span</p>
-<h3 id="标签的属性"><a href="#标签的属性" class="headerlink" title="标签的属性"></a>标签的属性</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">hr</span> <span class="attr">width</span>=<span class="string">&quot;223&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="图像标签"><a href="#图像标签" class="headerlink" title="图像标签"></a>图像标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;url&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="连接标签"><a href="#连接标签" class="headerlink" title="连接标签"></a>连接标签</h3><h4 id="锚点定位"><a href="#锚点定位" class="headerlink" title="锚点定位"></a>锚点定位</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">使用“a href=“#id名”</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#teo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">id</span>=<span class="string">&quot;teo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="base标签"><a href="#base标签" class="headerlink" title="base标签"></a>base标签</h4><p>base 可以设置整体连接的打开状态</p>
-<p>base 写到 <head>  </head> 之间</p>
-<p>把所有的连接都默认添加 target&#x3D;”_blank”</p>
-<h3 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h3><h3 id="注释标签"><a href="#注释标签" class="headerlink" title="注释标签"></a>注释标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!---- 注释语句 ----&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><h4 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h4><h4 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h4><h2 id="列表标签"><a href="#列表标签" class="headerlink" title="列表标签"></a>列表标签</h2><h3 id="无序标签-ul"><a href="#无序标签-ul" class="headerlink" title="无序标签 ul"></a>无序标签 ul</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>就是没有数字排序</p>
-<h3 id="有序标签-ol"><a href="#有序标签-ol" class="headerlink" title="有序标签 ol"></a>有序标签 ol</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>数字排序 1.2.3.</p>
-<h3 id="自定义标签"><a href="#自定义标签" class="headerlink" title="自定义标签"></a>自定义标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dl</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dt</span>&gt;</span><span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="表格-table"><a href="#表格-table" class="headerlink" title="表格 table"></a>表格 table</h2><h3 id="创建表格"><a href="#创建表格" class="headerlink" title="创建表格"></a>创建表格</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">td</span>&gt;</span>单元格的文字<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    ....</span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<p>tr 中只能套用 td</p>
-<h3 id="表格的属性"><a href="#表格的属性" class="headerlink" title="表格的属性"></a>表格的属性</h3><h3 id="表头标签"><a href="#表头标签" class="headerlink" title="表头标签"></a>表头标签</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">th</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="表格结构"><a href="#表格结构" class="headerlink" title="表格结构"></a>表格结构</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">thead</span>&gt;</span><span class="tag">&lt;/<span class="name">thead</span>&gt;</span>表头</span><br><span class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span>表格主体</span><br></pre></td></tr></table></figure>
-
-<h3 id="表格标题"><a href="#表格标题" class="headerlink" title="表格标题"></a>表格标题</h3><p>caption</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">caption</span>&gt;</span>表格标题<span class="tag">&lt;/<span class="name">caption</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="合并单元格"><a href="#合并单元格" class="headerlink" title="合并单元格"></a>合并单元格</h3><p>跨行合并：rowspan  跨列合并：colspan</p>
-<h2 id="表单标签"><a href="#表单标签" class="headerlink" title="表单标签"></a>表单标签</h2><h3 id="input-控件"><a href="#input-控件" class="headerlink" title="input 控件"></a>input 控件</h3><h3 id="label标签"><a href="#label标签" class="headerlink" title="label标签"></a>label标签</h3><p>label 标签为 input 元素定义标注（标签）</p>
-<p>作用：用于绑定一个表单元素，当点击label标签的时候，会自动定位到当前表单</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;male&quot;</span>&gt;</span>Male<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">id</span>=<span class="string">&quot;male&quot;</span> <span class="attr">value</span>=<span class="string">&quot;male&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="textarea-控件"><a href="#textarea-控件" class="headerlink" title="textarea 控件"></a>textarea 控件</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">cols</span>=<span class="string">&quot;每行中的字符数&quot;</span> <span class="attr">row</span>=<span class="string">&quot;显示行数&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="下拉菜单"><a href="#下拉菜单" class="headerlink" title="下拉菜单"></a>下拉菜单</h3><p>使用 select 控件定义下拉菜单的基本语法：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>选项1<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>选项2<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ol>
-<li>&lt;select&gt;&lt;&#x2F;select&gt;中至少应包含一对&lt;option&gt;&lt;&#x2F;option&gt;。</li>
-<li>在option 中定义selected &#x3D;” selected “时，当前项即为默认选中项。</li>
-</ol>
-<h3 id="表单域（from）"><a href="#表单域（from）" class="headerlink" title="表单域（from）"></a>表单域（from）</h3><p>from标签</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">from</span> <span class="attr">action</span>=<span class="string">&quot;url地址&quot;</span> <span class="attr">method</span>=<span class="string">&quot;提交方式&quot;</span> <span class="attr">name</span>=<span class="string">&quot;表单名称&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">from</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>常用属性：</p>
-<ol>
-<li>Action<br>在表单收集到信息后，需要将信息传递给服务器进行处理，action属性用于指定接收并处理表单数据的服务器程序的url地址。</li>
-<li>method<br>用于设置表单数据的提交方式，其取值为get或post。</li>
-<li>name<br>用于指定表单的名称，以区分同一个页面中的多个表单。</li>
-</ol>
-<p>注意：  每个表单都应该有自己表单域。</p>
-<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">20</span>;</span><br><span class="line">num1 = num1 ^ num2;</span><br><span class="line">num2 = num1 ^ num2;</span><br><span class="line">num2 = num1 ^ num2;</span><br></pre></td></tr></table></figure>
-
+<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
+<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
+</ul>
+<p><strong>触发降级</strong>：</p>
+<ul>
+<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
+<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
+</ul>
+<p><strong>恢复</strong>：</p>
+<ul>
+<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
+</ul>
+<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
+</blockquote>
+<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
+<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
+<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
+</ul>
+<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
+<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
+</ul>
+<p><strong>触发熔断</strong>：</p>
+<ul>
+<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
+<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
+</ul>
+<p><strong>半开状态</strong>：</p>
+<ul>
+<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
+<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
+</ul>
+<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+</blockquote>
+<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
+<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
+<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
+</ul>
+<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
+</ul>
+<p><strong>运行时控制</strong>：</p>
+<ul>
+<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
+<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
+</ul>
+<p><strong>处理请求</strong>：</p>
+<ul>
+<li>获取到令牌的请求可以正常处理。</li>
+<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
+</ul>
+<p><strong>动态调整</strong>：</p>
+<ul>
+<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
+</ul>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
+<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
+<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
+</ul>
+<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
+<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
+<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
+</ul>
+<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<ul>
+<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
+<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
+<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
+<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
+</ul>
+<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
+<ul>
+<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
+<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
+<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
+<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
+</ul>
+<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
+<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
+<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
+</ul>
 ]]></content>
       <categories>
-        <category>前端基础</category>
+        <category>微服务</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1412,7 +1530,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>linux 基本认识</title>
     <url>/blog/Linux/793ef77.html</url>
-    <content><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>redhat 发行版，收费版的Linux</p>
+    <content><![CDATA[<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>redhat 发行版，收费版的Linux</p>
 <p>SUSE Linux 德国版，常用于移动电信支付领域</p>
 <h3 id="桥接网路模式"><a href="#桥接网路模式" class="headerlink" title="桥接网路模式"></a>桥接网路模式</h3><h3 id="NAT-网络模式"><a href="#NAT-网络模式" class="headerlink" title="NAT 网络模式"></a>NAT 网络模式</h3><p>就是在你宿主机的ip网络中，通过网络地址  转换你你你技术（NAT），</p>
 <p>解决问题：</p>
@@ -1919,127 +2037,9 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>微服务</title>
-    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
-    <content><![CDATA[<h1 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h1><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
-</blockquote>
-<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
-<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
-<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
-</ul>
-<span id="more"></span>
-
-<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
-<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
-</ul>
-<p><strong>触发降级</strong>：</p>
-<ul>
-<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
-<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
-</ul>
-<p><strong>恢复</strong>：</p>
-<ul>
-<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
-</ul>
-<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
-</blockquote>
-<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
-<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
-<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
-</ul>
-<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
-<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
-</ul>
-<p><strong>触发熔断</strong>：</p>
-<ul>
-<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
-<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
-</ul>
-<p><strong>半开状态</strong>：</p>
-<ul>
-<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
-<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
-</ul>
-<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
-</blockquote>
-<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
-<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
-<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
-</ul>
-<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
-</ul>
-<p><strong>运行时控制</strong>：</p>
-<ul>
-<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
-<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
-</ul>
-<p><strong>处理请求</strong>：</p>
-<ul>
-<li>获取到令牌的请求可以正常处理。</li>
-<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
-</ul>
-<p><strong>动态调整</strong>：</p>
-<ul>
-<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
-</ul>
-<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
-<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
-<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
-</ul>
-<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
-<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
-<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
-</ul>
-<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
-<ul>
-<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
-<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
-<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
-<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
-</ul>
-<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
-<ul>
-<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
-<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
-<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
-<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
-</ul>
-<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
-<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
-<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>微服务</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql 简单入门</title>
     <url>/blog/Mysql/534e2ed6.html</url>
-    <content><![CDATA[<h1 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h1><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
+    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
 <h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
 
 <h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
@@ -2158,7 +2158,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>PHP 的 认识</title>
     <url>/blog/PHP/442c7832.html</url>
-    <content><![CDATA[<h1 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h1><h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&#x27;hell php!&#x27;</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&#x27;hell php!&#x27;</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>如果遇到字符串输出</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&quot;sdfa&quot;</span>; <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="number">12</span>*<span class="number">3</span>;<span class="meta">?&gt;</span> <span class="comment">/*数字运算*/</span></span><br></pre></td></tr></table></figure>
@@ -2257,924 +2257,9 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>Redis-基础</title>
-    <url>/blog/Redis/bf7639ff.html</url>
-    <content><![CDATA[<h1 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h1><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
-<ul>
-<li>基于内存存储数据</li>
-<li>Recator 模型（IO多路复用）</li>
-<li>单线程应用</li>
-<li></li>
-</ul>
-</blockquote>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
-<p>简单动态字符串（simple dynamic string， SDS）</p>
-<p>特点：</p>
-<ul>
-<li>获取长度复杂度 O(1)，通过 len 字段</li>
-<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
-<li>空间预分配</li>
-<li>惰性空间释放，通过 free 属性</li>
-<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
-</ul>
-<p>与 C 字符串区别：</p>
-<ul>
-<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
-<li>获取长度要遍历计数。</li>
-<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
-</ul>
-</blockquote>
-<span id="more"></span>
-
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
-<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
-<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
-<p>特点：</p>
-<ul>
-<li>双端：带有前后节点</li>
-<li>无环：表头节点和表尾节点为空</li>
-<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
-<li>带链表长度计数器： 通过 len 获取</li>
-<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
-<p>redis 数据库就是使用字典来作为底层实现的。</p>
-<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
-</blockquote>
-<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
-
-<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>有序集合实现的底层之一</li>
-<li>集群节点中用作内部数据结构</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>集合键</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
-
-<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
-<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
-<p>使用场景：</p>
-<ul>
-<li>列表键</li>
-<li>哈希键</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>长度</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zlbytes</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
-</tr>
-<tr>
-<td>zltail</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
-</tr>
-<tr>
-<td>zllen</td>
-<td>uint16_t</td>
-<td>2字节</td>
-<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
-</tr>
-<tr>
-<td>entryX</td>
-<td>列表节点</td>
-<td>不定</td>
-<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
-</tr>
-<tr>
-<td>zlend</td>
-<td>uint8_t</td>
-<td>1字节</td>
-<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
-<p>基于对象系统来使用上述数据结构</p>
-<p>主要分为：</p>
-<ul>
-<li>字符串对象</li>
-<li>列表对象</li>
-<li>哈希对象</li>
-<li>集合对象</li>
-<li>有序集合对象</li>
-</ul>
-<p>基于 引用计数 技术的内存回收机制。</p>
-<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
-<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
-<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
-<p>字符串可以存储3种类型的值：</p>
-<ul>
-<li>字符串</li>
-<li>整数</li>
-<li>浮点数</li>
-</ul>
-<p>字符串对象编码可以是 int、raw、或 embstr。</p>
-<p>保存的类型区分：</p>
-<ul>
-<li>long 类型整数时，编码采用 int </li>
-<li>字符串时</li>
-<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
-<li>小于39时，使用 embstr 保存</li>
-</ul>
-<p>long double 类型浮点数使用 embstr 或 raw。</p>
-<p>其余长度不满足时，均采用 embstr 或 raw。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>incr</td>
-<td>incr key-name  ——将键存储的值加1</td>
-</tr>
-<tr>
-<td>decr</td>
-<td>decr key-name ——将键存储的值减1</td>
-</tr>
-<tr>
-<td>incrby</td>
-<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
-</tr>
-<tr>
-<td>decrby</td>
-<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
-</tr>
-<tr>
-<td>incrbyfloat</td>
-<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
-</tr>
-<tr>
-<td>append</td>
-<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
-</tr>
-<tr>
-<td>getrange</td>
-<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
-</tr>
-<tr>
-<td>setrange</td>
-<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
-</tr>
-<tr>
-<td>getbit</td>
-<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
-</tr>
-<tr>
-<td>setbit</td>
-<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
-</tr>
-<tr>
-<td>bitcount</td>
-<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
-</tr>
-<tr>
-<td>bitop</td>
-<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
-</tr>
-</tbody></table>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
-<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存的所有字符串元素长度都小于 64 字节；</li>
-<li>保存的元素数量小于 512 个；</li>
-</ul>
-<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rpush</td>
-<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
-</tr>
-<tr>
-<td>lpush</td>
-<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
-</tr>
-<tr>
-<td>rpop</td>
-<td>rpop key-name ——移除并返回列表最右端的元素</td>
-</tr>
-<tr>
-<td>lpop</td>
-<td>lpop key-name ——移除并返回列表最左端的元素</td>
-</tr>
-<tr>
-<td>lindex</td>
-<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
-</tr>
-<tr>
-<td>lrange</td>
-<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>ltrim</td>
-<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>blpop</td>
-<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>brpop</td>
-<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>rpoplpush</td>
-<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
-</tr>
-<tr>
-<td>brpoplpush</td>
-<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
-<p>哈希对象编码可以是 压缩列表 或 字典。</p>
-<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存所有键值对的字符串长度小于64字节</li>
-<li>键值对数量小于512个</li>
-</ul>
-<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hmget</td>
-<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
-</tr>
-<tr>
-<td>hmset</td>
-<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
-</tr>
-<tr>
-<td>hdel</td>
-<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
-</tr>
-<tr>
-<td>hlen</td>
-<td>hlen key-name ——返回散列包含的键值对数量</td>
-</tr>
-<tr>
-<td>hexists</td>
-<td>hexists key-name key ——检查给定键是否存在于散列中</td>
-</tr>
-<tr>
-<td>hkeys</td>
-<td>hkeys key-name ——获取散列包含的所有键</td>
-</tr>
-<tr>
-<td>hvals</td>
-<td>hvals key-name ——获取散列包含的所有值</td>
-</tr>
-<tr>
-<td>hgetall</td>
-<td>hgetall key-name ——获取散列包含的所有键值对</td>
-</tr>
-<tr>
-<td>hincrby</td>
-<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
-</tr>
-<tr>
-<td>hincrbyfloat</td>
-<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
-<p>集合对象编码可以是 整数集合 和 字典。</p>
-<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
-<p>使用 整数集合编码条件：</p>
-<ul>
-<li>保存所有元素是整数</li>
-<li>数量不超过512个</li>
-</ul>
-<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sadd</td>
-<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
-</tr>
-<tr>
-<td>srem</td>
-<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
-</tr>
-<tr>
-<td>sismember</td>
-<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
-</tr>
-<tr>
-<td>scard</td>
-<td>scard key-name ——返回集合包含的元素的数量</td>
-</tr>
-<tr>
-<td>smembers</td>
-<td>smembers key-name ——返回集合包含的所有元素</td>
-</tr>
-<tr>
-<td>srandmember</td>
-<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
-</tr>
-<tr>
-<td>spop</td>
-<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
-</tr>
-<tr>
-<td>smove</td>
-<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
-</tr>
-<tr>
-<td>sdiff</td>
-<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
-</tr>
-<tr>
-<td>sdiffstore</td>
-<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sinter</td>
-<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
-</tr>
-<tr>
-<td>sinterstore</td>
-<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sunion</td>
-<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
-</tr>
-<tr>
-<td>sunionstore</td>
-<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
-<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
-<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
-<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
-<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
-<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
-<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
-<p>如果仅利用其中一个实现：</p>
-<ul>
-<li>字典无序，范围查询，会需要额外空间</li>
-<li>跳跃表查询成员分值，无法做到 O(1)</li>
-</ul>
-<p>使用压缩列表条件：</p>
-<ul>
-<li>元素数量小于128个</li>
-<li>成员长度小于 64字节</li>
-</ul>
-<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zadd</td>
-<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
-</tr>
-<tr>
-<td>zrem</td>
-<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
-</tr>
-<tr>
-<td>zcard</td>
-<td>zcard key-name ——返回有序集合包含的成员数量</td>
-</tr>
-<tr>
-<td>zincrby</td>
-<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
-</tr>
-<tr>
-<td>zcount</td>
-<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
-</tr>
-<tr>
-<td>zrank</td>
-<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
-</tr>
-<tr>
-<td>zscore</td>
-<td>zscore key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrange</td>
-<td>zrange key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrevrank</td>
-<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrevrange</td>
-<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrangebyscore</td>
-<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
-</tr>
-<tr>
-<td>zrevrangebyscore</td>
-<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
-</tr>
-<tr>
-<td>zremrangebyrank</td>
-<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
-</tr>
-<tr>
-<td>zremrangebyscore</td>
-<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
-</tr>
-<tr>
-<td>zinterstore</td>
-<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
-</tr>
-<tr>
-<td>zunionstore</td>
-<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
-<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
-<p>如何保证消息的可靠性</p>
-<p>消息积压会耗费过多内存</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>subscribe</td>
-<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
-</tr>
-<tr>
-<td>unsubscribe</td>
-<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
-</tr>
-<tr>
-<td>publish</td>
-<td>publish channel message ——向给定频道发消息</td>
-</tr>
-<tr>
-<td>psubscribe</td>
-<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
-</tr>
-<tr>
-<td>punsubscribe</td>
-<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>能够对 列表、集合、有序集合进行排序。</p>
-<p>选项：</p>
-<ul>
-<li>降序、升序</li>
-<li>元素看作数字排序</li>
-<li>看作 二进制字符串排序</li>
-<li>使用被排序元素之外的 其他值 作为权重值排序</li>
-<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sort</td>
-<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
-</tr>
-</tbody></table>
-<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
-<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
-<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
-<p>事务执行不会中断，要么全部执行完，才会结束。</p>
-<p>multi 用于事务开始</p>
-<p>exec 代表事务执行</p>
-<p>watch 命令 是一个乐观锁</p>
-</blockquote>
-<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
-<p>expire 设置 key 过期时间</p>
-<p>过期键的判定：</p>
-<ol>
-<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
-<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
-</ol>
-<p>一般过期策略：</p>
-<ul>
-<li>定时删除：内存友好，通过定时器删除，释放内存</li>
-<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
-<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
-</ul>
-<p>采用 惰性删除 和 定期删除</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>persist</td>
-<td>persist key-name ——移除键的过期时间</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
-</tr>
-<tr>
-<td>expire</td>
-<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
-</tr>
-<tr>
-<td>expireat</td>
-<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
-</tr>
-<tr>
-<td>pttl</td>
-<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpire</td>
-<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpireat</td>
-<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
-</tr>
-</tbody></table>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<ul>
-<li>《redis 设计与实现》</li>
-<li>《redis 实战》</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis 缓存问题</title>
-    <url>/blog/Redis/6827b7f6.html</url>
-    <content><![CDATA[<h1 id="Redis-缓存问题"><a href="#Redis-缓存问题" class="headerlink" title="Redis 缓存问题"></a>Redis 缓存问题</h1><h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
-<p>缓存穿透指：</p>
-<p>当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。</p>
-<p>当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。</p>
-</blockquote>
- <span id="more"></span>
-
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>缓存空值</li>
-<li>布隆过滤器（key 校验）</li>
-</ol>
-<h4 id="缓存空值"><a href="#缓存空值" class="headerlink" title="缓存空值"></a>缓存空值</h4><blockquote>
-<p>将数据库中查询为空的key 也存储在缓存中，当再次查询时，则可以避免查询数据库。</p>
-</blockquote>
-<p>缓存空值会出现两个问题：</p>
-<ol>
-<li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
-<li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
-</ol>
-<!-- more -->
-
-<h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
-<ol>
-<li><p>利用 k 个哈希函数，对元素进行计算</p>
-</li>
-<li><p>根据哈希值，将位数据组对应的下标置为1</p>
-</li>
-<li><p>当需要查询时，重复过程 <code>1</code>，若查询对应位数据下标不全为1，则不存在，全为1，则存在</p>
-</li>
-</ol>
-</blockquote>
-<p>优点：</p>
-<blockquote>
-<p>数据空间小，不用存储数据本身</p>
-</blockquote>
-<p>缺点：</p>
-<blockquote>
-<ul>
-<li>元素可以添加到集合中，不能删除</li>
-<li>匹配结果是“<code>绝对不在集合中</code>”，并不能保证匹配成功的值已经在集合中</li>
-<li>当集合快满时，即接近预估最大容量时，误报的概率会变大</li>
-<li>数据占用空间放大</li>
-</ul>
-</blockquote>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
-<p>当<font  color=red><strong>单个</strong></font>热点key 的缓存数据，<font  color=red>****</font>刚好过了有效时间，此时大量请求涌入，会导致数据查询流量大增，数据库可能崩溃。</p>
-</blockquote>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>互斥锁</li>
-<li>热点数据永不过期</li>
-</ol>
-<h4 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h4><blockquote>
-<p>当第一个数据库查询请求发起后，就将缓存中该数据上锁；</p>
-<p>此时其他查询该缓存的请求，被阻塞等待；</p>
-<p>当第一个请求完成，然后更新缓存，释放锁；</p>
-<p>其他查询请求后续可以查询到。</p>
-</blockquote>
-<p><strong>注意</strong>：互斥锁可以避免某一个热点，但实际情况里往往是一批。</p>
-<p>将缓存的过期时间，设置为随机值，会降低这一概率。</p>
-<h4 id="热点数据永不过期"><a href="#热点数据永不过期" class="headerlink" title="热点数据永不过期"></a>热点数据永不过期</h4><blockquote>
-<p>从缓存层面，确实没有设置过期时间，也就是物理不过期</p>
-<p>从功能层面，每一个value 都有对应逻辑时间，过期后，单独重新构建。</p>
-</blockquote>
-<p><strong>注意</strong>：在重新构建期间，可能会出现数据不一致的情况。</p>
-<p><strong>比较</strong>：</p>
-<ul>
-<li>互斥锁<ul>
-<li>存在死锁和阻塞风险</li>
-<li>较好的降低后端负载，一致性比较好</li>
-</ul>
-</li>
-<li>永远不过期<ul>
-<li>数据不一致情况</li>
-<li>代码复杂度会增大</li>
-</ul>
-</li>
-</ul>
-<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
-<p>指缓存中大量的数据同时过期，导致大量请求在短时间内直接到达数据库，对数据库造成巨大压力。</p>
-</blockquote>
-<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>过期时间分散</li>
-<li>缓存预热</li>
-<li>限流降级</li>
-</ol>
-<h4 id="过期时间分撒"><a href="#过期时间分撒" class="headerlink" title="过期时间分撒"></a>过期时间分撒</h4><blockquote>
-<p>使用 expire 命令设置过期时间，引入随机过期时间机制</p>
-</blockquote>
-<h4 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h4><blockquote>
-<p>使用 CacheWarmer 等工具在系统启动前预热缓存</p>
-</blockquote>
-<h4 id="限流降级"><a href="#限流降级" class="headerlink" title="限流降级"></a>限流降级</h4><blockquote>
-<p>使用限流算法控制访问数据库的请求速率，当缓存失效导致请求过多时，进行降级处理。</p>
-<p>工具：<code>Hystrix</code>、<code>Sentinel</code> 等 </p>
-</blockquote>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
-<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis 了解与安装</title>
-    <url>/blog/Redis/1738e583.html</url>
-    <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
-<li>Redis 和 memcached 区别？</li>
-</ul>
-<p>对比 Memcache的共同点：</p>
-<ol>
-<li>redis 是缓存到内存中，</li>
-<li>属于 key - value</li>
-</ol>
-<p>不同的;</p>
-<ol>
-<li>redis 可以做持久化（将数据保存磁盘上）</li>
-<li>支持更丰富的数据类型，value 可以是字符串，链表，哈希，memcache只支持字符串</li>
-</ol>
-<ul>
-<li>如何高效的找到redis中所有以oldboy开头的key</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>什么是一致性哈希</li>
-</ul>
-<span id="more"></span>
-
-<blockquote>
-<p>首先一致性哈希满足以下几个方面：<br>平衡性<br>单调性<br>分散性<br>负载<br>平滑性<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-<p>将整个哈希空间虚拟成一个0 ~ 2^32无符号的圆形，然后把每个服务器进行哈希，然后将对应ip哈希到邻近服务器上。</p>
-<ul>
-<li>redis是单进程单线程的吗？</li>
-</ul>
-<p>首先redis是单线程单进程，如果需要，只能多开几个redis进程</p>
-<ol>
-<li>本身性能很高，每秒处理10万次的读写</li>
-<li>代码更清晰，逻辑更简单</li>
-<li>不用考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗</li>
-<li>不存在多进程或多线程导致的切换而消耗CPU</li>
-<li>事件处理类型是IO多路复用</li>
-<li>将并行事件，串行化发生。</li>
-</ol>
-<ul>
-<li>redis中数据库默认是多少个db及作用？</li>
-</ul>
-<blockquote>
-<p>共16 db，存储key-value格式信息。相当于不同的库</p>
-</blockquote>
-<ul>
-<li>如果redis中的某个列表中的数据量非常大，如果实现循环显示每一个值？</li>
-</ul>
-<blockquote>
-<p>利用xrange 方法实现生成器循环，然后yield生成器</p>
-</blockquote>
-<ul>
-<li>redis 如何实现主从复制？以及数据同步机制？</li>
-</ul>
-<p>redis 是一个非关系型数据库（No -SQL）</p>
-<p>储存结构 字节 python读取时</p>
-<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><hr>
-<ul>
-<li><a href="#redisobject">redisObject</a></li>
-<li><a href="#junmp">string</a><ul>
-<li><a href="#jump">int</a>（存放整数类型）</li>
-<li><a href="#jump">SDS</a>（存放浮点、字符串、字节类型）</li>
-</ul>
-</li>
-<li><a href="#jump">list</a><ul>
-<li><a href="#jump">链表</a>（linkedlist）双向链表</li>
-<li><a href="#jump">压缩列表</a>（ziplist）压缩列表</li>
-</ul>
-</li>
-<li><a href="#jump">hash</a><ul>
-<li><a href="#jump">压缩列表</a> （以上述相同）</li>
-<li><a href="#jump">字典</a>（使用散列表解决，解决冲突的方法是链表法）</li>
-</ul>
-</li>
-<li><a href="#jump">set</a></li>
-<li><a href="#jump">zset</a></li>
-<li><a href="#jump">跳表</a> skiplist</li>
-</ul>
-<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a><span id="redisobject">redisObject</span></h4><hr>
-<p>Redis的key是顶层模型，value是扁平化的。Redis中，所有value都是一个object，它的结构如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span>&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> [type] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [encoding] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [lru] REDIS_LRU_BITS;</span><br><span class="line">  <span class="type">int</span> refcount;</span><br><span class="line">  <span class="type">void</span> *prt;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<p>相关字段说明：</p>
-<ul>
-<li>type：数据类型，例如string、hash、list等。</li>
-<li>encoding：内部编码，就是数据结构。指的是当前这个value底层是用的什么数据结构。因为同一个数据类型底层也有多种数据结构的实现。</li>
-<li>REDIS_LRU_BITS：当前对象可以保留的时长。在键的过期策略中用到。</li>
-<li>refcount：对象引用计数，用于GC。</li>
-<li>ptr：指针，指向以encoding的方式实现这个对象的实际地址。</li>
-</ul>
-<h4 id="string"><a href="#string" class="headerlink" title="string"></a><span id="string">string</span></h4><hr>
-<p>string类型有两种底层存储结构。Redis会根据存储的数据及用户的操作指令自动选择合适的结构：</p>
-<ul>
-<li>int：存放整型类型</li>
-<li>SDS：存放浮点、字符串、字节类型</li>
-</ul>
-<blockquote>
-<p>SDS：简单动态字符串（simple dynamic string）</p>
-</blockquote>
-<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a><span id="SDS">SDS</span></h5><p>SDS的内部数据结构：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">  <span class="comment">// buf 中已占用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> len;</span><br><span class="line">  <span class="comment">// buf 中剩余可用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">  <span class="comment">// 数据空间</span></span><br><span class="line">  <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其底层就是char数组。buf最大容量就是512M，可以放字符串、浮点数、字节。但为什么没用数组？</p>
-<p>因为buf 会有动态扩容和缩容的需求。如果直接使用数组，那每次对字符串的修改都会导致重新分配内存，效率很低。</p>
-<p>buf扩容过程如下：</p>
-<ul>
-<li>如果修改后len长度将小于1M，这时分配给 free 的大小 &#x3D;&#x3D; len。<br>例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 &#x3D; 21 byte</li>
-<li>如果修改后len长度 &gt;&#x3D; 1M，这时分配给 free 的大小 &#x3D;&#x3D; 1M。<br>例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
-</ul>
-<p>惰性空间释放指的是当字符串缩短时，并没有真正的缩容，而是移动 free 的指针。这样一来字符串长度增加时，就不用重新分配内存了。但这样会造成内存的浪费，redis 提供了api来真正释放内存。</p>
-<h4 id="list"><a href="#list" class="headerlink" title="list"></a><span id="list">list</span></h4><hr>
-<p>list 底层有两种数据结构：链表linklist和压缩列表ziplist。当list元素个数少且元素内容长度不大时，使用ziplist实现，否则linklist。</p>
-<h5 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h5><p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">  <span class="comment">// 表头节点</span></span><br><span class="line">  listNode *head;</span><br><span class="line">  <span class="comment">// 表尾节点</span></span><br><span class="line">  listNode *tail;</span><br><span class="line">  <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">  <span class="comment">// 节点值复制函数</span></span><br><span class="line">  <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值释放函数</span></span><br><span class="line">  <span class="type">void</span> *(*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值对比函数</span></span><br><span class="line">  <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-<p>data存的其实就是一个指针。链表里面的元素是上面介绍的string。因为是双向链表，所以可以方便地把它当成一个栈或者队列使用。</p>
-<h5 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h5><p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
-<p>上图字段的含义：</p>
-<ul>
-<li>zlbytes：列表的长度</li>
-<li>zltail：指向最末元素</li>
-<li>zllen：元素的个数</li>
-<li>entry：元素的内容，里面记录了前一个Entry的长度，用于方便双向遍历</li>
-<li>zlend：恒为0xFF，作为ziplist的定界符</li>
-</ul>
-<p>压缩列表不只是list的底层，也是hash的底层实现之一。当hash的元素个数少且内容长度不大时，使用压缩列表来实现。</p>
-<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a><span id="hash">hash</span></h4><hr>
-<p>Hash 底层有两种实现：压缩列表和字典（dict）。</p>
-<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
-<p>在键增加或者减少时，会扩容或者缩容，并且进行rehash，根据hash值重新计算索引值。如果字典太大怎么办？</p>
-<p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。当负载因子触达阈值之后，只能申请新空间，但并不将老的数据搬移到新散列表中。当有新数据要插入时，将新数据插入新散列表中，并且从老的散列表中拿出一个数据放入到新散列表。每次插入一个数据到散列表，都重复上面的过程。经过多次插入操作之后，老的散列表中的数据就一点一点全部搬移到新散列表中了。这样没有了集中的一次一次性数据搬移，插入操作就都变得很快乐。这个被称为渐进式rehash。</p>
-<h4 id="set"><a href="#set" class="headerlink" title="set"></a><span id="set">set</span></h4><hr>
-<p>set里面没有重复的集合。set的实现比较简单。如果是整数类型，就直接使用整数集合intset。使用二分查找来辅助，速度还是挺快的。不过在插入的时候由于要移动元素，时间复杂度是 O(N)。</p>
-<p>如果不是整数类型，就是用上面在hash那一节介绍的字典。key 为 set 的值，value 为空。</p>
-<h4 id="zset"><a href="#zset" class="headerlink" title="zset"></a><span id="zset">zset</span></h4><hr>
-<p>zset是可排序的set。与hash的实现方式类似，如果元素个数不大，就使用压缩列表ziplist来存储。不过由于zset包含了score的排序信息，所以在ziplist内部，是按照score排序递增来存储的。意味着每次插入数据都要移动之后的数据。</p>
-<h4 id="跳表（skiplist）"><a href="#跳表（skiplist）" class="headerlink" title="跳表（skiplist）"></a><span id="">跳表</span>（skiplist）</h4><p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
-<p>如图所示，比如我们要查找8，先在最上层L2查找，发现在1 和9 之间；然后去L1层查找，发现在5和9之间；然后去L0查找，发现在7和9之间，然后找到8。</p>
-<p>当元素较多时，跳跃表可以显著减少查找次数。</p>
-<p>同list类似，Redis内部也不是直接使用的跳跃表，而是使用了一个自定义的数据结构来持有跳跃表。下图左边蓝色部分是skiplist，右边是4个zskiplistNode。zskiplistNode内部有很多层L1、L2等，指针指向这一层的下一个结点。BW是回退指针，用于查找的时候回退。然后下面是score和对象本身object。</p>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 认识与实践</title>
     <url>/blog/Python/5b415ee.html</url>
-    <content><![CDATA[<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><h2 id="Python第一天"><a href="#Python第一天" class="headerlink" title="Python第一天"></a>Python第一天</h2><h3 id="初识编码"><a href="#初识编码" class="headerlink" title="初识编码"></a>初识编码</h3><ul>
+    <content><![CDATA[<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h2 id="Python第一天"><a href="#Python第一天" class="headerlink" title="Python第一天"></a>Python第一天</h2><h3 id="初识编码"><a href="#初识编码" class="headerlink" title="初识编码"></a>初识编码</h3><ul>
 <li>Python2默认英文编码    	Ascii  	英文，8位表示一个信息，2^8</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line">//输入编码格式python2中需要输入</span><br></pre></td></tr></table></figure>
@@ -4143,9 +3228,924 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>Redis-基础</title>
+    <url>/blog/Redis/bf7639ff.html</url>
+    <content><![CDATA[<h2 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h2><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
+<ul>
+<li>基于内存存储数据</li>
+<li>Recator 模型（IO多路复用）</li>
+<li>单线程应用</li>
+<li></li>
+</ul>
+</blockquote>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
+<ul>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
+<li>空间预分配</li>
+<li>惰性空间释放，通过 free 属性</li>
+<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
+</ul>
+<p>与 C 字符串区别：</p>
+<ul>
+<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
+<li>获取长度要遍历计数。</li>
+<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
+</ul>
+</blockquote>
+<span id="more"></span>
+
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
+<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
+<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
+<p>特点：</p>
+<ul>
+<li>双端：带有前后节点</li>
+<li>无环：表头节点和表尾节点为空</li>
+<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
+<li>带链表长度计数器： 通过 len 获取</li>
+<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
+<p>redis 数据库就是使用字典来作为底层实现的。</p>
+<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
+</blockquote>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
+
+<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>有序集合实现的底层之一</li>
+<li>集群节点中用作内部数据结构</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>集合键</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
+<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
+<p>使用场景：</p>
+<ul>
+<li>列表键</li>
+<li>哈希键</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>长度</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zlbytes</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
+</tr>
+<tr>
+<td>zltail</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
+</tr>
+<tr>
+<td>zllen</td>
+<td>uint16_t</td>
+<td>2字节</td>
+<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
+</tr>
+<tr>
+<td>entryX</td>
+<td>列表节点</td>
+<td>不定</td>
+<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
+</tr>
+<tr>
+<td>zlend</td>
+<td>uint8_t</td>
+<td>1字节</td>
+<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
+<p>基于对象系统来使用上述数据结构</p>
+<p>主要分为：</p>
+<ul>
+<li>字符串对象</li>
+<li>列表对象</li>
+<li>哈希对象</li>
+<li>集合对象</li>
+<li>有序集合对象</li>
+</ul>
+<p>基于 引用计数 技术的内存回收机制。</p>
+<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
+<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
+<ul>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
+</ul>
+<p>字符串对象编码可以是 int、raw、或 embstr。</p>
+<p>保存的类型区分：</p>
+<ul>
+<li>long 类型整数时，编码采用 int </li>
+<li>字符串时</li>
+<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
+<li>小于39时，使用 embstr 保存</li>
+</ul>
+<p>long double 类型浮点数使用 embstr 或 raw。</p>
+<p>其余长度不满足时，均采用 embstr 或 raw。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody></table>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
+<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存的所有字符串元素长度都小于 64 字节；</li>
+<li>保存的元素数量小于 512 个；</li>
+</ul>
+<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpush</td>
+<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>rpop key-name ——移除并返回列表最右端的元素</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>lpop key-name ——移除并返回列表最左端的元素</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
+<p>哈希对象编码可以是 压缩列表 或 字典。</p>
+<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存所有键值对的字符串长度小于64字节</li>
+<li>键值对数量小于512个</li>
+</ul>
+<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hmget</td>
+<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>hlen key-name ——返回散列包含的键值对数量</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>hexists key-name key ——检查给定键是否存在于散列中</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>hkeys key-name ——获取散列包含的所有键</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>hvals key-name ——获取散列包含的所有值</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>hgetall key-name ——获取散列包含的所有键值对</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
+<p>集合对象编码可以是 整数集合 和 字典。</p>
+<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
+<p>使用 整数集合编码条件：</p>
+<ul>
+<li>保存所有元素是整数</li>
+<li>数量不超过512个</li>
+</ul>
+<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>scard key-name ——返回集合包含的元素的数量</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>smembers key-name ——返回集合包含的所有元素</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
+</tr>
+<tr>
+<td>sdiffstore</td>
+<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
+</tr>
+<tr>
+<td>sinterstore</td>
+<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
+</tr>
+<tr>
+<td>sunionstore</td>
+<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
+<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
+<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
+<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
+<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
+<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
+<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
+<p>如果仅利用其中一个实现：</p>
+<ul>
+<li>字典无序，范围查询，会需要额外空间</li>
+<li>跳跃表查询成员分值，无法做到 O(1)</li>
+</ul>
+<p>使用压缩列表条件：</p>
+<ul>
+<li>元素数量小于128个</li>
+<li>成员长度小于 64字节</li>
+</ul>
+<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key-name ——返回有序集合包含的成员数量</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>zscore key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
+<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
+<p>如何保证消息的可靠性</p>
+<p>消息积压会耗费过多内存</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>subscribe</td>
+<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
+</tr>
+<tr>
+<td>unsubscribe</td>
+<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
+</tr>
+<tr>
+<td>publish</td>
+<td>publish channel message ——向给定频道发消息</td>
+</tr>
+<tr>
+<td>psubscribe</td>
+<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
+</tr>
+<tr>
+<td>punsubscribe</td>
+<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>能够对 列表、集合、有序集合进行排序。</p>
+<p>选项：</p>
+<ul>
+<li>降序、升序</li>
+<li>元素看作数字排序</li>
+<li>看作 二进制字符串排序</li>
+<li>使用被排序元素之外的 其他值 作为权重值排序</li>
+<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort</td>
+<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
+</tr>
+</tbody></table>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
+<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
+<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
+<p>事务执行不会中断，要么全部执行完，才会结束。</p>
+<p>multi 用于事务开始</p>
+<p>exec 代表事务执行</p>
+<p>watch 命令 是一个乐观锁</p>
+</blockquote>
+<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
+<p>expire 设置 key 过期时间</p>
+<p>过期键的判定：</p>
+<ol>
+<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
+<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
+</ol>
+<p>一般过期策略：</p>
+<ul>
+<li>定时删除：内存友好，通过定时器删除，释放内存</li>
+<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
+<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
+</ul>
+<p>采用 惰性删除 和 定期删除</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>persist</td>
+<td>persist key-name ——移除键的过期时间</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
+</tr>
+<tr>
+<td>expireat</td>
+<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
+</tr>
+<tr>
+<td>pttl</td>
+<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpire</td>
+<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpireat</td>
+<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
+</tr>
+</tbody></table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<ul>
+<li>《redis 设计与实现》</li>
+<li>《redis 实战》</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis 缓存问题</title>
+    <url>/blog/Redis/6827b7f6.html</url>
+    <content><![CDATA[<h2 id="Redis-缓存问题"><a href="#Redis-缓存问题" class="headerlink" title="Redis 缓存问题"></a>Redis 缓存问题</h2><h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p>缓存穿透指：</p>
+<p>当请求传递到后端服务器时，会先查询Redis 缓存中是否存在该 key 值，不存在，则会请求db 去查询。</p>
+<p>当发生程序被攻击时，出现大量空值的key 会去请求，以拖垮服务器查询，导致程序崩溃。</p>
+</blockquote>
+ <span id="more"></span>
+
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>缓存空值</li>
+<li>布隆过滤器（key 校验）</li>
+</ol>
+<h4 id="缓存空值"><a href="#缓存空值" class="headerlink" title="缓存空值"></a>缓存空值</h4><blockquote>
+<p>将数据库中查询为空的key 也存储在缓存中，当再次查询时，则可以避免查询数据库。</p>
+</blockquote>
+<p>缓存空值会出现两个问题：</p>
+<ol>
+<li>空值缓存，会占用更多空间，需要设置较短的过期时间。（若是攻击，会很麻烦）</li>
+<li>缓存和存储的数据会有一段时间不一致，有业务影响。</li>
+</ol>
+<!-- more -->
+
+<h4 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
+<ol>
+<li><p>利用 k 个哈希函数，对元素进行计算</p>
+</li>
+<li><p>根据哈希值，将位数据组对应的下标置为1</p>
+</li>
+<li><p>当需要查询时，重复过程 <code>1</code>，若查询对应位数据下标不全为1，则不存在，全为1，则存在</p>
+</li>
+</ol>
+</blockquote>
+<p>优点：</p>
+<blockquote>
+<p>数据空间小，不用存储数据本身</p>
+</blockquote>
+<p>缺点：</p>
+<blockquote>
+<ul>
+<li>元素可以添加到集合中，不能删除</li>
+<li>匹配结果是“<code>绝对不在集合中</code>”，并不能保证匹配成功的值已经在集合中</li>
+<li>当集合快满时，即接近预估最大容量时，误报的概率会变大</li>
+<li>数据占用空间放大</li>
+</ul>
+</blockquote>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p>当<font  color=red><strong>单个</strong></font>热点key 的缓存数据，<font  color=red>****</font>刚好过了有效时间，此时大量请求涌入，会导致数据查询流量大增，数据库可能崩溃。</p>
+</blockquote>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>互斥锁</li>
+<li>热点数据永不过期</li>
+</ol>
+<h4 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h4><blockquote>
+<p>当第一个数据库查询请求发起后，就将缓存中该数据上锁；</p>
+<p>此时其他查询该缓存的请求，被阻塞等待；</p>
+<p>当第一个请求完成，然后更新缓存，释放锁；</p>
+<p>其他查询请求后续可以查询到。</p>
+</blockquote>
+<p><strong>注意</strong>：互斥锁可以避免某一个热点，但实际情况里往往是一批。</p>
+<p>将缓存的过期时间，设置为随机值，会降低这一概率。</p>
+<h4 id="热点数据永不过期"><a href="#热点数据永不过期" class="headerlink" title="热点数据永不过期"></a>热点数据永不过期</h4><blockquote>
+<p>从缓存层面，确实没有设置过期时间，也就是物理不过期</p>
+<p>从功能层面，每一个value 都有对应逻辑时间，过期后，单独重新构建。</p>
+</blockquote>
+<p><strong>注意</strong>：在重新构建期间，可能会出现数据不一致的情况。</p>
+<p><strong>比较</strong>：</p>
+<ul>
+<li>互斥锁<ul>
+<li>存在死锁和阻塞风险</li>
+<li>较好的降低后端负载，一致性比较好</li>
+</ul>
+</li>
+<li>永远不过期<ul>
+<li>数据不一致情况</li>
+<li>代码复杂度会增大</li>
+</ul>
+</li>
+</ul>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p>指缓存中大量的数据同时过期，导致大量请求在短时间内直接到达数据库，对数据库造成巨大压力。</p>
+</blockquote>
+<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>过期时间分散</li>
+<li>缓存预热</li>
+<li>限流降级</li>
+</ol>
+<h4 id="过期时间分撒"><a href="#过期时间分撒" class="headerlink" title="过期时间分撒"></a>过期时间分撒</h4><blockquote>
+<p>使用 expire 命令设置过期时间，引入随机过期时间机制</p>
+</blockquote>
+<h4 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h4><blockquote>
+<p>使用 CacheWarmer 等工具在系统启动前预热缓存</p>
+</blockquote>
+<h4 id="限流降级"><a href="#限流降级" class="headerlink" title="限流降级"></a>限流降级</h4><blockquote>
+<p>使用限流算法控制访问数据库的请求速率，当缓存失效导致请求过多时，进行降级处理。</p>
+<p>工具：<code>Hystrix</code>、<code>Sentinel</code> 等 </p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis 了解与安装</title>
+    <url>/blog/Redis/1738e583.html</url>
+    <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
+<li>Redis 和 memcached 区别？</li>
+</ul>
+<p>对比 Memcache的共同点：</p>
+<ol>
+<li>redis 是缓存到内存中，</li>
+<li>属于 key - value</li>
+</ol>
+<p>不同的;</p>
+<ol>
+<li>redis 可以做持久化（将数据保存磁盘上）</li>
+<li>支持更丰富的数据类型，value 可以是字符串，链表，哈希，memcache只支持字符串</li>
+</ol>
+<ul>
+<li>如何高效的找到redis中所有以oldboy开头的key</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么是一致性哈希</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p>首先一致性哈希满足以下几个方面：<br>平衡性<br>单调性<br>分散性<br>负载<br>平滑性<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>将整个哈希空间虚拟成一个0 ~ 2^32无符号的圆形，然后把每个服务器进行哈希，然后将对应ip哈希到邻近服务器上。</p>
+<ul>
+<li>redis是单进程单线程的吗？</li>
+</ul>
+<p>首先redis是单线程单进程，如果需要，只能多开几个redis进程</p>
+<ol>
+<li>本身性能很高，每秒处理10万次的读写</li>
+<li>代码更清晰，逻辑更简单</li>
+<li>不用考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗</li>
+<li>不存在多进程或多线程导致的切换而消耗CPU</li>
+<li>事件处理类型是IO多路复用</li>
+<li>将并行事件，串行化发生。</li>
+</ol>
+<ul>
+<li>redis中数据库默认是多少个db及作用？</li>
+</ul>
+<blockquote>
+<p>共16 db，存储key-value格式信息。相当于不同的库</p>
+</blockquote>
+<ul>
+<li>如果redis中的某个列表中的数据量非常大，如果实现循环显示每一个值？</li>
+</ul>
+<blockquote>
+<p>利用xrange 方法实现生成器循环，然后yield生成器</p>
+</blockquote>
+<ul>
+<li>redis 如何实现主从复制？以及数据同步机制？</li>
+</ul>
+<p>redis 是一个非关系型数据库（No -SQL）</p>
+<p>储存结构 字节 python读取时</p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><hr>
+<ul>
+<li><a href="#redisobject">redisObject</a></li>
+<li><a href="#junmp">string</a><ul>
+<li><a href="#jump">int</a>（存放整数类型）</li>
+<li><a href="#jump">SDS</a>（存放浮点、字符串、字节类型）</li>
+</ul>
+</li>
+<li><a href="#jump">list</a><ul>
+<li><a href="#jump">链表</a>（linkedlist）双向链表</li>
+<li><a href="#jump">压缩列表</a>（ziplist）压缩列表</li>
+</ul>
+</li>
+<li><a href="#jump">hash</a><ul>
+<li><a href="#jump">压缩列表</a> （以上述相同）</li>
+<li><a href="#jump">字典</a>（使用散列表解决，解决冲突的方法是链表法）</li>
+</ul>
+</li>
+<li><a href="#jump">set</a></li>
+<li><a href="#jump">zset</a></li>
+<li><a href="#jump">跳表</a> skiplist</li>
+</ul>
+<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a><span id="redisobject">redisObject</span></h4><hr>
+<p>Redis的key是顶层模型，value是扁平化的。Redis中，所有value都是一个object，它的结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span>&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> [type] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [encoding] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [lru] REDIS_LRU_BITS;</span><br><span class="line">  <span class="type">int</span> refcount;</span><br><span class="line">  <span class="type">void</span> *prt;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<p>相关字段说明：</p>
+<ul>
+<li>type：数据类型，例如string、hash、list等。</li>
+<li>encoding：内部编码，就是数据结构。指的是当前这个value底层是用的什么数据结构。因为同一个数据类型底层也有多种数据结构的实现。</li>
+<li>REDIS_LRU_BITS：当前对象可以保留的时长。在键的过期策略中用到。</li>
+<li>refcount：对象引用计数，用于GC。</li>
+<li>ptr：指针，指向以encoding的方式实现这个对象的实际地址。</li>
+</ul>
+<h4 id="string"><a href="#string" class="headerlink" title="string"></a><span id="string">string</span></h4><hr>
+<p>string类型有两种底层存储结构。Redis会根据存储的数据及用户的操作指令自动选择合适的结构：</p>
+<ul>
+<li>int：存放整型类型</li>
+<li>SDS：存放浮点、字符串、字节类型</li>
+</ul>
+<blockquote>
+<p>SDS：简单动态字符串（simple dynamic string）</p>
+</blockquote>
+<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a><span id="SDS">SDS</span></h5><p>SDS的内部数据结构：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">  <span class="comment">// buf 中已占用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> len;</span><br><span class="line">  <span class="comment">// buf 中剩余可用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">  <span class="comment">// 数据空间</span></span><br><span class="line">  <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其底层就是char数组。buf最大容量就是512M，可以放字符串、浮点数、字节。但为什么没用数组？</p>
+<p>因为buf 会有动态扩容和缩容的需求。如果直接使用数组，那每次对字符串的修改都会导致重新分配内存，效率很低。</p>
+<p>buf扩容过程如下：</p>
+<ul>
+<li>如果修改后len长度将小于1M，这时分配给 free 的大小 &#x3D;&#x3D; len。<br>例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 &#x3D; 21 byte</li>
+<li>如果修改后len长度 &gt;&#x3D; 1M，这时分配给 free 的大小 &#x3D;&#x3D; 1M。<br>例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
+</ul>
+<p>惰性空间释放指的是当字符串缩短时，并没有真正的缩容，而是移动 free 的指针。这样一来字符串长度增加时，就不用重新分配内存了。但这样会造成内存的浪费，redis 提供了api来真正释放内存。</p>
+<h4 id="list"><a href="#list" class="headerlink" title="list"></a><span id="list">list</span></h4><hr>
+<p>list 底层有两种数据结构：链表linklist和压缩列表ziplist。当list元素个数少且元素内容长度不大时，使用ziplist实现，否则linklist。</p>
+<h5 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h5><p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">  <span class="comment">// 表头节点</span></span><br><span class="line">  listNode *head;</span><br><span class="line">  <span class="comment">// 表尾节点</span></span><br><span class="line">  listNode *tail;</span><br><span class="line">  <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">  <span class="comment">// 节点值复制函数</span></span><br><span class="line">  <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值释放函数</span></span><br><span class="line">  <span class="type">void</span> *(*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值对比函数</span></span><br><span class="line">  <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+<p>data存的其实就是一个指针。链表里面的元素是上面介绍的string。因为是双向链表，所以可以方便地把它当成一个栈或者队列使用。</p>
+<h5 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h5><p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
+<p>上图字段的含义：</p>
+<ul>
+<li>zlbytes：列表的长度</li>
+<li>zltail：指向最末元素</li>
+<li>zllen：元素的个数</li>
+<li>entry：元素的内容，里面记录了前一个Entry的长度，用于方便双向遍历</li>
+<li>zlend：恒为0xFF，作为ziplist的定界符</li>
+</ul>
+<p>压缩列表不只是list的底层，也是hash的底层实现之一。当hash的元素个数少且内容长度不大时，使用压缩列表来实现。</p>
+<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a><span id="hash">hash</span></h4><hr>
+<p>Hash 底层有两种实现：压缩列表和字典（dict）。</p>
+<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
+<p>在键增加或者减少时，会扩容或者缩容，并且进行rehash，根据hash值重新计算索引值。如果字典太大怎么办？</p>
+<p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。当负载因子触达阈值之后，只能申请新空间，但并不将老的数据搬移到新散列表中。当有新数据要插入时，将新数据插入新散列表中，并且从老的散列表中拿出一个数据放入到新散列表。每次插入一个数据到散列表，都重复上面的过程。经过多次插入操作之后，老的散列表中的数据就一点一点全部搬移到新散列表中了。这样没有了集中的一次一次性数据搬移，插入操作就都变得很快乐。这个被称为渐进式rehash。</p>
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a><span id="set">set</span></h4><hr>
+<p>set里面没有重复的集合。set的实现比较简单。如果是整数类型，就直接使用整数集合intset。使用二分查找来辅助，速度还是挺快的。不过在插入的时候由于要移动元素，时间复杂度是 O(N)。</p>
+<p>如果不是整数类型，就是用上面在hash那一节介绍的字典。key 为 set 的值，value 为空。</p>
+<h4 id="zset"><a href="#zset" class="headerlink" title="zset"></a><span id="zset">zset</span></h4><hr>
+<p>zset是可排序的set。与hash的实现方式类似，如果元素个数不大，就使用压缩列表ziplist来存储。不过由于zset包含了score的排序信息，所以在ziplist内部，是按照score排序递增来存储的。意味着每次插入数据都要移动之后的数据。</p>
+<h4 id="跳表（skiplist）"><a href="#跳表（skiplist）" class="headerlink" title="跳表（skiplist）"></a><span id="">跳表</span>（skiplist）</h4><p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
+<p>如图所示，比如我们要查找8，先在最上层L2查找，发现在1 和9 之间；然后去L1层查找，发现在5和9之间；然后去L0查找，发现在7和9之间，然后找到8。</p>
+<p>当元素较多时，跳跃表可以显著减少查找次数。</p>
+<p>同list类似，Redis内部也不是直接使用的跳跃表，而是使用了一个自定义的数据结构来持有跳跃表。下图左边蓝色部分是skiplist，右边是4个zskiplistNode。zskiplistNode内部有很多层L1、L2等，指针指向这一层的下一个结点。BW是回退指针，用于查找的时候回退。然后下面是score和对象本身object。</p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>scrapy 爬虫</title>
     <url>/blog/Python/88f0a041.html</url>
-    <content><![CDATA[<h1 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h1><p>scrapy 框架，异步爬虫框架。</p>
+    <content><![CDATA[<h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><p>scrapy 框架，异步爬虫框架。</p>
 <h3 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h3><p>同步：下一个方法依赖上一个方法，上一个没执行完，则下一个不会执行。</p>
 <p>异步：下一个方法不依赖上一个方法，上一个没执行完，下一个依旧会执行。</p>
 <p>组成：Pipeline  、Scheduler、Downloader、Spiders。以及Scrapy Engine 引擎（队列）</p>
@@ -4328,7 +4328,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>TCP协议</title>
     <url>/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/51aeee82.html</url>
-    <content><![CDATA[<h1 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h1><h2 id="TCP流程"><a href="#TCP流程" class="headerlink" title="TCP流程"></a>TCP流程</h2><h3 id="建立连接（三次握手）"><a href="#建立连接（三次握手）" class="headerlink" title="建立连接（三次握手）"></a>建立连接（三次握手）</h3><ol>
+    <content><![CDATA[<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><h2 id="TCP流程"><a href="#TCP流程" class="headerlink" title="TCP流程"></a>TCP流程</h2><h3 id="建立连接（三次握手）"><a href="#建立连接（三次握手）" class="headerlink" title="建立连接（三次握手）"></a>建立连接（三次握手）</h3><ol>
 <li>双方初始阶段都是从 close 状态开始，</li>
 <li>服务端从close 状态，监听某个端口，然后进行 listen 状态。</li>
 <li>客户端主动发起连接，发送 SYN，变成 SYN-SENT 状态。</li>
@@ -4473,7 +4473,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>Vue 初识</title>
     <url>/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/b882c090.html</url>
-    <content><![CDATA[<h1 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h1><h2 id="单页面应用程序"><a href="#单页面应用程序" class="headerlink" title="单页面应用程序"></a>单页面应用程序</h2><blockquote>
+    <content><![CDATA[<h2 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h2><h2 id="单页面应用程序"><a href="#单页面应用程序" class="headerlink" title="单页面应用程序"></a>单页面应用程序</h2><blockquote>
 <p>Single Page Application</p>
 <p>简称 SPA</p>
 </blockquote>
@@ -4624,7 +4624,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>算法-哈希</title>
     <url>/blog/%E7%AE%97%E6%B3%95/a093ef30.html</url>
-    <content><![CDATA[<h1 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h1><h2 id="解决哈希冲突"><a href="#解决哈希冲突" class="headerlink" title="解决哈希冲突"></a>解决哈希冲突</h2><h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
+    <content><![CDATA[<h2 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h2><h2 id="解决哈希冲突"><a href="#解决哈希冲突" class="headerlink" title="解决哈希冲突"></a>解决哈希冲突</h2><h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
 <li><strong>线性探测法</strong>：当冲突发生时，按照某种线性序列在散列表中查找下一个空的位置来插入数据。</li>
 <li><strong>二次探测法</strong>：使用二次函数来计算下一个插入位置。</li>
 <li><strong>随机探测法</strong>：使用随机生成的序列来查找下一个空的位置。</li>
@@ -4658,7 +4658,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>爬虫</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
-    <content><![CDATA[<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>​		稳定性：任意相等的两个数据，排序前后的相对位置不会改变</p>
+    <content><![CDATA[<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>​		稳定性：任意相等的两个数据，排序前后的相对位置不会改变</p>
 <h3 id="简单排序"><a href="#简单排序" class="headerlink" title="简单排序"></a>简单排序</h3><h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><p>​			最好情况：顺序T&#x3D;O(N)</p>
 <p>​			最坏情况：逆序T&#x3D;O(N^2)</p>
 <p>稳定的排序算法</p>
@@ -4721,7 +4721,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>爬虫</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
-    <content><![CDATA[<h1 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h1><h3 id="BS架构"><a href="#BS架构" class="headerlink" title="BS架构"></a>BS架构</h3><p>浏览器   </p>
+    <content><![CDATA[<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="BS架构"><a href="#BS架构" class="headerlink" title="BS架构"></a>BS架构</h3><p>浏览器   </p>
 <p>​		browser —&gt; server</p>
 <h3 id="CS架构"><a href="#CS架构" class="headerlink" title="CS架构"></a>CS架构</h3><p>客户端</p>
 <p>​		client   —-&gt; server</p>
@@ -4744,7 +4744,7 @@ utf-8是目前最常用的字符编码格式
 <p>方式一：分为两次发送</p>
 <h3 id="模拟SSH"><a href="#模拟SSH" class="headerlink" title="模拟SSH"></a>模拟SSH</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以输入终端指令，进行验证</span></span><br><span class="line">res = subprocess.Popen(<span class="string">&#x27;dir&#x27;</span>, shell=<span class="literal">True</span>,</span><br><span class="line">                       stderr=subprocess.PIPE, stdout=subprocess.PIPE)</span><br><span class="line"><span class="comment"># 由于时在windows中 cmd 是 gbk，</span></span><br><span class="line"><span class="built_in">print</span>(res.stdout.read().decode(<span class="string">&#x27;gbk&#x27;</span>))</span><br></pre></td></tr></table></figure>
 
-<h1 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h1><p>并发，伪，由于执行速度特别快，人感觉不到停顿</p>
+<h2 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h2><p>并发，伪，由于执行速度特别快，人感觉不到停顿</p>
 <p>并行，真，创建10个人同时操作</p>
 <p>python多线程情况下：</p>
 <ul>
@@ -4769,7 +4769,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>node js 基础</title>
     <url>/blog/Node-Js/4fc23aae.html</url>
-    <content><![CDATA[<h1 id="node-js"><a href="#node-js" class="headerlink" title="node.js"></a>node.js</h1><ul>
+    <content><![CDATA[<h2 id="node-js"><a href="#node-js" class="headerlink" title="node.js"></a>node.js</h2><ul>
 <li><h3 id="node-js-1"><a href="#node-js-1" class="headerlink" title="node.js"></a>node.js</h3><ul>
 <li>Node.js不是一门语言</li>
 <li>Node.js不是库、不是框架</li>
@@ -5144,7 +5144,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>爬虫</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
-    <content><![CDATA[<h1 id="jupyter-notebook"><a href="#jupyter-notebook" class="headerlink" title="jupyter notebook"></a>jupyter notebook</h1><p>魔法命令</p>
+    <content><![CDATA[<h2 id="jupyter-notebook"><a href="#jupyter-notebook" class="headerlink" title="jupyter notebook"></a>jupyter notebook</h2><p>魔法命令</p>
 <h2 id="Numpy-安装与导入"><a href="#Numpy-安装与导入" class="headerlink" title="Numpy 安装与导入"></a>Numpy 安装与导入</h2><p>安装</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install numpy</span><br></pre></td></tr></table></figure>
 
@@ -5207,7 +5207,7 @@ utf-8是目前最常用的字符编码格式
   <entry>
     <title>爬虫</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
-    <content><![CDATA[<h1 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h1><h2 id="Anaconda下载安装"><a href="#Anaconda下载安装" class="headerlink" title="Anaconda下载安装"></a>Anaconda下载安装</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYW5hY29uZGEuY29tL2Rpc3RyaWJ1dGlvbi8jZG93bmxvYWQtc2VjdGlvbg==">https://www.anaconda.com/distribution/#download-section<i class="fa fa-external-link-alt"></i></span></p>
+    <content><![CDATA[<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><h2 id="Anaconda下载安装"><a href="#Anaconda下载安装" class="headerlink" title="Anaconda下载安装"></a>Anaconda下载安装</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYW5hY29uZGEuY29tL2Rpc3RyaWJ1dGlvbi8jZG93bmxvYWQtc2VjdGlvbg==">https://www.anaconda.com/distribution/#download-section<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="使用jupyter可实话"><a href="#使用jupyter可实话" class="headerlink" title="使用jupyter可实话"></a>使用jupyter可实话</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装</span></span><br><span class="line">pip install jupyterlab</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">运行</span></span><br><span class="line">jupyter notebook</span><br></pre></td></tr></table></figure>
 
 
