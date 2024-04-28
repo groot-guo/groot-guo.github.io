@@ -1135,6 +1135,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Golang init函数分析</title>
+    <url>/blog/Golang/38d3f8f.html</url>
+    <content><![CDATA[<blockquote>
+<p>​	博主第一次文章编写，前面均为笔记记录，本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎建议。</p>
+<p>本次代码用例环境：</p>
+<p>go version: 1.19.13</p>
+</blockquote>
+<p>​	在进行分析init 函数过程之前，先提出几个问题来思考，这样可能更方便我们来进行理解。带着问题来思考，对整体的执行过程会更加清晰。</p>
+<ol>
+<li>init 函数是什么</li>
+<li>init 函数如何执行的</li>
+<li>多个包中 init函数的执行顺序如何确定的</li>
+<li>如果多个包中，执行init 函数，又存在修改时，如何保证不会修改</li>
+<li>使用 init 函数初始化数据时，需要注意哪些问题</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="init-函数介绍"><a href="#init-函数介绍" class="headerlink" title="init 函数介绍"></a>init 函数介绍</h2><blockquote>
+<p>​	init 函数，是 Golang 代码执行中，在 main 函数中的代码执行过程中，可以优先执行的一个函数，确保程序在执行main 函数中的代码时，避免其他包中使用的全局变量资源没有进行初始化。</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// package example_a</span></span><br><span class="line"><span class="keyword">var</span> A <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    A = <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// package main</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;example_a&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;package a = &quot;</span>, example_a.A)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">---terminal---</span></span><br><span class="line"><span class="string">package a = 1</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span></span><br></pre></td></tr></table></figure>
+
+<p>​	在上述代码执行过程中，main 包导入了 example_a 包，main 在执行的过程中，会打印 example_a包中变量 A，而 example_a 包就会执行 init 函数进行初始化变量，最终 main 函数执行，打印 变量 A ，其值 为1。</p>
+<h2 id="多个init-函数"><a href="#多个init-函数" class="headerlink" title="多个init 函数"></a>多个init 函数</h2><blockquote>
+<p>现在，我们已经了解了init 函数的作用，执行过程。那么在多个包中，它该如何执行。</p>
+</blockquote>
+<p>在进行分析前，针对前面提出的问题，我们提问一些更深入的问题：</p>
+<ul>
+<li>执行过程中，有什么顺序要求？</li>
+<li>可以指定执行顺序吗？</li>
+<li>与包层级嵌套有关吗？</li>
+<li>如果存在依赖关系，又是如何执行的？</li>
+<li>如果在别的 init 函数执行初始化，最终会以哪个包执行结果为准？</li>
+</ul>
+<h3 id="多个包中-init-函数执行流程"><a href="#多个包中-init-函数执行流程" class="headerlink" title="多个包中 init 函数执行流程"></a>多个包中 init 函数执行流程</h3><blockquote>
+<p>先看一段基础版的代码演示，仅做为基本的 init 函数执行导包</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">---- 层级结构 ----</span><br><span class="line">存在某些导包省略，自己执行时，进行补充</span><br><span class="line">go-init-example</span><br><span class="line">|-- example_a</span><br><span class="line">	|-- example-a.go</span><br><span class="line">|-- example_b</span><br><span class="line">	|-- example-b.go</span><br><span class="line">|-- example_c</span><br><span class="line">	|-- example-c.go</span><br><span class="line">	|-- example_d</span><br><span class="line">		|-- example-d.go</span><br><span class="line"></span><br><span class="line">|-- main.go</span><br></pre></td></tr></table></figure>
+
+<div class="tabs" id="many-init-package"><ul class="nav-tabs"><li class="tab active"><a href="#many-init-package-1">package main</a></li><li class="tab"><a href="#many-init-package-2">运行结果1</a></li><li class="tab"><a href="#many-init-package-3">package example_a</a></li><li class="tab"><a href="#many-init-package-4">package example_b</a></li><li class="tab"><a href="#many-init-package-5">package example_c</a></li></ul><div class="tab-content"><div class="tab-pane active" id="many-init-package-1"><figure class="highlight erlang"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">import</span> <span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function">​	<span class="string">&quot;fmt&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function">​	<span class="string">&quot;go-init-example/example_a&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="function">​	<span class="string">&quot;go-init-example/example_b&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="function">​	<span class="string">&quot;go-init-example/example_c&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="function">​	<span class="string">&quot;go-init-example/example_c/example_d&quot;</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">main</span><span class="params">()</span> &#123;</span></span><br><span class="line"><span class="function">	<span class="title">fmt</span>.P<span class="title">rintln</span><span class="params">(<span class="string">&quot;a = &quot;</span>, example_a.A)</span></span></span><br><span class="line"><span class="function">	<span class="title">fmt</span>.P<span class="title">rintln</span><span class="params">(<span class="string">&quot;b = &quot;</span>, example_b.B)</span></span></span><br><span class="line"><span class="function">	<span class="title">fmt</span>.P<span class="title">rintln</span><span class="params">(<span class="string">&quot;c = &quot;</span>, example_c.C)</span></span></span><br><span class="line"><span class="function">	<span class="title">fmt</span>.P<span class="title">rintln</span><span class="params">(<span class="string">&quot;d = &quot;</span>, example_d.D)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-package-2"><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">// 代码运行结果如下</span><br><span class="line"></span><br><span class="line">package a set A <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package b set B <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package c set C <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package d set D <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">a</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">b</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">c</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">d</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-package-3"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// package example_a</span></span><br><span class="line"><span class="keyword">var</span> A <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    A = <span class="number">1</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;package a set A = &quot;</span>, A)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-package-4"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// package example_b</span></span><br><span class="line"><span class="keyword">var</span> B <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	B = <span class="number">1</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;package b set B = &quot;</span>, B)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-package-5"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// package example_c</span></span><br><span class="line"><span class="keyword">var</span> C <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	C = <span class="number">1</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;package c set C = &quot;</span>, C)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>​	从代码的运行结果来看，main 在执行前，按照 a、b、c、d 的顺序执行了init 函数初始化。那执行顺序有可能改变吗？</p>
+<h3 id="多个包init-函数执行顺序"><a href="#多个包init-函数执行顺序" class="headerlink" title="多个包init 函数执行顺序"></a>多个包init 函数执行顺序</h3><blockquote>
+<p>在上面的执行结果中，我们可以看到导包的顺序为 a、b、c、d，main函数中打印的顺序为 a、b、c、d。</p>
+<p>那么到底是哪一个顺序导致多个包中init 函数执行顺序的呢？</p>
+</blockquote>
+<h4 id="如果修改main-函数中打印："><a href="#如果修改main-函数中打印：" class="headerlink" title="如果修改main 函数中打印："></a>如果修改main 函数中打印：</h4><div class="tabs" id="many-init-sort"><ul class="nav-tabs"><li class="tab active"><a href="#many-init-sort-1">package main</a></li><li class="tab"><a href="#many-init-sort-2">运行结果2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="many-init-sort-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;go-init-example/example_a&quot;</span></span><br><span class="line">	<span class="string">&quot;go-init-example/example_b&quot;</span></span><br><span class="line">	<span class="string">&quot;go-init-example/example_c&quot;</span></span><br><span class="line">	<span class="string">&quot;go-init-example/example_c/example_d&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;d = &quot;</span>, example_d.D)</span><br><span class="line">    fmt.Println(<span class="string">&quot;a = &quot;</span>, example_a.A)</span><br><span class="line">    fmt.Println(<span class="string">&quot;b = &quot;</span>, example_b.B)</span><br><span class="line">    fmt.Println(<span class="string">&quot;c = &quot;</span>, example_c.C)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-sort-2"><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">// 代码运行结果如下</span><br><span class="line"></span><br><span class="line">package a set A <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package b set B <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package c set C <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package d set D <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">d</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">c</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">b</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">a</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>由上述代码可以看出，main 函数执行的顺序，并不能够改变其他包中init 函数加载执行的顺序。</p>
+<h4 id="如果导包顺序修改呢？"><a href="#如果导包顺序修改呢？" class="headerlink" title="如果导包顺序修改呢？"></a>如果导包顺序修改呢？</h4><blockquote>
+<p>将上面导包顺序修改为 d、c、b、a</p>
+<p>下面的代码导包顺序之所以这样，是由于go fmt 工具会对导包进行排序，为避免工具进行排序，人为调整顺序。<strong>但在实际我们使用的过程中，应当遵守规范，如果存在需要空值 init 顺序，请看后序文章内容。</strong></p>
+</blockquote>
+<div class="tabs" id="many-init-sort-desc"><ul class="nav-tabs"><li class="tab active"><a href="#many-init-sort-desc-1">package main</a></li><li class="tab"><a href="#many-init-sort-desc-2">运行结果2</a></li></ul><div class="tab-content"><div class="tab-pane active" id="many-init-sort-desc-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;go-init-example/example_c/example_d&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;go-init-example/example_c&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;go-init-example/example_b&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;go-init-example/example_a&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;d = &quot;</span>, example_d.D)</span><br><span class="line">    fmt.Println(<span class="string">&quot;a = &quot;</span>, example_a.A)</span><br><span class="line">    fmt.Println(<span class="string">&quot;b = &quot;</span>, example_b.B)</span><br><span class="line">    fmt.Println(<span class="string">&quot;c = &quot;</span>, example_c.C)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="many-init-sort-desc-2"><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">// 代码运行结果如下</span><br><span class="line"></span><br><span class="line">package d set D <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package c set C <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package b set B <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">package a set A <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">d</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">c</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">b</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="attribute">a</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>从上面的代码结果可以看出，当导包的顺序发生变化时，程序在执行各个依赖包之间的init函数，遵循导包顺序的原则，依次加载执行。<font color=red><strong>但如果存在包之间的依赖关系，是不是就会不一样呢？</strong></font></p>
+<blockquote>
+<p><font color=red>注意</font>：如果在执行过程中有这明确的顺序要求，一定要注意在 main 函数中，包导入的顺序。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>菜鸟的理解</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Golang-基础</title>
     <url>/blog/Golang/null.html</url>
     <content><![CDATA[<h1 id="Golang-数据结构与关键字"><a href="#Golang-数据结构与关键字" class="headerlink" title="Golang 数据结构与关键字"></a>Golang 数据结构与关键字</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
@@ -2172,659 +2241,6 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>Redis-基础</title>
-    <url>/blog/Redis/bf7639ff.html</url>
-    <content><![CDATA[<h1 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h1><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
-<ul>
-<li>基于内存存储数据</li>
-<li>Recator 模型（IO多路复用）</li>
-<li>单线程应用</li>
-<li></li>
-</ul>
-</blockquote>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
-<p>简单动态字符串（simple dynamic string， SDS）</p>
-<p>特点：</p>
-<ul>
-<li>获取长度复杂度 O(1)，通过 len 字段</li>
-<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
-<li>空间预分配</li>
-<li>惰性空间释放，通过 free 属性</li>
-<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
-</ul>
-<p>与 C 字符串区别：</p>
-<ul>
-<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
-<li>获取长度要遍历计数。</li>
-<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
-<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
-<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
-<p>特点：</p>
-<ul>
-<li>双端：带有前后节点</li>
-<li>无环：表头节点和表尾节点为空</li>
-<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
-<li>带链表长度计数器： 通过 len 获取</li>
-<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
-<p>redis 数据库就是使用字典来作为底层实现的。</p>
-<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
-</blockquote>
-<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
-
-<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>有序集合实现的底层之一</li>
-<li>集群节点中用作内部数据结构</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>集合键</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
-
-<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
-<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
-<p>使用场景：</p>
-<ul>
-<li>列表键</li>
-<li>哈希键</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>长度</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zlbytes</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
-</tr>
-<tr>
-<td>zltail</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
-</tr>
-<tr>
-<td>zllen</td>
-<td>uint16_t</td>
-<td>2字节</td>
-<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
-</tr>
-<tr>
-<td>entryX</td>
-<td>列表节点</td>
-<td>不定</td>
-<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
-</tr>
-<tr>
-<td>zlend</td>
-<td>uint8_t</td>
-<td>1字节</td>
-<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
-<p>基于对象系统来使用上述数据结构</p>
-<p>主要分为：</p>
-<ul>
-<li>字符串对象</li>
-<li>列表对象</li>
-<li>哈希对象</li>
-<li>集合对象</li>
-<li>有序集合对象</li>
-</ul>
-<p>基于 引用计数 技术的内存回收机制。</p>
-<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
-<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
-<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
-<p>字符串可以存储3种类型的值：</p>
-<ul>
-<li>字符串</li>
-<li>整数</li>
-<li>浮点数</li>
-</ul>
-<p>字符串对象编码可以是 int、raw、或 embstr。</p>
-<p>保存的类型区分：</p>
-<ul>
-<li>long 类型整数时，编码采用 int </li>
-<li>字符串时</li>
-<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
-<li>小于39时，使用 embstr 保存</li>
-</ul>
-<p>long double 类型浮点数使用 embstr 或 raw。</p>
-<p>其余长度不满足时，均采用 embstr 或 raw。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>incr</td>
-<td>incr key-name  ——将键存储的值加1</td>
-</tr>
-<tr>
-<td>decr</td>
-<td>decr key-name ——将键存储的值减1</td>
-</tr>
-<tr>
-<td>incrby</td>
-<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
-</tr>
-<tr>
-<td>decrby</td>
-<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
-</tr>
-<tr>
-<td>incrbyfloat</td>
-<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
-</tr>
-<tr>
-<td>append</td>
-<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
-</tr>
-<tr>
-<td>getrange</td>
-<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
-</tr>
-<tr>
-<td>setrange</td>
-<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
-</tr>
-<tr>
-<td>getbit</td>
-<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
-</tr>
-<tr>
-<td>setbit</td>
-<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
-</tr>
-<tr>
-<td>bitcount</td>
-<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
-</tr>
-<tr>
-<td>bitop</td>
-<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
-</tr>
-</tbody></table>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
-<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存的所有字符串元素长度都小于 64 字节；</li>
-<li>保存的元素数量小于 512 个；</li>
-</ul>
-<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rpush</td>
-<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
-</tr>
-<tr>
-<td>lpush</td>
-<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
-</tr>
-<tr>
-<td>rpop</td>
-<td>rpop key-name ——移除并返回列表最右端的元素</td>
-</tr>
-<tr>
-<td>lpop</td>
-<td>lpop key-name ——移除并返回列表最左端的元素</td>
-</tr>
-<tr>
-<td>lindex</td>
-<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
-</tr>
-<tr>
-<td>lrange</td>
-<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>ltrim</td>
-<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>blpop</td>
-<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>brpop</td>
-<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>rpoplpush</td>
-<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
-</tr>
-<tr>
-<td>brpoplpush</td>
-<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
-<p>哈希对象编码可以是 压缩列表 或 字典。</p>
-<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存所有键值对的字符串长度小于64字节</li>
-<li>键值对数量小于512个</li>
-</ul>
-<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hmget</td>
-<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
-</tr>
-<tr>
-<td>hmset</td>
-<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
-</tr>
-<tr>
-<td>hdel</td>
-<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
-</tr>
-<tr>
-<td>hlen</td>
-<td>hlen key-name ——返回散列包含的键值对数量</td>
-</tr>
-<tr>
-<td>hexists</td>
-<td>hexists key-name key ——检查给定键是否存在于散列中</td>
-</tr>
-<tr>
-<td>hkeys</td>
-<td>hkeys key-name ——获取散列包含的所有键</td>
-</tr>
-<tr>
-<td>hvals</td>
-<td>hvals key-name ——获取散列包含的所有值</td>
-</tr>
-<tr>
-<td>hgetall</td>
-<td>hgetall key-name ——获取散列包含的所有键值对</td>
-</tr>
-<tr>
-<td>hincrby</td>
-<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
-</tr>
-<tr>
-<td>hincrbyfloat</td>
-<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
-<p>集合对象编码可以是 整数集合 和 字典。</p>
-<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
-<p>使用 整数集合编码条件：</p>
-<ul>
-<li>保存所有元素是整数</li>
-<li>数量不超过512个</li>
-</ul>
-<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sadd</td>
-<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
-</tr>
-<tr>
-<td>srem</td>
-<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
-</tr>
-<tr>
-<td>sismember</td>
-<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
-</tr>
-<tr>
-<td>scard</td>
-<td>scard key-name ——返回集合包含的元素的数量</td>
-</tr>
-<tr>
-<td>smembers</td>
-<td>smembers key-name ——返回集合包含的所有元素</td>
-</tr>
-<tr>
-<td>srandmember</td>
-<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
-</tr>
-<tr>
-<td>spop</td>
-<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
-</tr>
-<tr>
-<td>smove</td>
-<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
-</tr>
-<tr>
-<td>sdiff</td>
-<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
-</tr>
-<tr>
-<td>sdiffstore</td>
-<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sinter</td>
-<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
-</tr>
-<tr>
-<td>sinterstore</td>
-<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sunion</td>
-<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
-</tr>
-<tr>
-<td>sunionstore</td>
-<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
-<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
-<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
-<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
-<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
-<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
-<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
-<p>如果仅利用其中一个实现：</p>
-<ul>
-<li>字典无序，范围查询，会需要额外空间</li>
-<li>跳跃表查询成员分值，无法做到 O(1)</li>
-</ul>
-<p>使用压缩列表条件：</p>
-<ul>
-<li>元素数量小于128个</li>
-<li>成员长度小于 64字节</li>
-</ul>
-<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zadd</td>
-<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
-</tr>
-<tr>
-<td>zrem</td>
-<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
-</tr>
-<tr>
-<td>zcard</td>
-<td>zcard key-name ——返回有序集合包含的成员数量</td>
-</tr>
-<tr>
-<td>zincrby</td>
-<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
-</tr>
-<tr>
-<td>zcount</td>
-<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
-</tr>
-<tr>
-<td>zrank</td>
-<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
-</tr>
-<tr>
-<td>zscore</td>
-<td>zscore key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrange</td>
-<td>zrange key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrevrank</td>
-<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrevrange</td>
-<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrangebyscore</td>
-<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
-</tr>
-<tr>
-<td>zrevrangebyscore</td>
-<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
-</tr>
-<tr>
-<td>zremrangebyrank</td>
-<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
-</tr>
-<tr>
-<td>zremrangebyscore</td>
-<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
-</tr>
-<tr>
-<td>zinterstore</td>
-<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
-</tr>
-<tr>
-<td>zunionstore</td>
-<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
-<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
-<p>如何保证消息的可靠性</p>
-<p>消息积压会耗费过多内存</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>subscribe</td>
-<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
-</tr>
-<tr>
-<td>unsubscribe</td>
-<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
-</tr>
-<tr>
-<td>publish</td>
-<td>publish channel message ——向给定频道发消息</td>
-</tr>
-<tr>
-<td>psubscribe</td>
-<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
-</tr>
-<tr>
-<td>punsubscribe</td>
-<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>能够对 列表、集合、有序集合进行排序。</p>
-<p>选项：</p>
-<ul>
-<li>降序、升序</li>
-<li>元素看作数字排序</li>
-<li>看作 二进制字符串排序</li>
-<li>使用被排序元素之外的 其他值 作为权重值排序</li>
-<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sort</td>
-<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
-</tr>
-</tbody></table>
-<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
-<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
-<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
-<p>事务执行不会中断，要么全部执行完，才会结束。</p>
-<p>multi 用于事务开始</p>
-<p>exec 代表事务执行</p>
-<p>watch 命令 是一个乐观锁</p>
-</blockquote>
-<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
-<p>expire 设置 key 过期时间</p>
-<p>过期键的判定：</p>
-<ol>
-<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
-<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
-</ol>
-<p>一般过期策略：</p>
-<ul>
-<li>定时删除：内存友好，通过定时器删除，释放内存</li>
-<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
-<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
-</ul>
-<p>采用 惰性删除 和 定期删除</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>persist</td>
-<td>persist key-name ——移除键的过期时间</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
-</tr>
-<tr>
-<td>expire</td>
-<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
-</tr>
-<tr>
-<td>expireat</td>
-<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
-</tr>
-<tr>
-<td>pttl</td>
-<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpire</td>
-<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpireat</td>
-<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
-</tr>
-</tbody></table>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<ul>
-<li>《redis 设计与实现》</li>
-<li>《redis 实战》</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python 认识与实践</title>
     <url>/blog/Python/5b415ee.html</url>
     <content><![CDATA[<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><h2 id="Python第一天"><a href="#Python第一天" class="headerlink" title="Python第一天"></a>Python第一天</h2><h3 id="初识编码"><a href="#初识编码" class="headerlink" title="初识编码"></a>初识编码</h3><ul>
@@ -3794,6 +3210,659 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>Redis-基础</title>
+    <url>/blog/Redis/bf7639ff.html</url>
+    <content><![CDATA[<h1 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h1><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
+<ul>
+<li>基于内存存储数据</li>
+<li>Recator 模型（IO多路复用）</li>
+<li>单线程应用</li>
+<li></li>
+</ul>
+</blockquote>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
+<ul>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
+<li>空间预分配</li>
+<li>惰性空间释放，通过 free 属性</li>
+<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
+</ul>
+<p>与 C 字符串区别：</p>
+<ul>
+<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
+<li>获取长度要遍历计数。</li>
+<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
+<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
+<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
+<p>特点：</p>
+<ul>
+<li>双端：带有前后节点</li>
+<li>无环：表头节点和表尾节点为空</li>
+<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
+<li>带链表长度计数器： 通过 len 获取</li>
+<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
+<p>redis 数据库就是使用字典来作为底层实现的。</p>
+<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
+</blockquote>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
+
+<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>有序集合实现的底层之一</li>
+<li>集群节点中用作内部数据结构</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>集合键</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
+<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
+<p>使用场景：</p>
+<ul>
+<li>列表键</li>
+<li>哈希键</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>长度</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zlbytes</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
+</tr>
+<tr>
+<td>zltail</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
+</tr>
+<tr>
+<td>zllen</td>
+<td>uint16_t</td>
+<td>2字节</td>
+<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
+</tr>
+<tr>
+<td>entryX</td>
+<td>列表节点</td>
+<td>不定</td>
+<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
+</tr>
+<tr>
+<td>zlend</td>
+<td>uint8_t</td>
+<td>1字节</td>
+<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
+<p>基于对象系统来使用上述数据结构</p>
+<p>主要分为：</p>
+<ul>
+<li>字符串对象</li>
+<li>列表对象</li>
+<li>哈希对象</li>
+<li>集合对象</li>
+<li>有序集合对象</li>
+</ul>
+<p>基于 引用计数 技术的内存回收机制。</p>
+<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
+<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
+<ul>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
+</ul>
+<p>字符串对象编码可以是 int、raw、或 embstr。</p>
+<p>保存的类型区分：</p>
+<ul>
+<li>long 类型整数时，编码采用 int </li>
+<li>字符串时</li>
+<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
+<li>小于39时，使用 embstr 保存</li>
+</ul>
+<p>long double 类型浮点数使用 embstr 或 raw。</p>
+<p>其余长度不满足时，均采用 embstr 或 raw。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody></table>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
+<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存的所有字符串元素长度都小于 64 字节；</li>
+<li>保存的元素数量小于 512 个；</li>
+</ul>
+<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpush</td>
+<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>rpop key-name ——移除并返回列表最右端的元素</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>lpop key-name ——移除并返回列表最左端的元素</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
+<p>哈希对象编码可以是 压缩列表 或 字典。</p>
+<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存所有键值对的字符串长度小于64字节</li>
+<li>键值对数量小于512个</li>
+</ul>
+<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hmget</td>
+<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>hlen key-name ——返回散列包含的键值对数量</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>hexists key-name key ——检查给定键是否存在于散列中</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>hkeys key-name ——获取散列包含的所有键</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>hvals key-name ——获取散列包含的所有值</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>hgetall key-name ——获取散列包含的所有键值对</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
+<p>集合对象编码可以是 整数集合 和 字典。</p>
+<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
+<p>使用 整数集合编码条件：</p>
+<ul>
+<li>保存所有元素是整数</li>
+<li>数量不超过512个</li>
+</ul>
+<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>scard key-name ——返回集合包含的元素的数量</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>smembers key-name ——返回集合包含的所有元素</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
+</tr>
+<tr>
+<td>sdiffstore</td>
+<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
+</tr>
+<tr>
+<td>sinterstore</td>
+<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
+</tr>
+<tr>
+<td>sunionstore</td>
+<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
+<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
+<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
+<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
+<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
+<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
+<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
+<p>如果仅利用其中一个实现：</p>
+<ul>
+<li>字典无序，范围查询，会需要额外空间</li>
+<li>跳跃表查询成员分值，无法做到 O(1)</li>
+</ul>
+<p>使用压缩列表条件：</p>
+<ul>
+<li>元素数量小于128个</li>
+<li>成员长度小于 64字节</li>
+</ul>
+<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key-name ——返回有序集合包含的成员数量</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>zscore key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
+<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
+<p>如何保证消息的可靠性</p>
+<p>消息积压会耗费过多内存</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>subscribe</td>
+<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
+</tr>
+<tr>
+<td>unsubscribe</td>
+<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
+</tr>
+<tr>
+<td>publish</td>
+<td>publish channel message ——向给定频道发消息</td>
+</tr>
+<tr>
+<td>psubscribe</td>
+<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
+</tr>
+<tr>
+<td>punsubscribe</td>
+<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>能够对 列表、集合、有序集合进行排序。</p>
+<p>选项：</p>
+<ul>
+<li>降序、升序</li>
+<li>元素看作数字排序</li>
+<li>看作 二进制字符串排序</li>
+<li>使用被排序元素之外的 其他值 作为权重值排序</li>
+<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort</td>
+<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
+</tr>
+</tbody></table>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
+<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
+<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
+<p>事务执行不会中断，要么全部执行完，才会结束。</p>
+<p>multi 用于事务开始</p>
+<p>exec 代表事务执行</p>
+<p>watch 命令 是一个乐观锁</p>
+</blockquote>
+<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
+<p>expire 设置 key 过期时间</p>
+<p>过期键的判定：</p>
+<ol>
+<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
+<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
+</ol>
+<p>一般过期策略：</p>
+<ul>
+<li>定时删除：内存友好，通过定时器删除，释放内存</li>
+<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
+<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
+</ul>
+<p>采用 惰性删除 和 定期删除</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>persist</td>
+<td>persist key-name ——移除键的过期时间</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
+</tr>
+<tr>
+<td>expireat</td>
+<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
+</tr>
+<tr>
+<td>pttl</td>
+<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpire</td>
+<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpireat</td>
+<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
+</tr>
+</tbody></table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<ul>
+<li>《redis 设计与实现》</li>
+<li>《redis 实战》</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis 缓存问题</title>
     <url>/blog/Redis/6827b7f6.html</url>
     <content><![CDATA[<h1 id="Redis-缓存问题"><a href="#Redis-缓存问题" class="headerlink" title="Redis 缓存问题"></a>Redis 缓存问题</h1><h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
@@ -4374,40 +4443,6 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>算法-哈希</title>
-    <url>/blog/%E7%AE%97%E6%B3%95/a093ef30.html</url>
-    <content><![CDATA[<h1 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h1><h2 id="解决哈希冲突"><a href="#解决哈希冲突" class="headerlink" title="解决哈希冲突"></a>解决哈希冲突</h2><h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
-<li><strong>线性探测法</strong>：当冲突发生时，按照某种线性序列在散列表中查找下一个空的位置来插入数据。</li>
-<li><strong>二次探测法</strong>：使用二次函数来计算下一个插入位置。</li>
-<li><strong>随机探测法</strong>：使用随机生成的序列来查找下一个空的位置。</li>
-</ul>
-<h3 id="再哈希法"><a href="#再哈希法" class="headerlink" title="再哈希法"></a>再哈希法</h3><ul>
-<li>当冲突发生时，使用另一个哈希函数计算另一个哈希值，直到找到未被占用的位置。</li>
-</ul>
-<h3 id="链地址法"><a href="#链地址法" class="headerlink" title="链地址法"></a>链地址法</h3><ul>
-<li>将哈希值相同的元素存储在同一个链表中，需要遍历链表以进行查找。</li>
-</ul>
-<h3 id="建立公共溢出区"><a href="#建立公共溢出区" class="headerlink" title="建立公共溢出区"></a>建立公共溢出区</h3><ul>
-<li>将哈希表分为基本表和溢出表，当冲突发生时，将冲突的元素存放在溢出表中。</li>
-</ul>
-<h3 id="重新哈希法"><a href="#重新哈希法" class="headerlink" title="重新哈希法"></a>重新哈希法</h3><ul>
-<li>当冲突较多时，创建一个新的更大的哈希表，并使用一个新的哈希函数将所有元素映射到新表中。</li>
-</ul>
-<h3 id="基数哈希法"><a href="#基数哈希法" class="headerlink" title="基数哈希法"></a>基数哈希法</h3><ul>
-<li>使用多个哈希函数将关键字映射到多个位置，这可以提高哈希表的存储能力。</li>
-</ul>
-<h3 id="可扩展哈希法"><a href="#可扩展哈希法" class="headerlink" title="可扩展哈希法"></a>可扩展哈希法</h3><ul>
-<li>允许哈希表动态增长，当冲突较多时，可以增加桶的数量来减少冲突。</li>
-</ul>
-<h2 id="哈希函数的计算"><a href="#哈希函数的计算" class="headerlink" title="哈希函数的计算"></a>哈希函数的计算</h2>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Vue 初识</title>
     <url>/blog/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80/b882c090.html</url>
     <content><![CDATA[<h1 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h1><h2 id="单页面应用程序"><a href="#单页面应用程序" class="headerlink" title="单页面应用程序"></a>单页面应用程序</h2><blockquote>
@@ -4551,6 +4586,40 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <categories>
         <category>前端基础</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法-哈希</title>
+    <url>/blog/%E7%AE%97%E6%B3%95/a093ef30.html</url>
+    <content><![CDATA[<h1 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h1><h2 id="解决哈希冲突"><a href="#解决哈希冲突" class="headerlink" title="解决哈希冲突"></a>解决哈希冲突</h2><h3 id="开放定址法"><a href="#开放定址法" class="headerlink" title="开放定址法"></a>开放定址法</h3><ul>
+<li><strong>线性探测法</strong>：当冲突发生时，按照某种线性序列在散列表中查找下一个空的位置来插入数据。</li>
+<li><strong>二次探测法</strong>：使用二次函数来计算下一个插入位置。</li>
+<li><strong>随机探测法</strong>：使用随机生成的序列来查找下一个空的位置。</li>
+</ul>
+<h3 id="再哈希法"><a href="#再哈希法" class="headerlink" title="再哈希法"></a>再哈希法</h3><ul>
+<li>当冲突发生时，使用另一个哈希函数计算另一个哈希值，直到找到未被占用的位置。</li>
+</ul>
+<h3 id="链地址法"><a href="#链地址法" class="headerlink" title="链地址法"></a>链地址法</h3><ul>
+<li>将哈希值相同的元素存储在同一个链表中，需要遍历链表以进行查找。</li>
+</ul>
+<h3 id="建立公共溢出区"><a href="#建立公共溢出区" class="headerlink" title="建立公共溢出区"></a>建立公共溢出区</h3><ul>
+<li>将哈希表分为基本表和溢出表，当冲突发生时，将冲突的元素存放在溢出表中。</li>
+</ul>
+<h3 id="重新哈希法"><a href="#重新哈希法" class="headerlink" title="重新哈希法"></a>重新哈希法</h3><ul>
+<li>当冲突较多时，创建一个新的更大的哈希表，并使用一个新的哈希函数将所有元素映射到新表中。</li>
+</ul>
+<h3 id="基数哈希法"><a href="#基数哈希法" class="headerlink" title="基数哈希法"></a>基数哈希法</h3><ul>
+<li>使用多个哈希函数将关键字映射到多个位置，这可以提高哈希表的存储能力。</li>
+</ul>
+<h3 id="可扩展哈希法"><a href="#可扩展哈希法" class="headerlink" title="可扩展哈希法"></a>可扩展哈希法</h3><ul>
+<li>允许哈希表动态增长，当冲突较多时，可以增加桶的数量来减少冲突。</li>
+</ul>
+<h2 id="哈希函数的计算"><a href="#哈希函数的计算" class="headerlink" title="哈希函数的计算"></a>哈希函数的计算</h2>]]></content>
+      <categories>
+        <category>算法</category>
       </categories>
       <tags>
         <tag>笔记</tag>

@@ -91,7 +91,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-schedule"><a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -193,7 +193,7 @@
         </div>
         <ul class="links-of-blogroll-list">
             <li class="links-of-blogroll-item">
-              <span class="exturl" data-url="aHR0cHM6Ly9leGFtcGxlLmNvbQ==" title="https:&#x2F;&#x2F;example.com">Title</span>
+              <a href="https://groot-guo.github.io/blog/Golang/38d3f8f.html" title="https:&#x2F;&#x2F;groot-guo.github.io&#x2F;blog&#x2F;Golang&#x2F;38d3f8f.html">Go init 函数</a>
             </li>
         </ul>
       </div>
@@ -204,6 +204,103 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/Golang/38d3f8f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.PNG">
+      <meta itemprop="name" content="Groot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Groot 博客">
+      <meta itemprop="description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Groot 博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/Golang/38d3f8f.html" class="post-title-link" itemprop="url">Golang init函数分析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-28 02:28:52" itemprop="dateCreated datePublished" datetime="2024-04-28T02:28:52+08:00">2024-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>​	博主第一次文章编写，前面均为笔记记录，本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎建议。</p>
+<p>本次代码用例环境：</p>
+<p>go version: 1.19.13</p>
+</blockquote>
+<p>​	在进行分析init 函数过程之前，先提出几个问题来思考，这样可能更方便我们来进行理解。带着问题来思考，对整体的执行过程会更加清晰。</p>
+<ol>
+<li>init 函数是什么</li>
+<li>init 函数如何执行的</li>
+<li>多个包中 init函数的执行顺序如何确定的</li>
+<li>如果多个包中，执行init 函数，又存在修改时，如何保证不会修改</li>
+<li>使用 init 函数初始化数据时，需要注意哪些问题</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/Golang/38d3f8f.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -799,82 +896,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/Golang/ca04d71e.html">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/uncategorized/7ade1d5c.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.PNG">
-      <meta itemprop="name" content="Groot">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Groot 博客">
-      <meta itemprop="description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Groot 博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/blog/uncategorized/7ade1d5c.html" class="post-title-link" itemprop="url">爬虫</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-03-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-15T00:00:00+08:00">2020-03-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>爬虫的安装与流程</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/uncategorized/7ade1d5c.html">
                 阅读全文 &raquo;
               </a>
             </div>

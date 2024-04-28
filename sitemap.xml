@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://groot-guo.github.io/schedule/index.html</loc>
+    
+    <lastmod>2024-04-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://groot-guo.github.io/tags/index.html</loc>
+    
+    <lastmod>2024-04-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://groot-guo.github.io/about/index.html</loc>
     
     <lastmod>2024-04-28</lastmod>
@@ -20,18 +38,9 @@
   </url>
   
   <url>
-    <loc>https://groot-guo.github.io/schedule/index.html</loc>
+    <loc>https://groot-guo.github.io/blog/Golang/38d3f8f.html</loc>
     
-    <lastmod>2024-04-28</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://groot-guo.github.io/tags/index.html</loc>
-    
-    <lastmod>2024-04-28</lastmod>
+    <lastmod>2024-04-27</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -282,6 +291,20 @@
   
   <url>
     <loc>https://groot-guo.github.io/tags/%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2024-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://groot-guo.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2024-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://groot-guo.github.io/tags/%E8%8F%9C%E9%B8%9F%E7%9A%84%E7%90%86%E8%A7%A3/</loc>
     <lastmod>2024-04-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
