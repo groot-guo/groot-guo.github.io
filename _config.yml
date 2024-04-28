@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Groot的博客和笔记
-subtitle: 'Groot的博客记录，笔记，思路记录'
+title: Groot 博客
+subtitle: '一些博客记录，笔记，思路记录'
 description: 'Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议'
 keywords: IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go
 author: Groot
