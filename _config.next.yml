@@ -100,9 +100,9 @@ menu:
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
-  schedule: /schedule/ || fa fa-calendar
+#  schedule: /schedule/ || fa fa-calendar
   about: /about/ || fa fa-user
-  sitemap: /sitemap.xml || fa fa-sitemap
+#  sitemap: /sitemap.xml || fa fa-sitemap
   # commonweal: /404/ || fa fa-heartbeat
 
 # Enable / Disable menu icons / item badges.
@@ -177,7 +177,7 @@ links_settings:
   layout: block
 
 links:
-  Title: https://example.com
+  Go init 函数: https://groot-guo.github.io/blog/Golang/38d3f8f.html
 
 # Table of Contents in the Sidebar
 # Front-matter variable (nonsupport wrap expand_all).
