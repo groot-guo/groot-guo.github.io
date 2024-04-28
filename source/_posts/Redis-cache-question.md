@@ -4,9 +4,7 @@ date: 2021-03-16 21:13:07
 updated: 2021-04-16 11:20:11
 abbrlink: 389604739
 tags: 笔记
-categories:
-- IT技术
-- Redis
+categories:Redis
 description: Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。
 ---
 

@@ -1,9 +1,7 @@
 ---
 title: golang 基本了解
 tags: 笔记
-categories:
-- IT技术
-- Golang
+categories:Golang
 abbrlink: 3389314846
 description: 初步学习golang，了解基本语法。
 date: 2020-04-06 00:00:00

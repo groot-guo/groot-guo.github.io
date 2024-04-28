@@ -5,9 +5,7 @@ date: 2020-10-21 10:04:25
 updated: 2020-10-21 10:04:25
 abbrlink: 
 tags: 笔记
-categories:
-- IT技术
-- Golang
+categories:Golang
 description: go 中数组、切片、哈希表、字符串数据结构的基础认识，函数和接口的认识，关键字 for 和 range、select、defer、panic 和 recover、make 和 new 的使用。
 ---
 

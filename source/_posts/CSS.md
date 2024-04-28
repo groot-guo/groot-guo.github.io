@@ -2,8 +2,7 @@
 title: CSS 了解
 tags: 笔记
 categories:
-- IT技术
-- CSS
+前端基础
 abbrlink: 3744767357
 description: css 样式了解，初步认识
 date: 2019-07-02 00:00:00

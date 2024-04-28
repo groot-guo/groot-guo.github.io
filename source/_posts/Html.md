@@ -1,9 +1,7 @@
 ---
 title: html 基本了解
 tags: 笔记
-categories:
-- IT技术
-- HTML
+categories:前端基础
 abbrlink: 1490421584
 description: 初步了解 html 语法，编写静态页面
 date: 2019-06-10 00:00:00

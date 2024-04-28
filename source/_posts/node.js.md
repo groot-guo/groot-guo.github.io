@@ -1,9 +1,7 @@
 ---
 title: node js 基础
 tags: 笔记
-categories:
-- IT技术
-- Node Js
+categories:Node Js
 abbrlink: 1338129070
 description: 初步了解node，做一些后端的简单实践
 date: 2019-09-10 00:00:00

@@ -1,9 +1,7 @@
 ---
 title: 算法-哈希
 tags: 笔记
-categories:
-  - IT技术
-  - 算法
+categories:算法
 abbrlink: a093ef30
 description: 算法
 date: 2020-09-21 11:23:47

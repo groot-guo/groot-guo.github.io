@@ -1,9 +1,7 @@
 ---
 title: HTTP
 tags: 笔记
-categories:
-  - IT技术
-  - 计算机网络
+categories:计算机基础
 abbrlink: a1ede006
 description: HTTP
 date: 2021-03-21 22:10:20
