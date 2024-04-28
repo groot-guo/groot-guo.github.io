@@ -3,6 +3,7 @@ title: mysql 简单入门
 tags: 笔记
 categories: Mysql
 description: 认识mysql，部署、安装、熟悉sql 语法
+abbrlink: 534e2ed6
 date: 2019-10-17 00:00:00
 updated: 2019-10-17 00:00:00
 ---

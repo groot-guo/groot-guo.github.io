@@ -1,10 +1,13 @@
 ---
 title: Golang init函数分析
+tags:
+  - 博客
+  - 菜鸟的理解
+categories: Golang
+abbrlink: 38d3f8f
 date: 2024-04-28 02:28:52
 updated: 2024-04-28 02:28:52
-tags: [博客, 菜鸟的理解]
-categories: Golang
-description: 分析 go 中init函数执行过程，变量初始化时，是否会存在其他情况，以及函数执行的流程。在实际的使用过程中，是否需要注意哪些操作。
+abbrlink:
 ---
 
 >​	博主第一次文章编写，前面均为笔记记录，本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎建议。
@@ -20,6 +23,8 @@ description: 分析 go 中init函数执行过程，变量初始化时，是否�
 3. 多个包中 init函数的执行顺序如何确定的
 4. 如果多个包中，执行init 函数，又存在修改时，如何保证不会修改
 5. 使用 init 函数初始化数据时，需要注意哪些问题
+
+<!-- more -->
 
 ## init 函数介绍
 
@@ -51,8 +56,6 @@ package a = 1
 ````
 
 ​	在上述代码执行过程中，main 包导入了 example_a 包，main 在执行的过程中，会打印 example_a包中变量 A，而 example_a 包就会执行 init 函数进行初始化变量，最终 main 函数执行，打印 变量 A ，其值 为1。
-
-<!-- more -->
 
 ## 多个init 函数
 

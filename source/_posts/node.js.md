@@ -3,6 +3,7 @@ title: node js 基础
 tags: 笔记
 categories: Node Js
 description: 初步了解node，做一些后端的简单实践
+abbrlink: 4fc23aae
 date: 2019-09-10 00:00:00
 updated: 2019-09-10 00:00:00
 ---

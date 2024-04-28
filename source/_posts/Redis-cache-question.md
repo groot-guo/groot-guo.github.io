@@ -1,10 +1,11 @@
 ---
 title: Redis 缓存问题
-date: 2021-03-16 21:13:07
-updated: 2021-04-16 11:20:11
 tags: 笔记
 categories: Redis
 description: Redis 缓存的三大问题分析与解决方案，缓存穿透、缓存击穿、缓存雪崩。
+abbrlink: 6827b7f6
+date: 2021-03-16 21:13:07
+updated: 2021-04-16 11:20:11
 ---
 
 # Redis 缓存问题

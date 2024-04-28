@@ -3,6 +3,7 @@ title: Django 框架了解
 tags: 笔记
 categories: Python
 description: Django 框架初步使用，简单流程记录
+abbrlink: 8c959f94
 date: 2019-11-16 00:00:00
 updated: 2019-11-16 00:00:00
 ---

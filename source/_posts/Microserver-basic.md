@@ -3,6 +3,7 @@ title: 微服务
 tags: 笔记
 categories: 微服务
 description: 微服务基本知识，常见策略，服务与注册中心的连接通信了解。
+abbrlink: 460c1130
 date: 2022-03-21 22:10:53
 updated: 2023-01-21 22:10:53
 ---

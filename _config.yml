@@ -6,7 +6,7 @@
 title: Groot 博客
 subtitle: '一些博客记录，笔记，思路记录'
 description: 'Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议'
-keywords: IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go
+keywords: IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go,blog
 author: Groot
 language:
   - zh-CN
@@ -16,15 +16,15 @@ timezone: Asia/Shanghai
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://groot-guo.github.io
-permalink: :year/:month/:day/:title/
+#permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
-#permalink: blog/:abbrlink.html # 也可以直接写 :abbrlink/
-#abbrlink:
-#  alg: crc32 #算法： crc16(default) and crc32
-#  rep: hex #进制： dec(default) and hex
+permalink: blog/:category/:abbrlink.html # 也可以直接写 :abbrlink/
+abbrlink:
+  alg: crc32 #算法： crc16(default) and crc32
+  rep: hex #进制： dec(default) and hex
 
 # Directory
 source_dir: source

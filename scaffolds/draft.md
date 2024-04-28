@@ -4,5 +4,5 @@ date: {{ date }}
 updated: {{ date }}
 tags:
 categories:
-description:
+abbrlink:
 ---
