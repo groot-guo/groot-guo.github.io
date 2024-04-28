@@ -3,15 +3,15 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 博客
-subtitle: 'Groot 的博客笔记'
-description: '个人笔记博客记录'
-keywords:
-author: genyuan
+title: Groot的博客和笔记
+subtitle: 'Groot的博客记录，笔记，思路记录'
+description: 'Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议'
+keywords: IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go
+author: Groot
 language:
   - zh-CN
   - en
-timezone: ''
+timezone: Asia/Shanghai
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -118,3 +118,7 @@ search:
   field: post
   content: true
   format: html
+
+#hexo sitemap
+sitemap:
+  path: sitemap.xml
