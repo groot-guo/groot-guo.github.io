@@ -1,8 +1,7 @@
 ---
 title: PHP 的 认识
 tags: 笔记
-categories:PHP
-abbrlink: 1143765042
+categories: PHP
 description: 利用 PHP 做web 开发，初步了解 php
 date: 2019-07-03 00:00:00
 updated: 2019-07-03 00:00:00

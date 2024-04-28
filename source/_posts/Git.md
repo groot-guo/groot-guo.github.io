@@ -1,8 +1,7 @@
 ---
 title: git 操作记录
 tags: 笔记
-categories:Git
-abbrlink: 4232115266
+categories: Git
 description: git 操作笔记，常用记录浏览
 date: 2020-01-06 00:00:00
 updated: 2020-01-06 00:00:00

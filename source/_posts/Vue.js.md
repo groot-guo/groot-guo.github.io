@@ -1,8 +1,7 @@
 ---
 title: Vue 初识
 tags: 笔记
-categories:前端基础
-abbrlink: 3095576720
+categories: 前端基础
 description: vue 初识了解
 date: 2019-06-23 00:00:00
 updated: 2019-06-23 00:00:00

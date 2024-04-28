@@ -1,8 +1,7 @@
 ---
 title: scrapy 爬虫
 tags: 笔记
-categories:Python
-abbrlink: 2297471041
+categories: Python
 description: scrapy 爬虫认识、使用。
 date: 2019-09-20 00:00:00
 updated: 2019-09-20 00:00:00

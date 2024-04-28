@@ -1,8 +1,7 @@
 ---
 title: flask 框架了解
 tags: 笔记
-categories:Python
-abbrlink: 3271143529
+categories: Python
 description: flask 框架简单认识，初步使用
 date: 2019-12-07 00:00:00
 updated: 2019-12-07 00:00:00

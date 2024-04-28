@@ -1,8 +1,7 @@
 ---
 title: Redis-基础
-abbrlink: bf7639ff
 tags: 笔记
-categories:Redis
+categories: Redis
 description: Redis 数据结构基础认识和使用，redis 本身的特点了解
 date: 2020-02-12 15:40:45
 updated: 2021-04-16 11:20:11

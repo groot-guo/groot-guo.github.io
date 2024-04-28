@@ -1,8 +1,7 @@
 ---
 title: Python 认识与实践
 tags: 笔记
-categories:Python
-abbrlink: 95688174
+categories: Python
 description: 利用 Python 做web 开发，爬虫，认识ptyhon 的不同。
 date: 2019-07-18 00:00:00
 updated: 2019-07-18 00:00:00

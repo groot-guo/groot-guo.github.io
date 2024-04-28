@@ -1,6 +1,5 @@
 ---
 title: Hello World
-abbrlink: 1243066710
 date: 2019-09-15 10:49:20
 description: hello world
 updated: 2019-09-15 10:49:20
