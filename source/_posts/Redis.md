@@ -2,7 +2,6 @@
 title: Redis 了解与安装
 tags: 笔记
 categories: Redis
-description: Redis 了解、安装、常见使用场景练习
 abbrlink: '1738e583'
 date: 2019-08-15 00:00:00
 updated: 2019-08-15 00:00:00
@@ -31,6 +30,8 @@ key oldboy*
 ```
 
 + 什么是一致性哈希
+
+<!-- more -->
 
 > 首先一致性哈希满足以下几个方面：
 > 平衡性

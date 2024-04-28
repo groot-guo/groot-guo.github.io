@@ -1,7 +1,6 @@
 ---
 title: 爬虫
 tags: 笔记
-description: 爬虫的安装与流程
 abbrlink: 7ade1d5c
 date: 2020-03-15 00:00:00
 updated: 2020-03-15 00:00:00
@@ -28,6 +27,8 @@ updated: 2020-03-15 00:00:00
 ### UDP（User Datagram Protocol）
 
 不可靠的、无连接的服务，传输效率高（发送前时延小），一对一、一对多、多对一、多对多、面向报文，尽最大努力服务，无拥塞控制。使用UDP的应用：域名系统 (DNS)；视频流；IP语音(VoIP)。
+
+<!-- more -->
 
 ### 初识socket（基于socket实现网络通信）
 

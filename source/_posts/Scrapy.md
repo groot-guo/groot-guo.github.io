@@ -2,7 +2,6 @@
 title: scrapy 爬虫
 tags: 笔记
 categories: Python
-description: scrapy 爬虫认识、使用。
 abbrlink: 88f0a041
 date: 2019-09-20 00:00:00
 updated: 2019-09-20 00:00:00
@@ -37,6 +36,8 @@ Scrapy Engine 引擎控制整个运转
 spider middlewares 一般不用，爬虫将请求交给调度器时，进行处理。
 
 Downloader Middlewares  加入请求头，加入代理 ip
+
+<!-- more -->
 
 ### 初次使用 scrapy
 

@@ -1,7 +1,6 @@
 ---
 title: 爬虫
 tags: 笔记
-description: 爬虫的安装与流程
 abbrlink: 7ade1d5c
 date: 2020-03-15 00:00:00
 updated: 2020-03-15 00:00:00

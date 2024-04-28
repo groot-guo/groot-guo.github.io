@@ -2,7 +2,6 @@
 title: git 操作记录
 tags: 笔记
 categories: Git
-description: git 操作笔记，常用记录浏览
 abbrlink: fc40f442
 date: 2020-01-06 00:00:00
 updated: 2020-01-06 00:00:00
@@ -53,6 +52,8 @@ git reset --hard # + 第一次 commit 后面的内容或者 reflog 后面的内�
 ```shell
 git reflog
 ```
+
+
 
 上线：
 

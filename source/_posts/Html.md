@@ -2,7 +2,6 @@
 title: html 基本了解
 tags: 笔记
 categories: 前端基础
-description: 初步了解 html 语法，编写静态页面
 abbrlink: 58d60750
 date: 2019-06-10 00:00:00
 updated: 2019-06-10 00:00:00
@@ -44,6 +43,8 @@ updated: 2019-06-10 00:00:00
 嵌套关系
 
 并列关系
+
+<!-- more -->
 
 ## 文档类型<!DOCTYPE>
 

@@ -2,7 +2,6 @@
 title: Redis-基础
 tags: 笔记
 categories: Redis
-description: Redis 数据结构基础认识和使用，redis 本身的特点了解
 abbrlink: bf7639ff
 date: 2020-02-12 15:40:45
 updated: 2021-04-16 11:20:11
@@ -44,6 +43,8 @@ updated: 2021-04-16 11:20:11
 >- c字符串中，最后一个元素是空字符 `\0`，使用长度为 N+1. （SDS 也有）
 >- 获取长度要遍历计数。
 >- 容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改
+
+<!-- more -->
 
 ```c
 struct sdshdr {

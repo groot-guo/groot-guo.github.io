@@ -2,7 +2,6 @@
 title: PHP 的 认识
 tags: 笔记
 categories: PHP
-description: 利用 PHP 做web 开发，初步了解 php
 abbrlink: 442c7832
 date: 2019-07-03 00:00:00
 updated: 2019-07-03 00:00:00
@@ -36,6 +35,8 @@ updated: 2019-07-03 00:00:00
 修改 www目录为项目目录路径
 
 修改 ${w_wwwDirectory} 变为项目路径
+
+<!-- more -->
 
 ## 变量
 

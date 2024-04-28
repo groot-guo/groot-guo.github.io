@@ -2,7 +2,6 @@
 title: linux 基本认识
 tags: 笔记
 categories: Linux
-description: 初步了解 linux，学习常用操作命令和网络传输过程
 abbrlink: 793ef77
 date: 2019-11-22 00:00:00
 updated: 2019-11-22 00:00:00
@@ -31,7 +30,7 @@ SUSE Linux 德国版，常用于移动电信支付领域
 
 获取ip地址
 
-
+<!-- more -->
 
 上述没有进行配置
 

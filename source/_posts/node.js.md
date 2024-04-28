@@ -2,7 +2,6 @@
 title: node js 基础
 tags: 笔记
 categories: Node Js
-description: 初步了解node，做一些后端的简单实践
 abbrlink: 4fc23aae
 date: 2019-09-10 00:00:00
 updated: 2019-09-10 00:00:00
@@ -32,6 +31,8 @@ updated: 2019-09-10 00:00:00
   - 在Node这个JavaScript执行环境中为JavaScript提供了一些服务器级别的API
     - 例如文件读写
     - 网络服务构建
+
+<!-- more -->
 
 ### 读取文件
 

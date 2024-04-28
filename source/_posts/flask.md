@@ -2,7 +2,6 @@
 title: flask 框架了解
 tags: 笔记
 categories: Python
-description: flask 框架简单认识，初步使用
 abbrlink: c2f9b069
 date: 2019-12-07 00:00:00
 updated: 2019-12-07 00:00:00
@@ -55,6 +54,8 @@ return jsonify()   返回 json 标准的字符串
 content-type：application/json
 
 2. return send_file()（打开并返回文件内容，自动识别文件格式）
+
+<!-- more -->
 
 #### flask中的request
 

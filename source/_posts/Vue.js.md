@@ -2,7 +2,6 @@
 title: Vue 初识
 tags: 笔记
 categories: 前端基础
-description: vue 初识了解
 abbrlink: b882c090
 date: 2019-06-23 00:00:00
 updated: 2019-06-23 00:00:00
@@ -39,6 +38,8 @@ updated: 2019-06-23 00:00:00
   - 单页面由于数据异步加载，所以不利于 SEO 搜索
   - 手机 Web 网页
   - 管理系统
+
+<!-- more -->
 
 ### 多页面：以服务端为主导，前后端混合
 

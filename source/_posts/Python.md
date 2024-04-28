@@ -2,7 +2,6 @@
 title: Python 认识与实践
 tags: 笔记
 categories: Python
-description: 利用 Python 做web 开发，爬虫，认识ptyhon 的不同。
 abbrlink: 5b415ee
 date: 2019-07-18 00:00:00
 updated: 2019-07-18 00:00:00
@@ -45,6 +44,8 @@ print('你好')
 
 - 给文件赋予一个可执行的权限
 - ./a.py 自动去找文件的第一行 = /usr/bin/env/python a.py
+
+<!-- more -->
 
 ####         输入
 
