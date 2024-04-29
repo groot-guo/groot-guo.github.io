@@ -1503,6 +1503,344 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>微服务</title>
+    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
+    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
+</blockquote>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
+<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
+<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
+<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
+</ul>
+<p><strong>触发降级</strong>：</p>
+<ul>
+<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
+<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
+</ul>
+<p><strong>恢复</strong>：</p>
+<ul>
+<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
+</ul>
+<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
+</blockquote>
+<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
+<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
+<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
+</ul>
+<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
+<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
+</ul>
+<p><strong>触发熔断</strong>：</p>
+<ul>
+<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
+<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
+</ul>
+<p><strong>半开状态</strong>：</p>
+<ul>
+<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
+<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
+</ul>
+<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+</blockquote>
+<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
+<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
+<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
+</ul>
+<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
+</ul>
+<p><strong>运行时控制</strong>：</p>
+<ul>
+<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
+<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
+</ul>
+<p><strong>处理请求</strong>：</p>
+<ul>
+<li>获取到令牌的请求可以正常处理。</li>
+<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
+</ul>
+<p><strong>动态调整</strong>：</p>
+<ul>
+<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
+</ul>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
+<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
+<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
+</ul>
+<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
+<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
+<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
+</ul>
+<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<ul>
+<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
+<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
+<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
+<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
+</ul>
+<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
+<ul>
+<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
+<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
+<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
+<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
+</ul>
+<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
+<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
+<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>微服务</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql 简单入门</title>
+    <url>/blog/Mysql/534e2ed6.html</url>
+    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
+<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
+
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
+
+<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
+
+<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
+<span id="more"></span>
+
+<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
+
+<p>修改字符集也可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>可以修改为 192.168.1.% 表示本网用户</p>
+<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
+<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
+<ul>
+<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
+<li>DML 语句 数据库操作语言：插入删除修改查看</li>
+<li>DCL 语句 数据库控制语言：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
+
+<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
+<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
+<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
+<p>DOUBLE ,精度比 float 高</p>
+<p>decimal 更精准的小数</p>
+<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
+<p>varchar 类型：变长，存储速度慢，节省空间</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
+<p>set 集合 表示多选一，或者多选多</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
+<p>表的设计<br>    1.not null 与 default</p>
+<p>​				not null  不为空，default 默认值</p>
+<p>create table tb1(id int not null default 2,name char(20) not null);</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
+<p>​	2.unique 		</p>
+<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					多列唯一  表示每列都唯一	</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					组合唯一  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​	3.primary key （索引优化查询）</p>
+<p>​			主键 &#x3D; not null + unique</p>
+<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
+<p>​			primary key  (索引优化)</p>
+<p>​	4.auto_increment</p>
+<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
+<p>外键 foreign key </p>
+<p>被关联表   主表 先创建</p>
+<p>关联表 从表 后创建，因为先创外键无法匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
+<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
+<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
+<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
+<p>的关系，凡是多的都是外键。</p>
+<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
+<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
+<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
+<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
+<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
+<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
+<p>min()		求最小</p>
+<p>max()		求最大</p>
+<p>avg()		求平均</p>
+<p>sum() 		求和	</p>
+<p>count（）求总个数</p>
+<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
+
+<p>​		内连接：符合条件查询</p>
+<p>​		左连接：有限显示左表记录</p>
+<p>​		右连接：优先显示右边记录</p>
+<p>​		全外连接：显示左右两个表全部记录</p>
+<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
+<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
+<p> 级联删方式</p>
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PHP 的 认识</title>
+    <url>/blog/PHP/442c7832.html</url>
+    <content><![CDATA[<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&#x27;hell php!&#x27;</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果遇到字符串输出</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&quot;sdfa&quot;</span>; <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="number">12</span>*<span class="number">3</span>;<span class="meta">?&gt;</span> <span class="comment">/*数字运算*/</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：输出，一定以  <code>;</code> 间隔</p>
+<p>安装 wamp 集合控软件</p>
+<p>修改 wamp 路径</p>
+<p>找到 wampmanager.ini 和 .tpl 文件</p>
+<p>查找 menu.left</p>
+<p>修改 www目录为项目目录路径</p>
+<p>修改 ${w_wwwDirectory} 变为项目路径</p>
+<span id="more"></span>
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="定义变量名的方法"><a href="#定义变量名的方法" class="headerlink" title="定义变量名的方法"></a>定义变量名的方法</h3><ul>
+<li>必须以字母或者下划线 “_” 开头</li>
+<li>只能由数字或者字母，以及 “_” 组成，换可以加汉字</li>
+<li>不允许有空格，多个单词建议   驼峰</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$var</span> = <span class="string">&quot;字符串&quot;</span>;</span><br><span class="line">可用 <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var</span>)输出类型  <span class="keyword">echo</span> <span class="variable">$var</span>输出值</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$var</span> = <span class="string">&quot;大家来学PHP&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$var</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line">	<span class="variable">$var</span> = <span class="string">&quot;学PHP上慕课网&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="variable">$var</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="变量的数据类型"><a href="#变量的数据类型" class="headerlink" title="变量的数据类型"></a>变量的数据类型</h3><p>可以通过 <code>memory_get_usage</code>来判断不同数据消耗的内存</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m1</span> = <span class="title function_ invoke__">memory_get_usage</span>(); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$var_string</span> = <span class="string">&quot;123&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m2</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$n</span> = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m3</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$f</span> = <span class="number">123.00</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m4</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>-<span class="variable">$m3</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$var_array</span> =<span class="keyword">array</span>(<span class="string">&quot;123&quot;</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m5</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>-<span class="variable">$m3</span>-<span class="variable">$m4</span>; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>int    整型</p>
+<ul>
+<li>php中会将其他进制的数自动转换成十进制值输出</li>
+</ul>
+</li>
+<li><p>bool  布尔值</p>
+</li>
+<li><p>string 字符串</p>
+<ul>
+<li><p>可以使用 <code>&#39;&#39;</code>或者<code>&quot;&quot;</code>包含</p>
+</li>
+<li><p>单双引号可以互相嵌入</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$love</span> = <span class="string">&quot;I love you!&quot;</span>; </span><br><span class="line"><span class="variable">$string1</span> = <span class="string">&quot;慕课网,<span class="subst">$love</span>&quot;</span>;</span><br><span class="line"><span class="variable">$string2</span> = <span class="string">&#x27;慕课网,$love&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string1</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string2</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment"># 不可以使用 $变量时 用单引号包含</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多行字符串时（$变量  &#x3D;  &lt;&lt;&lt;GOD   GOD;）</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$string1</span> = <span class="string">&lt;&lt;&lt;GOD</span></span><br><span class="line"><span class="string">我有一只小毛驴，我从来也不骑。</span></span><br><span class="line"><span class="string">有一天我心血来潮，骑着去赶集。</span></span><br><span class="line"><span class="string">我手里拿着小皮鞭，我心里正得意。</span></span><br><span class="line"><span class="string">不知怎么哗啦啦啦啦，我摔了一身泥.</span></span><br><span class="line"><span class="string">GOD</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string1</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>float   浮点型</p>
+<ul>
+<li>可以使用 e 或者 E来表示小数的科学计数法</li>
+</ul>
+</li>
+</ul>
+<p>php 变量会自动转换类型无须定义</p>
+<h3 id="特殊类型（资源）"><a href="#特殊类型（资源）" class="headerlink" title="特殊类型（资源）"></a>特殊类型（资源）</h3><p>fopen(“文件路径”,”方法”) </p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">//首先采用“fopen”函数打开文件，得到返回值的就是资源类型。</span></span><br><span class="line"><span class="variable">$file_handle</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&quot;data/webroot/resource/php/f.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$file_handle</span>)&#123;</span><br><span class="line">    <span class="comment">//接着采用while循环（后面语言结构语句中的循环结构会详细介绍）一行行地读取文件，然后输出每行的文字</span></span><br><span class="line">    <span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$file_handle</span>)) &#123; <span class="comment">//判断是否到最后一行</span></span><br><span class="line">        <span class="variable">$line</span> = <span class="title function_ invoke__">fgets</span>(<span class="variable">$file_handle</span>); <span class="comment">//读取一行文本</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$line</span>; <span class="comment">//输出一行文本</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>; <span class="comment">//换行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$file_handle</span>);<span class="comment">//关闭文件</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊类型（空类型）"><a href="#特殊类型（空类型）" class="headerlink" title="特殊类型（空类型）"></a>特殊类型（空类型）</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"> <span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>); <span class="comment">//禁止显示PHP警告提示</span></span><br><span class="line"> <span class="variable">$var</span>;					<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var</span>);</span><br><span class="line"> <span class="variable">$var1</span> = <span class="literal">null</span>;			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var1</span>);</span><br><span class="line"> <span class="variable">$var2</span> = <span class="literal">NULL</span>;			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>( <span class="variable">$var2</span>);</span><br><span class="line"> <span class="variable">$var3</span> = <span class="string">&quot;节日快乐！&quot;</span>;</span><br><span class="line"> <span class="keyword">unset</span>(<span class="variable">$var3</span>);			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var3</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>通常常量定义都是<strong>大写</strong></p>
+<h3 id="define（定义常量）"><a href="#define（定义常量）" class="headerlink" title="define（定义常量）"></a>define（定义常量）</h3><p>基本格式（第一个必选参数，第二个 value 必选参数，第三个是可选参数）</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="title function_ invoke__">define</span>(<span class="keyword">string</span> <span class="variable">$constant_name</span>, <span class="keyword">mixed</span> <span class="variable">$value</span>[, <span class="variable">$case_sensitive</span> = <span class="literal">true</span>])</span><br></pre></td></tr></table></figure>
+
+<p>string表示参数类型为字符串类型，mixed表示参数类型可以接受为多种不同的类型，case_sensitive &#x3D; true表示默认为布尔类型TRUE</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$p</span> = <span class="string">&quot;PII&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="variable">$p</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="keyword">echo</span> PI;			<span class="comment"># 3.14</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> PII;			<span class="comment"># 3.14</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="系统常量"><a href="#系统常量" class="headerlink" title="系统常量"></a>系统常量</h3><ul>
+<li><code>__FILE__</code>   php程序文件名，获取当前文件的物理位置</li>
+<li><code>__LINE__</code>  php文件的行数 </li>
+<li><code>PHP_VERSION</code>  当前php版本</li>
+<li><code>PHP_OS</code>        执行php的操作系统</li>
+</ul>
+<p>获取常量值</p>
+<p>直接变量运算的</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="variable">$r</span>=<span class="number">1</span>;</span><br><span class="line"><span class="variable">$area</span> = PI*<span class="variable">$r</span>*<span class="variable">$r</span>; <span class="comment">//计算圆的面积</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>constant函数</p>
+<p>基本格式</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">mixed</span> <span class="title function_ invoke__">constant</span>(<span class="keyword">string</span> constant_name)</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数constant_name为要获取常量的名称，也可为存储常量名的变量。如果成功则返回常量的值，失败则提示错误信息常量没有被定义。（注：mixed表示函数返回值类型为多种不同的类型，string表示参数类型为字符串类型）</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	<span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line">	<span class="variable">$r</span>=<span class="number">1</span>;</span><br><span class="line">	<span class="variable">$area</span> = <span class="title function_ invoke__">constant</span>(<span class="string">&quot;PI&quot;</span>)*<span class="variable">$r</span>*<span class="variable">$r</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="判断常量是否被定义"><a href="#判断常量是否被定义" class="headerlink" title="判断常量是否被定义"></a>判断常量是否被定义</h3><p>defined()函数</p>
+<p>基本格式：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="title function_ invoke__">defined</span>(<span class="keyword">string</span> constants_name)</span><br></pre></td></tr></table></figure>
+
+<p>它只有参数constant_name，指的是要获取常量的名称，若存在则返回布尔类型true，否则返回布尔类型false; （注：bool表示函数返回值类型为布尔类型）</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI1&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="variable">$p</span> = <span class="string">&quot;PI1&quot;</span>;</span><br><span class="line"><span class="variable">$is1</span> = <span class="title function_ invoke__">defined</span>(<span class="variable">$p</span>);</span><br><span class="line"><span class="variable">$is2</span> = <span class="title function_ invoke__">defined</span>(<span class="string">&quot;PI2&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$is1</span>);</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$is2</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux 基本认识</title>
     <url>/blog/Linux/793ef77.html</url>
     <content><![CDATA[<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>redhat 发行版，收费版的Linux</p>
@@ -2012,338 +2350,655 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>微服务</title>
-    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
-    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
-</blockquote>
-<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
-<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
-<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
+    <title>Redis-基础</title>
+    <url>/blog/Redis/bf7639ff.html</url>
+    <content><![CDATA[<h2 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h2><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
+<ul>
+<li>基于内存存储数据</li>
+<li>Recator 模型（IO多路复用）</li>
+<li>单线程应用</li>
+<li></li>
 </ul>
+</blockquote>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
+<ul>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
+<li>空间预分配</li>
+<li>惰性空间释放，通过 free 属性</li>
+<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
+</ul>
+<p>与 C 字符串区别：</p>
+<ul>
+<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
+<li>获取长度要遍历计数。</li>
+<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
+</ul>
+</blockquote>
 <span id="more"></span>
 
-<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
+<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
+<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
+<p>特点：</p>
 <ul>
-<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
+<li>双端：带有前后节点</li>
+<li>无环：表头节点和表尾节点为空</li>
+<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
+<li>带链表长度计数器： 通过 len 获取</li>
+<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
 </ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
-<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
-</ul>
-<p><strong>触发降级</strong>：</p>
-<ul>
-<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
-<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
-</ul>
-<p><strong>恢复</strong>：</p>
-<ul>
-<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
-</ul>
-<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
 </blockquote>
-<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
-<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
-<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
-</ul>
-<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
-<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
-</ul>
-<p><strong>触发熔断</strong>：</p>
-<ul>
-<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
-<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
-</ul>
-<p><strong>半开状态</strong>：</p>
-<ul>
-<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
-<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
-</ul>
-<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
+<p>redis 数据库就是使用字典来作为底层实现的。</p>
+<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
 </blockquote>
-<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
-<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
-<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
-</ul>
-<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
+
+<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
+<p>使用场景：</p>
 <ul>
-<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
+<li>有序集合实现的底层之一</li>
+<li>集群节点中用作内部数据结构</li>
 </ul>
-<p><strong>运行时控制</strong>：</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
+<p>使用场景：</p>
 <ul>
-<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
-<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
+<li>集合键</li>
 </ul>
-<p><strong>处理请求</strong>：</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
+<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
+<p>使用场景：</p>
 <ul>
-<li>获取到令牌的请求可以正常处理。</li>
-<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
+<li>列表键</li>
+<li>哈希键</li>
 </ul>
-<p><strong>动态调整</strong>：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>长度</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zlbytes</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
+</tr>
+<tr>
+<td>zltail</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
+</tr>
+<tr>
+<td>zllen</td>
+<td>uint16_t</td>
+<td>2字节</td>
+<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
+</tr>
+<tr>
+<td>entryX</td>
+<td>列表节点</td>
+<td>不定</td>
+<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
+</tr>
+<tr>
+<td>zlend</td>
+<td>uint8_t</td>
+<td>1字节</td>
+<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
+<p>基于对象系统来使用上述数据结构</p>
+<p>主要分为：</p>
 <ul>
-<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
+<li>字符串对象</li>
+<li>列表对象</li>
+<li>哈希对象</li>
+<li>集合对象</li>
+<li>有序集合对象</li>
 </ul>
-<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
-<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
-<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
-</ul>
-<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
-<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
-<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
-</ul>
-<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<p>基于 引用计数 技术的内存回收机制。</p>
+<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
+<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
 <ul>
-<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
-<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
-<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
-<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
 </ul>
-<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
+<p>字符串对象编码可以是 int、raw、或 embstr。</p>
+<p>保存的类型区分：</p>
 <ul>
-<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
-<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
-<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
-<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
+<li>long 类型整数时，编码采用 int </li>
+<li>字符串时</li>
+<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
+<li>小于39时，使用 embstr 保存</li>
 </ul>
-<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
-<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
-<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
+<p>long double 类型浮点数使用 embstr 或 raw。</p>
+<p>其余长度不满足时，均采用 embstr 或 raw。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody></table>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
+<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存的所有字符串元素长度都小于 64 字节；</li>
+<li>保存的元素数量小于 512 个；</li>
 </ul>
+<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpush</td>
+<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>rpop key-name ——移除并返回列表最右端的元素</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>lpop key-name ——移除并返回列表最左端的元素</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
+<p>哈希对象编码可以是 压缩列表 或 字典。</p>
+<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存所有键值对的字符串长度小于64字节</li>
+<li>键值对数量小于512个</li>
+</ul>
+<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hmget</td>
+<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>hlen key-name ——返回散列包含的键值对数量</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>hexists key-name key ——检查给定键是否存在于散列中</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>hkeys key-name ——获取散列包含的所有键</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>hvals key-name ——获取散列包含的所有值</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>hgetall key-name ——获取散列包含的所有键值对</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
+<p>集合对象编码可以是 整数集合 和 字典。</p>
+<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
+<p>使用 整数集合编码条件：</p>
+<ul>
+<li>保存所有元素是整数</li>
+<li>数量不超过512个</li>
+</ul>
+<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>scard key-name ——返回集合包含的元素的数量</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>smembers key-name ——返回集合包含的所有元素</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
+</tr>
+<tr>
+<td>sdiffstore</td>
+<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
+</tr>
+<tr>
+<td>sinterstore</td>
+<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
+</tr>
+<tr>
+<td>sunionstore</td>
+<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
+<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
+<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
+<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
+<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
+<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
+<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
+<p>如果仅利用其中一个实现：</p>
+<ul>
+<li>字典无序，范围查询，会需要额外空间</li>
+<li>跳跃表查询成员分值，无法做到 O(1)</li>
+</ul>
+<p>使用压缩列表条件：</p>
+<ul>
+<li>元素数量小于128个</li>
+<li>成员长度小于 64字节</li>
+</ul>
+<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key-name ——返回有序集合包含的成员数量</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>zscore key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
+<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
+<p>如何保证消息的可靠性</p>
+<p>消息积压会耗费过多内存</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>subscribe</td>
+<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
+</tr>
+<tr>
+<td>unsubscribe</td>
+<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
+</tr>
+<tr>
+<td>publish</td>
+<td>publish channel message ——向给定频道发消息</td>
+</tr>
+<tr>
+<td>psubscribe</td>
+<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
+</tr>
+<tr>
+<td>punsubscribe</td>
+<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>能够对 列表、集合、有序集合进行排序。</p>
+<p>选项：</p>
+<ul>
+<li>降序、升序</li>
+<li>元素看作数字排序</li>
+<li>看作 二进制字符串排序</li>
+<li>使用被排序元素之外的 其他值 作为权重值排序</li>
+<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort</td>
+<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
+</tr>
+</tbody></table>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
+<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
+<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
+<p>事务执行不会中断，要么全部执行完，才会结束。</p>
+<p>multi 用于事务开始</p>
+<p>exec 代表事务执行</p>
+<p>watch 命令 是一个乐观锁</p>
+</blockquote>
+<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
+<p>expire 设置 key 过期时间</p>
+<p>过期键的判定：</p>
+<ol>
+<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
+<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
+</ol>
+<p>一般过期策略：</p>
+<ul>
+<li>定时删除：内存友好，通过定时器删除，释放内存</li>
+<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
+<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
+</ul>
+<p>采用 惰性删除 和 定期删除</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>persist</td>
+<td>persist key-name ——移除键的过期时间</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
+</tr>
+<tr>
+<td>expireat</td>
+<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
+</tr>
+<tr>
+<td>pttl</td>
+<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpire</td>
+<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpireat</td>
+<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
+</tr>
+</tbody></table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<ul>
+<li>《redis 设计与实现》</li>
+<li>《redis 实战》</li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
-        <category>微服务</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql 简单入门</title>
-    <url>/blog/Mysql/534e2ed6.html</url>
-    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
-<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
-
-<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
-
-<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
-
-<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
-<span id="more"></span>
-
-<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
-
-<p>修改字符集也可以使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>可以修改为 192.168.1.% 表示本网用户</p>
-<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>登录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
-
-<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
-<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
-<ul>
-<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
-<li>DML 语句 数据库操作语言：插入删除修改查看</li>
-<li>DCL 语句 数据库控制语言：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
-
-<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
-<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
-<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
-<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
-<p>DOUBLE ,精度比 float 高</p>
-<p>decimal 更精准的小数</p>
-<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
-<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
-<p>varchar 类型：变长，存储速度慢，节省空间</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
-<p>set 集合 表示多选一，或者多选多</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
-<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
-<p>表的设计<br>    1.not null 与 default</p>
-<p>​				not null  不为空，default 默认值</p>
-<p>create table tb1(id int not null default 2,name char(20) not null);</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
-<p>​	2.unique 		</p>
-<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					多列唯一  表示每列都唯一	</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					组合唯一  </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​	3.primary key （索引优化查询）</p>
-<p>​			主键 &#x3D; not null + unique</p>
-<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
-<p>​			primary key  (索引优化)</p>
-<p>​	4.auto_increment</p>
-<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
-<p>外键 foreign key </p>
-<p>被关联表   主表 先创建</p>
-<p>关联表 从表 后创建，因为先创外键无法匹配</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
-<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
-<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
-<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
-<p>的关系，凡是多的都是外键。</p>
-<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
-<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
-<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
-<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
-<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
-<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
-<p>min()		求最小</p>
-<p>max()		求最大</p>
-<p>avg()		求平均</p>
-<p>sum() 		求和	</p>
-<p>count（）求总个数</p>
-<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
-
-<p>​		内连接：符合条件查询</p>
-<p>​		左连接：有限显示左表记录</p>
-<p>​		右连接：优先显示右边记录</p>
-<p>​		全外连接：显示左右两个表全部记录</p>
-<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
-<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
-<p> 级联删方式</p>
-]]></content>
-      <categories>
-        <category>Mysql</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PHP 的 认识</title>
-    <url>/blog/PHP/442c7832.html</url>
-    <content><![CDATA[<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&#x27;hell php!&#x27;</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>如果遇到字符串输出</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="string">&quot;sdfa&quot;</span>; <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> <span class="number">12</span>*<span class="number">3</span>;<span class="meta">?&gt;</span> <span class="comment">/*数字运算*/</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：输出，一定以  <code>;</code> 间隔</p>
-<p>安装 wamp 集合控软件</p>
-<p>修改 wamp 路径</p>
-<p>找到 wampmanager.ini 和 .tpl 文件</p>
-<p>查找 menu.left</p>
-<p>修改 www目录为项目目录路径</p>
-<p>修改 ${w_wwwDirectory} 变为项目路径</p>
-<span id="more"></span>
-
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="定义变量名的方法"><a href="#定义变量名的方法" class="headerlink" title="定义变量名的方法"></a>定义变量名的方法</h3><ul>
-<li>必须以字母或者下划线 “_” 开头</li>
-<li>只能由数字或者字母，以及 “_” 组成，换可以加汉字</li>
-<li>不允许有空格，多个单词建议   驼峰</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$var</span> = <span class="string">&quot;字符串&quot;</span>;</span><br><span class="line">可用 <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var</span>)输出类型  <span class="keyword">echo</span> <span class="variable">$var</span>输出值</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$var</span> = <span class="string">&quot;大家来学PHP&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$var</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line">	<span class="variable">$var</span> = <span class="string">&quot;学PHP上慕课网&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="variable">$var</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="变量的数据类型"><a href="#变量的数据类型" class="headerlink" title="变量的数据类型"></a>变量的数据类型</h3><p>可以通过 <code>memory_get_usage</code>来判断不同数据消耗的内存</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m1</span> = <span class="title function_ invoke__">memory_get_usage</span>(); </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$var_string</span> = <span class="string">&quot;123&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m2</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$n</span> = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m3</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$f</span> = <span class="number">123.00</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m4</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>-<span class="variable">$m3</span>; </span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="variable">$var_array</span> =<span class="keyword">array</span>(<span class="string">&quot;123&quot;</span>); </span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$m5</span> = <span class="title function_ invoke__">memory_get_usage</span>()-<span class="variable">$m1</span>-<span class="variable">$m2</span>-<span class="variable">$m3</span>-<span class="variable">$m4</span>; </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li><p>int    整型</p>
-<ul>
-<li>php中会将其他进制的数自动转换成十进制值输出</li>
-</ul>
-</li>
-<li><p>bool  布尔值</p>
-</li>
-<li><p>string 字符串</p>
-<ul>
-<li><p>可以使用 <code>&#39;&#39;</code>或者<code>&quot;&quot;</code>包含</p>
-</li>
-<li><p>单双引号可以互相嵌入</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$love</span> = <span class="string">&quot;I love you!&quot;</span>; </span><br><span class="line"><span class="variable">$string1</span> = <span class="string">&quot;慕课网,<span class="subst">$love</span>&quot;</span>;</span><br><span class="line"><span class="variable">$string2</span> = <span class="string">&#x27;慕课网,$love&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string1</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string2</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment"># 不可以使用 $变量时 用单引号包含</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多行字符串时（$变量  &#x3D;  &lt;&lt;&lt;GOD   GOD;）</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$string1</span> = <span class="string">&lt;&lt;&lt;GOD</span></span><br><span class="line"><span class="string">我有一只小毛驴，我从来也不骑。</span></span><br><span class="line"><span class="string">有一天我心血来潮，骑着去赶集。</span></span><br><span class="line"><span class="string">我手里拿着小皮鞭，我心里正得意。</span></span><br><span class="line"><span class="string">不知怎么哗啦啦啦啦，我摔了一身泥.</span></span><br><span class="line"><span class="string">GOD</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$string1</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>float   浮点型</p>
-<ul>
-<li>可以使用 e 或者 E来表示小数的科学计数法</li>
-</ul>
-</li>
-</ul>
-<p>php 变量会自动转换类型无须定义</p>
-<h3 id="特殊类型（资源）"><a href="#特殊类型（资源）" class="headerlink" title="特殊类型（资源）"></a>特殊类型（资源）</h3><p>fopen(“文件路径”,”方法”) </p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">//首先采用“fopen”函数打开文件，得到返回值的就是资源类型。</span></span><br><span class="line"><span class="variable">$file_handle</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&quot;data/webroot/resource/php/f.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$file_handle</span>)&#123;</span><br><span class="line">    <span class="comment">//接着采用while循环（后面语言结构语句中的循环结构会详细介绍）一行行地读取文件，然后输出每行的文字</span></span><br><span class="line">    <span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$file_handle</span>)) &#123; <span class="comment">//判断是否到最后一行</span></span><br><span class="line">        <span class="variable">$line</span> = <span class="title function_ invoke__">fgets</span>(<span class="variable">$file_handle</span>); <span class="comment">//读取一行文本</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$line</span>; <span class="comment">//输出一行文本</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>; <span class="comment">//换行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$file_handle</span>);<span class="comment">//关闭文件</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="特殊类型（空类型）"><a href="#特殊类型（空类型）" class="headerlink" title="特殊类型（空类型）"></a>特殊类型（空类型）</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"> <span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>); <span class="comment">//禁止显示PHP警告提示</span></span><br><span class="line"> <span class="variable">$var</span>;					<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var</span>);</span><br><span class="line"> <span class="variable">$var1</span> = <span class="literal">null</span>;			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var1</span>);</span><br><span class="line"> <span class="variable">$var2</span> = <span class="literal">NULL</span>;			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>( <span class="variable">$var2</span>);</span><br><span class="line"> <span class="variable">$var3</span> = <span class="string">&quot;节日快乐！&quot;</span>;</span><br><span class="line"> <span class="keyword">unset</span>(<span class="variable">$var3</span>);			<span class="comment">#  NULL</span></span><br><span class="line"> <span class="title function_ invoke__">var_dump</span>(<span class="variable">$var3</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>通常常量定义都是<strong>大写</strong></p>
-<h3 id="define（定义常量）"><a href="#define（定义常量）" class="headerlink" title="define（定义常量）"></a>define（定义常量）</h3><p>基本格式（第一个必选参数，第二个 value 必选参数，第三个是可选参数）</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="title function_ invoke__">define</span>(<span class="keyword">string</span> <span class="variable">$constant_name</span>, <span class="keyword">mixed</span> <span class="variable">$value</span>[, <span class="variable">$case_sensitive</span> = <span class="literal">true</span>])</span><br></pre></td></tr></table></figure>
-
-<p>string表示参数类型为字符串类型，mixed表示参数类型可以接受为多种不同的类型，case_sensitive &#x3D; true表示默认为布尔类型TRUE</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$p</span> = <span class="string">&quot;PII&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="variable">$p</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="keyword">echo</span> PI;			<span class="comment"># 3.14</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br /&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> PII;			<span class="comment"># 3.14</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="系统常量"><a href="#系统常量" class="headerlink" title="系统常量"></a>系统常量</h3><ul>
-<li><code>__FILE__</code>   php程序文件名，获取当前文件的物理位置</li>
-<li><code>__LINE__</code>  php文件的行数 </li>
-<li><code>PHP_VERSION</code>  当前php版本</li>
-<li><code>PHP_OS</code>        执行php的操作系统</li>
-</ul>
-<p>获取常量值</p>
-<p>直接变量运算的</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="variable">$r</span>=<span class="number">1</span>;</span><br><span class="line"><span class="variable">$area</span> = PI*<span class="variable">$r</span>*<span class="variable">$r</span>; <span class="comment">//计算圆的面积</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>constant函数</p>
-<p>基本格式</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">mixed</span> <span class="title function_ invoke__">constant</span>(<span class="keyword">string</span> constant_name)</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数constant_name为要获取常量的名称，也可为存储常量名的变量。如果成功则返回常量的值，失败则提示错误信息常量没有被定义。（注：mixed表示函数返回值类型为多种不同的类型，string表示参数类型为字符串类型）</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">	<span class="title function_ invoke__">define</span>(<span class="string">&quot;PI&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line">	<span class="variable">$r</span>=<span class="number">1</span>;</span><br><span class="line">	<span class="variable">$area</span> = <span class="title function_ invoke__">constant</span>(<span class="string">&quot;PI&quot;</span>)*<span class="variable">$r</span>*<span class="variable">$r</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="判断常量是否被定义"><a href="#判断常量是否被定义" class="headerlink" title="判断常量是否被定义"></a>判断常量是否被定义</h3><p>defined()函数</p>
-<p>基本格式：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="title function_ invoke__">defined</span>(<span class="keyword">string</span> constants_name)</span><br></pre></td></tr></table></figure>
-
-<p>它只有参数constant_name，指的是要获取常量的名称，若存在则返回布尔类型true，否则返回布尔类型false; （注：bool表示函数返回值类型为布尔类型）</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="title function_ invoke__">define</span>(<span class="string">&quot;PI1&quot;</span>,<span class="number">3.14</span>);</span><br><span class="line"><span class="variable">$p</span> = <span class="string">&quot;PI1&quot;</span>;</span><br><span class="line"><span class="variable">$is1</span> = <span class="title function_ invoke__">defined</span>(<span class="variable">$p</span>);</span><br><span class="line"><span class="variable">$is2</span> = <span class="title function_ invoke__">defined</span>(<span class="string">&quot;PI2&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$is1</span>);</span><br><span class="line"><span class="title function_ invoke__">var_dump</span>(<span class="variable">$is2</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>PHP</category>
+        <category>Redis</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -3430,661 +4085,6 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>Redis-基础</title>
-    <url>/blog/Redis/bf7639ff.html</url>
-    <content><![CDATA[<h2 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h2><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
-<ul>
-<li>基于内存存储数据</li>
-<li>Recator 模型（IO多路复用）</li>
-<li>单线程应用</li>
-<li></li>
-</ul>
-</blockquote>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
-<p>简单动态字符串（simple dynamic string， SDS）</p>
-<p>特点：</p>
-<ul>
-<li>获取长度复杂度 O(1)，通过 len 字段</li>
-<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
-<li>空间预分配</li>
-<li>惰性空间释放，通过 free 属性</li>
-<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
-</ul>
-<p>与 C 字符串区别：</p>
-<ul>
-<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
-<li>获取长度要遍历计数。</li>
-<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
-</ul>
-</blockquote>
-<span id="more"></span>
-
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
-<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
-<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
-<p>特点：</p>
-<ul>
-<li>双端：带有前后节点</li>
-<li>无环：表头节点和表尾节点为空</li>
-<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
-<li>带链表长度计数器： 通过 len 获取</li>
-<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
-<p>redis 数据库就是使用字典来作为底层实现的。</p>
-<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
-</blockquote>
-<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
-
-<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>有序集合实现的底层之一</li>
-<li>集群节点中用作内部数据结构</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>集合键</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
-
-<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
-<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
-<p>使用场景：</p>
-<ul>
-<li>列表键</li>
-<li>哈希键</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>长度</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zlbytes</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
-</tr>
-<tr>
-<td>zltail</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
-</tr>
-<tr>
-<td>zllen</td>
-<td>uint16_t</td>
-<td>2字节</td>
-<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
-</tr>
-<tr>
-<td>entryX</td>
-<td>列表节点</td>
-<td>不定</td>
-<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
-</tr>
-<tr>
-<td>zlend</td>
-<td>uint8_t</td>
-<td>1字节</td>
-<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
-<p>基于对象系统来使用上述数据结构</p>
-<p>主要分为：</p>
-<ul>
-<li>字符串对象</li>
-<li>列表对象</li>
-<li>哈希对象</li>
-<li>集合对象</li>
-<li>有序集合对象</li>
-</ul>
-<p>基于 引用计数 技术的内存回收机制。</p>
-<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
-<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
-<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
-<p>字符串可以存储3种类型的值：</p>
-<ul>
-<li>字符串</li>
-<li>整数</li>
-<li>浮点数</li>
-</ul>
-<p>字符串对象编码可以是 int、raw、或 embstr。</p>
-<p>保存的类型区分：</p>
-<ul>
-<li>long 类型整数时，编码采用 int </li>
-<li>字符串时</li>
-<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
-<li>小于39时，使用 embstr 保存</li>
-</ul>
-<p>long double 类型浮点数使用 embstr 或 raw。</p>
-<p>其余长度不满足时，均采用 embstr 或 raw。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>incr</td>
-<td>incr key-name  ——将键存储的值加1</td>
-</tr>
-<tr>
-<td>decr</td>
-<td>decr key-name ——将键存储的值减1</td>
-</tr>
-<tr>
-<td>incrby</td>
-<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
-</tr>
-<tr>
-<td>decrby</td>
-<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
-</tr>
-<tr>
-<td>incrbyfloat</td>
-<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
-</tr>
-<tr>
-<td>append</td>
-<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
-</tr>
-<tr>
-<td>getrange</td>
-<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
-</tr>
-<tr>
-<td>setrange</td>
-<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
-</tr>
-<tr>
-<td>getbit</td>
-<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
-</tr>
-<tr>
-<td>setbit</td>
-<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
-</tr>
-<tr>
-<td>bitcount</td>
-<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
-</tr>
-<tr>
-<td>bitop</td>
-<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
-</tr>
-</tbody></table>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
-<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存的所有字符串元素长度都小于 64 字节；</li>
-<li>保存的元素数量小于 512 个；</li>
-</ul>
-<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rpush</td>
-<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
-</tr>
-<tr>
-<td>lpush</td>
-<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
-</tr>
-<tr>
-<td>rpop</td>
-<td>rpop key-name ——移除并返回列表最右端的元素</td>
-</tr>
-<tr>
-<td>lpop</td>
-<td>lpop key-name ——移除并返回列表最左端的元素</td>
-</tr>
-<tr>
-<td>lindex</td>
-<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
-</tr>
-<tr>
-<td>lrange</td>
-<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>ltrim</td>
-<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>blpop</td>
-<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>brpop</td>
-<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>rpoplpush</td>
-<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
-</tr>
-<tr>
-<td>brpoplpush</td>
-<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
-<p>哈希对象编码可以是 压缩列表 或 字典。</p>
-<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存所有键值对的字符串长度小于64字节</li>
-<li>键值对数量小于512个</li>
-</ul>
-<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hmget</td>
-<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
-</tr>
-<tr>
-<td>hmset</td>
-<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
-</tr>
-<tr>
-<td>hdel</td>
-<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
-</tr>
-<tr>
-<td>hlen</td>
-<td>hlen key-name ——返回散列包含的键值对数量</td>
-</tr>
-<tr>
-<td>hexists</td>
-<td>hexists key-name key ——检查给定键是否存在于散列中</td>
-</tr>
-<tr>
-<td>hkeys</td>
-<td>hkeys key-name ——获取散列包含的所有键</td>
-</tr>
-<tr>
-<td>hvals</td>
-<td>hvals key-name ——获取散列包含的所有值</td>
-</tr>
-<tr>
-<td>hgetall</td>
-<td>hgetall key-name ——获取散列包含的所有键值对</td>
-</tr>
-<tr>
-<td>hincrby</td>
-<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
-</tr>
-<tr>
-<td>hincrbyfloat</td>
-<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
-<p>集合对象编码可以是 整数集合 和 字典。</p>
-<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
-<p>使用 整数集合编码条件：</p>
-<ul>
-<li>保存所有元素是整数</li>
-<li>数量不超过512个</li>
-</ul>
-<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sadd</td>
-<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
-</tr>
-<tr>
-<td>srem</td>
-<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
-</tr>
-<tr>
-<td>sismember</td>
-<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
-</tr>
-<tr>
-<td>scard</td>
-<td>scard key-name ——返回集合包含的元素的数量</td>
-</tr>
-<tr>
-<td>smembers</td>
-<td>smembers key-name ——返回集合包含的所有元素</td>
-</tr>
-<tr>
-<td>srandmember</td>
-<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
-</tr>
-<tr>
-<td>spop</td>
-<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
-</tr>
-<tr>
-<td>smove</td>
-<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
-</tr>
-<tr>
-<td>sdiff</td>
-<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
-</tr>
-<tr>
-<td>sdiffstore</td>
-<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sinter</td>
-<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
-</tr>
-<tr>
-<td>sinterstore</td>
-<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sunion</td>
-<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
-</tr>
-<tr>
-<td>sunionstore</td>
-<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
-<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
-<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
-<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
-<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
-<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
-<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
-<p>如果仅利用其中一个实现：</p>
-<ul>
-<li>字典无序，范围查询，会需要额外空间</li>
-<li>跳跃表查询成员分值，无法做到 O(1)</li>
-</ul>
-<p>使用压缩列表条件：</p>
-<ul>
-<li>元素数量小于128个</li>
-<li>成员长度小于 64字节</li>
-</ul>
-<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zadd</td>
-<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
-</tr>
-<tr>
-<td>zrem</td>
-<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
-</tr>
-<tr>
-<td>zcard</td>
-<td>zcard key-name ——返回有序集合包含的成员数量</td>
-</tr>
-<tr>
-<td>zincrby</td>
-<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
-</tr>
-<tr>
-<td>zcount</td>
-<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
-</tr>
-<tr>
-<td>zrank</td>
-<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
-</tr>
-<tr>
-<td>zscore</td>
-<td>zscore key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrange</td>
-<td>zrange key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrevrank</td>
-<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrevrange</td>
-<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrangebyscore</td>
-<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
-</tr>
-<tr>
-<td>zrevrangebyscore</td>
-<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
-</tr>
-<tr>
-<td>zremrangebyrank</td>
-<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
-</tr>
-<tr>
-<td>zremrangebyscore</td>
-<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
-</tr>
-<tr>
-<td>zinterstore</td>
-<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
-</tr>
-<tr>
-<td>zunionstore</td>
-<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
-<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
-<p>如何保证消息的可靠性</p>
-<p>消息积压会耗费过多内存</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>subscribe</td>
-<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
-</tr>
-<tr>
-<td>unsubscribe</td>
-<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
-</tr>
-<tr>
-<td>publish</td>
-<td>publish channel message ——向给定频道发消息</td>
-</tr>
-<tr>
-<td>psubscribe</td>
-<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
-</tr>
-<tr>
-<td>punsubscribe</td>
-<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>能够对 列表、集合、有序集合进行排序。</p>
-<p>选项：</p>
-<ul>
-<li>降序、升序</li>
-<li>元素看作数字排序</li>
-<li>看作 二进制字符串排序</li>
-<li>使用被排序元素之外的 其他值 作为权重值排序</li>
-<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sort</td>
-<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
-</tr>
-</tbody></table>
-<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
-<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
-<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
-<p>事务执行不会中断，要么全部执行完，才会结束。</p>
-<p>multi 用于事务开始</p>
-<p>exec 代表事务执行</p>
-<p>watch 命令 是一个乐观锁</p>
-</blockquote>
-<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
-<p>expire 设置 key 过期时间</p>
-<p>过期键的判定：</p>
-<ol>
-<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
-<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
-</ol>
-<p>一般过期策略：</p>
-<ul>
-<li>定时删除：内存友好，通过定时器删除，释放内存</li>
-<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
-<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
-</ul>
-<p>采用 惰性删除 和 定期删除</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>persist</td>
-<td>persist key-name ——移除键的过期时间</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
-</tr>
-<tr>
-<td>expire</td>
-<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
-</tr>
-<tr>
-<td>expireat</td>
-<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
-</tr>
-<tr>
-<td>pttl</td>
-<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpire</td>
-<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpireat</td>
-<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
-</tr>
-</tbody></table>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<ul>
-<li>《redis 设计与实现》</li>
-<li>《redis 实战》</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis 了解与安装</title>
     <url>/blog/Redis/1738e583.html</url>
     <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
@@ -4749,7 +4749,7 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>爬虫</title>
+    <title>数据结构</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
     <content><![CDATA[<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>​		稳定性：任意相等的两个数据，排序前后的相对位置不会改变</p>
 <h3 id="简单排序"><a href="#简单排序" class="headerlink" title="简单排序"></a>简单排序</h3><h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><p>​			最好情况：顺序T&#x3D;O(N)</p>
@@ -4812,7 +4812,56 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>爬虫</title>
+    <title>Golang net包代码分析浅谈</title>
+    <url>/blog/Golang/91f8ab39.html</url>
+    <content><![CDATA[<blockquote>
+<p>事先声明：所有参考内容，会在结尾留下。</p>
+<p>为什么会对Golang 中 <code>net</code> 包进行分析，最近看完书中<code>netpoll</code>的讲解，之前也阅读过，但始终对于<code>net</code>包 和<code>netpoll</code>两者关系没有理清。然后又看到了字节跳动在自己开源的<code>netpoll</code>对于Go <code>net</code>包的评价。两者结合，对于net包的性能为何快，那么<code>netpoll</code>又扮演什么功能。</p>
+<p>本文仅对<code>net</code>包中<code>rpc</code>服务和客户端的创建流程，对于其中<code>netpoll</code>是何时被调用，之间的联系。</p>
+<p>思考不是很全面，如有瑕疵，欢迎建议。</p>
+<p>go version: 1.19.13</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="rpc服务和客户端"><a href="#rpc服务和客户端" class="headerlink" title="rpc服务和客户端"></a><code>rpc</code>服务和客户端</h2><h3 id="创建和使用"><a href="#创建和使用" class="headerlink" title="创建和使用"></a>创建和使用</h3><blockquote>
+<p>在Go中创建一个<code>rpc</code>服务和客户端，其中基本上实现了rpc 协议的解码和编码、rpc 服务和客户端服务的连接和请求处理。下面先看一段代码示例和基本流程。</p>
+</blockquote>
+<p><img src="/./../images/image-20240429170943578.png" alt="image-20240429170943578"></p>
+<div class="tabs" id="rpc"><ul class="nav-tabs"><li class="tab active"><a href="#rpc-1">rpc client</a></li><li class="tab"><a href="#rpc-2">rpc server</a></li></ul><div class="tab-content"><div class="tab-pane active" id="rpc-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	client, err := rpc.Dial(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;localhost:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;dialing:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> reply <span class="type">string</span></span><br><span class="line">	err = client.Call(<span class="string">&quot;HelloService.Hello&quot;</span>, <span class="string">&quot;world&quot;</span>, &amp;reply)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(reply)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="rpc-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HelloService <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *HelloService)</span></span> Hello(request <span class="type">string</span>, reply *<span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	*reply = <span class="string">&quot;hello &quot;</span> + request</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	srv := rpc.NewServer()</span><br><span class="line">	srv.RegisterName(<span class="string">&quot;HelloService&quot;</span>, <span class="built_in">new</span>(HelloService))</span><br><span class="line"></span><br><span class="line">	listener, err := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;ListenTCP error:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		conn, err := listener.Accept()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(<span class="string">&quot;Accept error:&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">go</span> srv.ServeConn(conn)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>上述代码流程里，我们实现了基本<code>rpc</code>服务创建，<code>rpc</code>客户端请求，在<code>hello server</code>处理请求数据，返回组合的数据，打印了<code>hello world</code>。 </p>
+<hr>
+<h3 id="rpc服务流程详细分析"><a href="#rpc服务流程详细分析" class="headerlink" title="rpc服务流程详细分析"></a><code>rpc</code>服务流程详细分析</h3><blockquote>
+<p>针对上面的<code>rpc</code>服务创建流程，具体流程是怎么做的，<code>netpoll</code> 又充当了什么角色，为什么说<code>net</code>包实现的<code>rpc</code>是<code>BIO</code>模式的。</p>
+<p>下面对于其中<code>Listen</code>函数、<code>Accept</code>函数、<code>ServeConn</code>函数具体流程进行分析。</p>
+</blockquote>
+<h4 id="Listen函数"><a href="#Listen函数" class="headerlink" title="Listen函数"></a><code>Listen</code>函数</h4><blockquote>
+<p>先看一下<code>Listen</code>函数中，底层数据结构主要字段。</p>
+<p>从下图我们看到，<code>Listener</code> 结构体最终涉及调用了 <code>pollDesc</code>，而<code>pollDesc</code>是<code>netpoll</code>功能的主要数据结构，<code>pollDesc</code>封装了操作系统的文件描述符，从而监控了网络<code>IO</code>的请求。 而在<code>netpoll</code>中，在<code>linux</code>中主要通过<code>epoll</code>模型实现。</p>
+</blockquote>
+<p><img src="/./../images/image-20240429180552177.png" alt="image-20240429180552177"></p>
+<blockquote>
+<p>下面我们看一下整体函数调用链路。</p>
+</blockquote>
+<p><img src="/./../images/image-20240429182001877.png" alt="image-20240429182001877"></p>
+<blockquote>
+<p>接下来再对应实际代码分析一下。</p>
+</blockquote>
+<h4 id="Accept函数"><a href="#Accept函数" class="headerlink" title="Accept函数"></a><code>Accept</code>函数</h4><h4 id="ServeConn函数"><a href="#ServeConn函数" class="headerlink" title="ServeConn函数"></a><code>ServeConn</code>函数</h4><hr>
+<h3 id="rpc客户端详细分析"><a href="#rpc客户端详细分析" class="headerlink" title="rpc客户端详细分析"></a><code>rpc</code>客户端详细分析</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p>《Go语言设计与实现》</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>菜鸟的理解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络基础</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
     <content><![CDATA[<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="BS架构"><a href="#BS架构" class="headerlink" title="BS架构"></a>BS架构</h3><p>浏览器   </p>
 <p>​		browser —&gt; server</p>
@@ -5235,7 +5284,7 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>爬虫</title>
+    <title>数据分析与数据挖掘</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
     <content><![CDATA[<h2 id="jupyter-notebook"><a href="#jupyter-notebook" class="headerlink" title="jupyter notebook"></a>jupyter notebook</h2><p>魔法命令</p>
 <h2 id="Numpy-安装与导入"><a href="#Numpy-安装与导入" class="headerlink" title="Numpy 安装与导入"></a>Numpy 安装与导入</h2><p>安装</p>

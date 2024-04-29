@@ -30,7 +30,7 @@
 <meta property="og:description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Groot">
-<meta property="article:tag" content="IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go,blog">
+<meta property="article:tag" content="IT博客,Golang,html5,css,NodeJs,Linux,Python,go,Go,blog,java,init">
 <meta name="twitter:card" content="summary">
 
 
@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -204,6 +204,97 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/Golang/91f8ab39.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.PNG">
+      <meta itemprop="name" content="Groot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Groot 博客">
+      <meta itemprop="description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Groot 博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/Golang/91f8ab39.html" class="post-title-link" itemprop="url">Golang net包代码分析浅谈</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-28 02:30:46" itemprop="dateCreated datePublished" datetime="2024-04-28T02:30:46+08:00">2024-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>事先声明：所有参考内容，会在结尾留下。</p>
+<p>为什么会对Golang 中 <code>net</code> 包进行分析，最近看完书中<code>netpoll</code>的讲解，之前也阅读过，但始终对于<code>net</code>包 和<code>netpoll</code>两者关系没有理清。然后又看到了字节跳动在自己开源的<code>netpoll</code>对于Go <code>net</code>包的评价。两者结合，对于net包的性能为何快，那么<code>netpoll</code>又扮演什么功能。</p>
+<p>本文仅对<code>net</code>包中<code>rpc</code>服务和客户端的创建流程，对于其中<code>netpoll</code>是何时被调用，之间的联系。</p>
+<p>思考不是很全面，如有瑕疵，欢迎建议。</p>
+<p>go version: 1.19.13</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/Golang/91f8ab39.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1076,7 +1167,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/blog/uncategorized/7ade1d5c.html" class="post-title-link" itemprop="url">爬虫</a>
+          <a href="/blog/uncategorized/7ade1d5c.html" class="post-title-link" itemprop="url">数据结构</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1109,87 +1200,6 @@
 <p>稳定的排序算法</p>
 <h4 id="时间复杂度下界"><a href="#时间复杂度下界" class="headerlink" title="时间复杂度下界"></a>时间复杂度下界</h4><p>对于下标i&lt;j,</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://groot-guo.github.io/blog/uncategorized/7ade1d5c.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.PNG">
-      <meta itemprop="name" content="Groot">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Groot 博客">
-      <meta itemprop="description" content="Groot 个人对于IT技术的一些思考记录，以及笔记整理，技术较菜，如有不对，可以建议">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Groot 博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/blog/uncategorized/7ade1d5c.html" class="post-title-link" itemprop="url">爬虫</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-03-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-15T00:00:00+08:00">2020-03-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="BS架构"><a href="#BS架构" class="headerlink" title="BS架构"></a>BS架构</h3><p>浏览器   </p>
-<p>​		browser —&gt; server</p>
-<h3 id="CS架构"><a href="#CS架构" class="headerlink" title="CS架构"></a>CS架构</h3><p>客户端</p>
-<p>​		client   —-&gt; server</p>
-<h3 id="TCP（Transmission-Control-Protocol）"><a href="#TCP（Transmission-Control-Protocol）" class="headerlink" title="TCP（Transmission Control Protocol）"></a>TCP（Transmission Control Protocol）</h3><p>可靠的、面向连接的协议（eg:打电话）、传输效率低全双工通信（发送缓存&amp;接收缓存）、面向字节流。使用TCP的应用：Web浏览器；电子邮件、文件传输程序。</p>
-<h3 id="UDP（User-Datagram-Protocol）"><a href="#UDP（User-Datagram-Protocol）" class="headerlink" title="UDP（User Datagram Protocol）"></a>UDP（User Datagram Protocol）</h3><p>不可靠的、无连接的服务，传输效率高（发送前时延小），一对一、一对多、多对一、多对多、面向报文，尽最大努力服务，无拥塞控制。使用UDP的应用：域名系统 (DNS)；视频流；IP语音(VoIP)。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/blog/uncategorized/7ade1d5c.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
