@@ -121,7 +121,7 @@ func main() {
 >
 >从下图我们看到，`Listener` 结构体最终涉及调用了 `pollDesc`，而`pollDesc`是`netpoll`功能的主要数据结构，`pollDesc`封装了操作系统的文件描述符，从而监控了网络`IO`的请求。 而在`netpoll`中，在`linux`中主要通过`epoll`模型实现。
 
-<img src="./../images/image-20240429180552177.png" alt="image-20240429180552177" style="zoom:50%;" />
+![alt](./../images/image-20240429180552177.png)
 
 > 下面我们看一下整体函数调用链路。
 >
