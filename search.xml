@@ -538,6 +538,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Elasticsearch-基础</title>
+    <url>/blog/Elasticsearch/e74898e6.html</url>
+    <content><![CDATA[<h2 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h2><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
+<p>index 模块</p>
+<p>store 模块</p>
+<p>queryParser 模块</p>
+<p>search 模块</p>
+<p>similarity 模块</p>
+<h3 id="核心术语"><a href="#核心术语" class="headerlink" title="核心术语"></a>核心术语</h3><p>Term：索引最小的存储单元和查询单元</p>
+<p>词典（字典）：Term 集合</p>
+<p>倒排表：多个词组成</p>
+<p>正向信息：原始文档信息</p>
+<p>段：索引中最小的独立存储单元。生成，只能读，不能写。</p>
+<h3 id="段合并"><a href="#段合并" class="headerlink" title="段合并"></a>段合并</h3>]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Django 框架了解</title>
     <url>/blog/Python/8c959f94.html</url>
     <content><![CDATA[<h2 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h2><p>项目与应用的关系</p>
@@ -965,28 +987,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Elasticsearch-基础</title>
-    <url>/blog/Elasticsearch/e74898e6.html</url>
-    <content><![CDATA[<h2 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h2><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
-<p>index 模块</p>
-<p>store 模块</p>
-<p>queryParser 模块</p>
-<p>search 模块</p>
-<p>similarity 模块</p>
-<h3 id="核心术语"><a href="#核心术语" class="headerlink" title="核心术语"></a>核心术语</h3><p>Term：索引最小的存储单元和查询单元</p>
-<p>词典（字典）：Term 集合</p>
-<p>倒排表：多个词组成</p>
-<p>正向信息：原始文档信息</p>
-<p>段：索引中最小的独立存储单元。生成，只能读，不能写。</p>
-<h3 id="段合并"><a href="#段合并" class="headerlink" title="段合并"></a>段合并</h3>]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>golang 基本了解</title>
     <url>/blog/Golang/ca04d71e.html</url>
     <content><![CDATA[<h2 id="go学习"><a href="#go学习" class="headerlink" title="go学习"></a>go学习</h2><h3 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h3><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><blockquote>
@@ -1144,7 +1144,7 @@
     <title>Golang init函数分析</title>
     <url>/blog/Golang/38d3f8f.html</url>
     <content><![CDATA[<blockquote>
-<p>本人作为一个菜鸟级别的程序员，浅浅分析一下，如有不对，欢迎讨论。</p>
+<p>本人浅浅分析一下，如有不对，欢迎讨论。</p>
 <p>本次代码用例环境：</p>
 <p>go version: 1.19.13</p>
 </blockquote>
@@ -2350,6 +2350,661 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>Redis-基础</title>
+    <url>/blog/Redis/bf7639ff.html</url>
+    <content><![CDATA[<h2 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h2><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
+<ul>
+<li>基于内存存储数据</li>
+<li>Recator 模型（IO多路复用）</li>
+<li>单线程应用</li>
+<li></li>
+</ul>
+</blockquote>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
+<p>简单动态字符串（simple dynamic string， SDS）</p>
+<p>特点：</p>
+<ul>
+<li>获取长度复杂度 O(1)，通过 len 字段</li>
+<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
+<li>空间预分配</li>
+<li>惰性空间释放，通过 free 属性</li>
+<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
+</ul>
+<p>与 C 字符串区别：</p>
+<ul>
+<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
+<li>获取长度要遍历计数。</li>
+<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
+</ul>
+</blockquote>
+<span id="more"></span>
+
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
+<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
+<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
+<p>特点：</p>
+<ul>
+<li>双端：带有前后节点</li>
+<li>无环：表头节点和表尾节点为空</li>
+<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
+<li>带链表长度计数器： 通过 len 获取</li>
+<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
+<p>redis 数据库就是使用字典来作为底层实现的。</p>
+<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
+</blockquote>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
+
+<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>有序集合实现的底层之一</li>
+<li>集群节点中用作内部数据结构</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
+<p>使用场景：</p>
+<ul>
+<li>集合键</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
+<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
+<p>使用场景：</p>
+<ul>
+<li>列表键</li>
+<li>哈希键</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>长度</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zlbytes</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
+</tr>
+<tr>
+<td>zltail</td>
+<td>uint32_t</td>
+<td>4字节</td>
+<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
+</tr>
+<tr>
+<td>zllen</td>
+<td>uint16_t</td>
+<td>2字节</td>
+<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
+</tr>
+<tr>
+<td>entryX</td>
+<td>列表节点</td>
+<td>不定</td>
+<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
+</tr>
+<tr>
+<td>zlend</td>
+<td>uint8_t</td>
+<td>1字节</td>
+<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
+<p>基于对象系统来使用上述数据结构</p>
+<p>主要分为：</p>
+<ul>
+<li>字符串对象</li>
+<li>列表对象</li>
+<li>哈希对象</li>
+<li>集合对象</li>
+<li>有序集合对象</li>
+</ul>
+<p>基于 引用计数 技术的内存回收机制。</p>
+<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
+<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
+<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
+<p>字符串可以存储3种类型的值：</p>
+<ul>
+<li>字符串</li>
+<li>整数</li>
+<li>浮点数</li>
+</ul>
+<p>字符串对象编码可以是 int、raw、或 embstr。</p>
+<p>保存的类型区分：</p>
+<ul>
+<li>long 类型整数时，编码采用 int </li>
+<li>字符串时</li>
+<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
+<li>小于39时，使用 embstr 保存</li>
+</ul>
+<p>long double 类型浮点数使用 embstr 或 raw。</p>
+<p>其余长度不满足时，均采用 embstr 或 raw。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>incr</td>
+<td>incr key-name  ——将键存储的值加1</td>
+</tr>
+<tr>
+<td>decr</td>
+<td>decr key-name ——将键存储的值减1</td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
+</tr>
+<tr>
+<td>append</td>
+<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
+</tr>
+<tr>
+<td>setbit</td>
+<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
+</tr>
+</tbody></table>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
+<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存的所有字符串元素长度都小于 64 字节；</li>
+<li>保存的元素数量小于 512 个；</li>
+</ul>
+<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpush</td>
+<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
+</tr>
+<tr>
+<td>lpush</td>
+<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>rpop key-name ——移除并返回列表最右端的元素</td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>lpop key-name ——移除并返回列表最左端的元素</td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
+<p>哈希对象编码可以是 压缩列表 或 字典。</p>
+<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
+<p>使用 压缩列表 编码条件：</p>
+<ul>
+<li>保存所有键值对的字符串长度小于64字节</li>
+<li>键值对数量小于512个</li>
+</ul>
+<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hmget</td>
+<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>hlen key-name ——返回散列包含的键值对数量</td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>hexists key-name key ——检查给定键是否存在于散列中</td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>hkeys key-name ——获取散列包含的所有键</td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>hvals key-name ——获取散列包含的所有值</td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>hgetall key-name ——获取散列包含的所有键值对</td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
+<p>集合对象编码可以是 整数集合 和 字典。</p>
+<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
+<p>使用 整数集合编码条件：</p>
+<ul>
+<li>保存所有元素是整数</li>
+<li>数量不超过512个</li>
+</ul>
+<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sadd</td>
+<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
+</tr>
+<tr>
+<td>srem</td>
+<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
+</tr>
+<tr>
+<td>scard</td>
+<td>scard key-name ——返回集合包含的元素的数量</td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>smembers key-name ——返回集合包含的所有元素</td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
+</tr>
+<tr>
+<td>spop</td>
+<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
+</tr>
+<tr>
+<td>smove</td>
+<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
+</tr>
+<tr>
+<td>sdiffstore</td>
+<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
+</tr>
+<tr>
+<td>sinterstore</td>
+<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
+</tr>
+<tr>
+<td>sunionstore</td>
+<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
+<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
+<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
+<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
+<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
+<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
+<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
+<p>如果仅利用其中一个实现：</p>
+<ul>
+<li>字典无序，范围查询，会需要额外空间</li>
+<li>跳跃表查询成员分值，无法做到 O(1)</li>
+</ul>
+<p>使用压缩列表条件：</p>
+<ul>
+<li>元素数量小于128个</li>
+<li>成员长度小于 64字节</li>
+</ul>
+<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd</td>
+<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>zcard key-name ——返回有序集合包含的成员数量</td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>zscore key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>zrange key-name member ——返回成员member 的分值</td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
+<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
+<p>如何保证消息的可靠性</p>
+<p>消息积压会耗费过多内存</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>subscribe</td>
+<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
+</tr>
+<tr>
+<td>unsubscribe</td>
+<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
+</tr>
+<tr>
+<td>publish</td>
+<td>publish channel message ——向给定频道发消息</td>
+</tr>
+<tr>
+<td>psubscribe</td>
+<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
+</tr>
+<tr>
+<td>punsubscribe</td>
+<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>能够对 列表、集合、有序集合进行排序。</p>
+<p>选项：</p>
+<ul>
+<li>降序、升序</li>
+<li>元素看作数字排序</li>
+<li>看作 二进制字符串排序</li>
+<li>使用被排序元素之外的 其他值 作为权重值排序</li>
+<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort</td>
+<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
+</tr>
+</tbody></table>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
+<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
+<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
+<p>事务执行不会中断，要么全部执行完，才会结束。</p>
+<p>multi 用于事务开始</p>
+<p>exec 代表事务执行</p>
+<p>watch 命令 是一个乐观锁</p>
+</blockquote>
+<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
+<p>expire 设置 key 过期时间</p>
+<p>过期键的判定：</p>
+<ol>
+<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
+<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
+</ol>
+<p>一般过期策略：</p>
+<ul>
+<li>定时删除：内存友好，通过定时器删除，释放内存</li>
+<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
+<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
+</ul>
+<p>采用 惰性删除 和 定期删除</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用例和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>persist</td>
+<td>persist key-name ——移除键的过期时间</td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
+</tr>
+<tr>
+<td>expire</td>
+<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
+</tr>
+<tr>
+<td>expireat</td>
+<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
+</tr>
+<tr>
+<td>pttl</td>
+<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpire</td>
+<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
+</tr>
+<tr>
+<td>pexpireat</td>
+<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
+</tr>
+</tbody></table>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<ul>
+<li>《redis 设计与实现》</li>
+<li>《redis 实战》</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 认识与实践</title>
     <url>/blog/Python/5b415ee.html</url>
     <content><![CDATA[<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h2 id="Python第一天"><a href="#Python第一天" class="headerlink" title="Python第一天"></a>Python第一天</h2><h3 id="初识编码"><a href="#初识编码" class="headerlink" title="初识编码"></a>初识编码</h3><ul>
@@ -3430,661 +4085,6 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
-    <title>Redis-基础</title>
-    <url>/blog/Redis/bf7639ff.html</url>
-    <content><![CDATA[<h2 id="Redis-基础"><a href="#Redis-基础" class="headerlink" title="Redis 基础"></a>Redis 基础</h2><h2 id="redis-基本认识"><a href="#redis-基本认识" class="headerlink" title="redis 基本认识"></a>redis 基本认识</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h3 id="为什么快"><a href="#为什么快" class="headerlink" title="为什么快"></a>为什么快</h3><blockquote>
-<ul>
-<li>基于内存存储数据</li>
-<li>Recator 模型（IO多路复用）</li>
-<li>单线程应用</li>
-<li></li>
-</ul>
-</blockquote>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="SDS-（简单动态字符串）"><a href="#SDS-（简单动态字符串）" class="headerlink" title="SDS （简单动态字符串）"></a>SDS （简单动态字符串）</h3><blockquote>
-<p>简单动态字符串（simple dynamic string， SDS）</p>
-<p>特点：</p>
-<ul>
-<li>获取长度复杂度 O(1)，通过 len 字段</li>
-<li>拼接字符串，会先扩容，再拼接，并且容量会有剩余</li>
-<li>空间预分配</li>
-<li>惰性空间释放，通过 free 属性</li>
-<li>二进制安全，通过字节数组，而不是数组保存每一个字符，将字符拆分来保存</li>
-</ul>
-<p>与 C 字符串区别：</p>
-<ul>
-<li>c字符串中，最后一个元素是空字符 <code>\0</code>，使用长度为 N+1. （SDS 也有）</li>
-<li>获取长度要遍历计数。</li>
-<li>容易造成缓冲区溢出，如果没有分配足够的空间，可能会使相邻数据的内容被意外修改</li>
-</ul>
-</blockquote>
-<span id="more"></span>
-
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组种已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><blockquote>
-<p>高效的节点重排能力，以及顺序性节点访问。通过增删节点灵活调整链表长度。</p>
-<p>redis 中，列表、发布订阅、慢查询、监视器等功能使用。</p>
-<p>特点：</p>
-<ul>
-<li>双端：带有前后节点</li>
-<li>无环：表头节点和表尾节点为空</li>
-<li>带表头指针和表尾指针：通过 list 结构 head 和 tail 获取复杂度 O(1)</li>
-<li>带链表长度计数器： 通过 len 获取</li>
-<li>多态： 使用 void 保存值，通过 dup 、 free、match 属性设置类型特定函数，保存不同值</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125;listNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值赋值函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>) (<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值比对函数</span></span><br><span class="line">    <span class="type">int</span> (*match) (<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h3><blockquote>
-<p>redis 数据库就是使用字典来作为底层实现的。</p>
-<p>哈希表使用 链地址法 来解决键冲突，相同的key 用 next 指针连接起来，构成一个单向链表。</p>
-</blockquote>
-<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组 </span></span><br><span class="line">    dictEntry **table; </span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line">    <span class="comment">// 总是等于 size-1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125;dictht;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span>&#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">	<span class="comment">// 类型特定函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引</span></span><br><span class="line">    <span class="comment">// 当 rehash 不在进行时，值为-1</span></span><br><span class="line">    <span class="type">int</span> trehashidx; <span class="comment">/*rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span> <span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keycompare) (<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值得函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor) (<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
-
-<h4 id="rehash"><a href="#rehash" class="headerlink" title="rehash"></a>rehash</h4><h3 id="跳跃表"><a href="#跳跃表" class="headerlink" title="跳跃表"></a>跳跃表</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>有序集合实现的底层之一</li>
-<li>集群节点中用作内部数据结构</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">  	<span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">skiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="整数集合"><a href="#整数集合" class="headerlink" title="整数集合"></a>整数集合</h3><blockquote>
-<p>使用场景：</p>
-<ul>
-<li>集合键</li>
-</ul>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组</span></span><br><span class="line">    <span class="type">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
-
-<h4 id="升级和降级"><a href="#升级和降级" class="headerlink" title="升级和降级"></a>升级和降级</h4><h3 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h3><blockquote>
-<p>压缩列表是为了节约内存而开发的，是由一系列特殊编码的连续内存块组成的顺序型数据结构。</p>
-<p>使用场景：</p>
-<ul>
-<li>列表键</li>
-<li>哈希键</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>类型</th>
-<th>长度</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zlbytes</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录整个压缩列表占用的内存字节数；在对压缩列表进行内存重分配，或计算zlend的位置时使用</td>
-</tr>
-<tr>
-<td>zltail</td>
-<td>uint32_t</td>
-<td>4字节</td>
-<td>记录压缩列表表尾节点举例压缩列表的起始地址有多少字节；通过这个偏移量，程序无须遍历整个压缩列表就可以确定表尾节点的地址</td>
-</tr>
-<tr>
-<td>zllen</td>
-<td>uint16_t</td>
-<td>2字节</td>
-<td>记录了压缩列表包含的节点数量：当这个属性的值小于uint16_MAX(65535) 时，这个值就是包含节点的数量；当等于时，真实数量需要遍历整个压缩列表</td>
-</tr>
-<tr>
-<td>entryX</td>
-<td>列表节点</td>
-<td>不定</td>
-<td>压缩列表包含的各个节点，节点的长度由节点保存的内容决定的</td>
-</tr>
-<tr>
-<td>zlend</td>
-<td>uint8_t</td>
-<td>1字节</td>
-<td>特殊值 0xFF（十进制255），用于标记压缩列表的末端</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><blockquote>
-<p>基于对象系统来使用上述数据结构</p>
-<p>主要分为：</p>
-<ul>
-<li>字符串对象</li>
-<li>列表对象</li>
-<li>哈希对象</li>
-<li>集合对象</li>
-<li>有序集合对象</li>
-</ul>
-<p>基于 引用计数 技术的内存回收机制。</p>
-<p>对象共享机制，适当条件下，让多个数据库键共享同一个对象节约内存。</p>
-<p>带有访问时间记录信息，用于计算数据库键的空转时长，时长较大会优先删除。</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 引用计数，在内存回收中</span></span><br><span class="line">    <span class="type">int</span> refcount; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<h4 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h4><h4 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h4><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
-<p>字符串是一个由字节组成的序列。最大容量<font color=red>512MB</font>。</p>
-<p>字符串可以存储3种类型的值：</p>
-<ul>
-<li>字符串</li>
-<li>整数</li>
-<li>浮点数</li>
-</ul>
-<p>字符串对象编码可以是 int、raw、或 embstr。</p>
-<p>保存的类型区分：</p>
-<ul>
-<li>long 类型整数时，编码采用 int </li>
-<li>字符串时</li>
-<li>且长度大于 39 字节，使用 sds 保存，编码设置为 raw</li>
-<li>小于39时，使用 embstr 保存</li>
-</ul>
-<p>long double 类型浮点数使用 embstr 或 raw。</p>
-<p>其余长度不满足时，均采用 embstr 或 raw。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>incr</td>
-<td>incr key-name  ——将键存储的值加1</td>
-</tr>
-<tr>
-<td>decr</td>
-<td>decr key-name ——将键存储的值减1</td>
-</tr>
-<tr>
-<td>incrby</td>
-<td>incrby key-name amount ——将键存储的值加上整数 amount</td>
-</tr>
-<tr>
-<td>decrby</td>
-<td>decrby key-name amount ——将键存储的值减去整数 amount</td>
-</tr>
-<tr>
-<td>incrbyfloat</td>
-<td>incrbyfloat key-name amount ——将键存储的值加上浮点数 (redis 2.6 以上)</td>
-</tr>
-<tr>
-<td>append</td>
-<td>append key-name value ——将值 value 追加到给定键 key-name 当前存储的值的末尾</td>
-</tr>
-<tr>
-<td>getrange</td>
-<td>getrange key-name start end ——获取一个由偏移量start 到 偏移量 end 范围所有字符组成的子串，包括 start、 end</td>
-</tr>
-<tr>
-<td>setrange</td>
-<td>setrange key-name offset  value ——将从 start 偏移量开始的子串设置为给定值</td>
-</tr>
-<tr>
-<td>getbit</td>
-<td>getbit key-name offset ——将字符串看作二进制位串（bit string），并返回串中偏移量位 offset 的二进制位的值</td>
-</tr>
-<tr>
-<td>setbit</td>
-<td>setbit key-name offset value ——将字节串看作二进制位串，并将位串中偏移量 offset 的二进制位的值设置位 value</td>
-</tr>
-<tr>
-<td>bitcount</td>
-<td>bitcount key-name [start end] ——统计二进制位串里面值为1的二进制的数量，如果</td>
-</tr>
-<tr>
-<td>bitop</td>
-<td>bitop operation dest-key key-name [key-name …] ——对一个或者多个二进制位串执行包括并（AND）、或（OR）、异或（XOR）、非（NOT）在内任意一种按位运算操作，并将计算结果保存到 dest-key 中</td>
-</tr>
-</tbody></table>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><blockquote>
-<p>列表对象的编码可以是  压缩列表 或 链表。  </p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存的所有字符串元素长度都小于 64 字节；</li>
-<li>保存的元素数量小于 512 个；</li>
-</ul>
-<p>不满足上面条件的使用 链表。（上限值可以修改，配置中 list-max-ziplist-value 和 list-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rpush</td>
-<td>rpush key-name value [value …] ——将一个或多个值推入列表的右端</td>
-</tr>
-<tr>
-<td>lpush</td>
-<td>lpush key-name value [value …] ——将一个或多个值推入列表的左端</td>
-</tr>
-<tr>
-<td>rpop</td>
-<td>rpop key-name ——移除并返回列表最右端的元素</td>
-</tr>
-<tr>
-<td>lpop</td>
-<td>lpop key-name ——移除并返回列表最左端的元素</td>
-</tr>
-<tr>
-<td>lindex</td>
-<td>lindex key-name offset ——返回列表中偏移量为 offset 的元素</td>
-</tr>
-<tr>
-<td>lrange</td>
-<td>lrange key-name start end ——返回列表从 start 偏移量到 end 偏移量范围内所有元素，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>ltrim</td>
-<td>ltrim key-name start end ——对列表进行修剪，只保留从 start 偏移量到 end 偏移量范围内，包括 start 和 end 元素</td>
-</tr>
-<tr>
-<td>blpop</td>
-<td>blpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最左端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>brpop</td>
-<td>brpop key-name [key-name …] timeout ——从第一个非空列表中弹出位于最右端的元素，或者在 timeout 秒之内阻塞并等待可以弹出的元素出现</td>
-</tr>
-<tr>
-<td>rpoplpush</td>
-<td>rpoplush source-key dest-key ——从 source-key 列表中弹出位于最右端的元素，然后将元素推入 dest-key 列表的最左端，并返回这个元素</td>
-</tr>
-<tr>
-<td>brpoplpush</td>
-<td>brpoplpush source-key dest-key timeout ——从source-key 列表中弹出位于最右端的元素，推入dest-key 列表最左端，并返回元素；如果 source-key为空，那么在 timeout 秒之内阻塞并等待可弹出的元素的出现</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="哈希（散列）"><a href="#哈希（散列）" class="headerlink" title="哈希（散列）"></a>哈希（散列）</h3><blockquote>
-<p>哈希对象编码可以是 压缩列表 或 字典。</p>
-<p>使用压缩列表时，先添加到哈希对象中键值对被放在列表表头方向，后添加的在表尾方向，键和值分别存储，但键在前，值在后，紧挨在一起。</p>
-<p>使用 压缩列表 编码条件：</p>
-<ul>
-<li>保存所有键值对的字符串长度小于64字节</li>
-<li>键值对数量小于512个</li>
-</ul>
-<p>不满足上述条件，使用字典编码。（上限可以修改，hash-max-ziplist-value 和 hash-max-ziplist-entries）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>hmget</td>
-<td>hmget key-name key [key …] ——从散列里面获取一个或多个键的值</td>
-</tr>
-<tr>
-<td>hmset</td>
-<td>hmset key-name key value [key value …] ——为散列里面的一个或多个键设置值</td>
-</tr>
-<tr>
-<td>hdel</td>
-<td>hdel key-name key [key …] ——删除散列里面的一个或多个键值对，返回成功找到并删除的键值对数量</td>
-</tr>
-<tr>
-<td>hlen</td>
-<td>hlen key-name ——返回散列包含的键值对数量</td>
-</tr>
-<tr>
-<td>hexists</td>
-<td>hexists key-name key ——检查给定键是否存在于散列中</td>
-</tr>
-<tr>
-<td>hkeys</td>
-<td>hkeys key-name ——获取散列包含的所有键</td>
-</tr>
-<tr>
-<td>hvals</td>
-<td>hvals key-name ——获取散列包含的所有值</td>
-</tr>
-<tr>
-<td>hgetall</td>
-<td>hgetall key-name ——获取散列包含的所有键值对</td>
-</tr>
-<tr>
-<td>hincrby</td>
-<td>hincrby key-name key increment ——将键key 存储的值加上整数 increment</td>
-</tr>
-<tr>
-<td>hincrbyfloat</td>
-<td>hincrbyfloat key-name key increment ——将键key 存储的值加上浮点数 increment</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><blockquote>
-<p>集合对象编码可以是 整数集合 和 字典。</p>
-<p>当使用 字典 作为编码时，每一个键存储的都是 字符串对象，但值为 空。</p>
-<p>使用 整数集合编码条件：</p>
-<ul>
-<li>保存所有元素是整数</li>
-<li>数量不超过512个</li>
-</ul>
-<p>不满足条件使用字典。（上限通过 set-max-intset-entries 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sadd</td>
-<td>sadd key-name item [item …] ——将一个或多个元素添加到集合里面，并返回被添加元素当中原本并不存在于集合里面的元素数量</td>
-</tr>
-<tr>
-<td>srem</td>
-<td>srem key-name item [item …] ——从集合里面移除一个或多个元素，并返回被移除元素的数量</td>
-</tr>
-<tr>
-<td>sismember</td>
-<td>sismember key-name item ——检查元素item 是否存在于集合 key-name 里</td>
-</tr>
-<tr>
-<td>scard</td>
-<td>scard key-name ——返回集合包含的元素的数量</td>
-</tr>
-<tr>
-<td>smembers</td>
-<td>smembers key-name ——返回集合包含的所有元素</td>
-</tr>
-<tr>
-<td>srandmember</td>
-<td>srandmember key-name [count] ——从集合里面随机地返回一个或者多个元素。当 count 为正数，随机元素不重复；负数，可能会重复</td>
-</tr>
-<tr>
-<td>spop</td>
-<td>spop key-name ——随机地移除集合中的一个元素，并返回被移除的元素</td>
-</tr>
-<tr>
-<td>smove</td>
-<td>smove source-key dest-key item ——如果source-key 包含元素item，那么集合source-key 里面移除元素 item，并将元素 item 添加到集合 dest-key 中；如果item 移除成功，返回1，否则 0</td>
-</tr>
-<tr>
-<td>sdiff</td>
-<td>sdiff key-name [key-name …] ——返回那些存在于第一个集合、但不存在于其他集合中的元素（差集运算）</td>
-</tr>
-<tr>
-<td>sdiffstore</td>
-<td>sdiffstore dest-key key-name [key-name …] ——将那些存在于第一个集合但并不存在于其他集合中的元素（差集运算）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sinter</td>
-<td>sinter key-name [key-name …] ——返回那些同时存在于所有集合中的元素（交集运算）</td>
-</tr>
-<tr>
-<td>sinterstore</td>
-<td>sinterstore dest-key key-name [key-name …] ——将那些同时存在于所有集合的元素（交集）存储到 dest-key 键里面</td>
-</tr>
-<tr>
-<td>sunion</td>
-<td>sunion key-name [key-name …] ——返回那些至少存在于一个集合中的元素（并集运算）</td>
-</tr>
-<tr>
-<td>sunionstore</td>
-<td>sunionstore dest-key key-name [key-name …]——将那些至少存在于一个集合中的元素（并集运算）存储到dest-key键里面</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><blockquote>
-<p>有序集合对象编码可以是 压缩列表 或 跳跃表。</p>
-<p>使用压缩列表是，每个集合元素中包含一个元素成员和一个元素分值，两个元素紧挨在压缩列表节点中，集合元素按照元素分值从小到大排列。</p>
-<p>当时用 zset 作为底层实现，一个 zset 中包括一个 字典 和 一个 跳跃表。</p>
-<p>字典创建一个从成员到分值的映射，键—成员，值—分值。通过字典可以查成员的分值。</p>
-<p>跳跃表按 分值从小到大保存了所有集合元素。而 节点中 score 保存了元素的分值，可以用来进行范围操作。</p>
-<p>而跳跃表和字典通过指针 共享相同元素，节省空间。</p>
-<p>如果仅利用其中一个实现：</p>
-<ul>
-<li>字典无序，范围查询，会需要额外空间</li>
-<li>跳跃表查询成员分值，无法做到 O(1)</li>
-</ul>
-<p>使用压缩列表条件：</p>
-<ul>
-<li>元素数量小于128个</li>
-<li>成员长度小于 64字节</li>
-</ul>
-<p>不满足使用 跳跃表编码。（通过zset-max-ziplist-entries 和 zset-max-ziplist-value 配置）</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>zadd</td>
-<td>zadd key-name score member [score member …] ——将带有给定分值得成员添加到有序集合里面</td>
-</tr>
-<tr>
-<td>zrem</td>
-<td>zrem key-name member [member …] ——从有序集合里面移除给定得成员，并返回被移除成员得数量</td>
-</tr>
-<tr>
-<td>zcard</td>
-<td>zcard key-name ——返回有序集合包含的成员数量</td>
-</tr>
-<tr>
-<td>zincrby</td>
-<td>zincrby key-name increment member ——将member 成员的分值加上 increment</td>
-</tr>
-<tr>
-<td>zcount</td>
-<td>zcount key-name min max ——返回分值介于 min 和max 之间的成员数量</td>
-</tr>
-<tr>
-<td>zrank</td>
-<td>zrank key-name member ——返回成员 member 在有序集合中的排名</td>
-</tr>
-<tr>
-<td>zscore</td>
-<td>zscore key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrange</td>
-<td>zrange key-name member ——返回成员member 的分值</td>
-</tr>
-<tr>
-<td>zrevrank</td>
-<td>zrevrank key-name member ——返回有序集合里成员 member 的排名，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrevrange</td>
-<td>zrevrange key-name start stop [withscores] ——返回有序集合给定排名范围内的成员，成员按照分值从大到小排列</td>
-</tr>
-<tr>
-<td>zrangebyscore</td>
-<td>zrangebyscore key min max [withscores] [limit offset count] ——返回有序集合中，分值介于 min 和max 之间的所有成员</td>
-</tr>
-<tr>
-<td>zrevrangebyscore</td>
-<td>zrevrangebyscore key min max [withscores] [limit offset count] ——获取有序集合中分值介于min 和max 之间的所有成员，并按照分值从大到小的顺序来返回它们</td>
-</tr>
-<tr>
-<td>zremrangebyrank</td>
-<td>zremrangebyrank key-name start stop ——移除有序集合中排名介于start 和 stop之间的所有成员</td>
-</tr>
-<tr>
-<td>zremrangebyscore</td>
-<td>zremrangebyscore key-name min max ——移除有序集合中分值介于 min 和 max之间的所有成员</td>
-</tr>
-<tr>
-<td>zinterstore</td>
-<td>zinterstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]  ——对给定的有序集合执行类似于集合的交集运算</td>
-</tr>
-<tr>
-<td>zunionstore</td>
-<td>zunionstore dest-key key-count key [key …] [weights weight [weight…]] [aggregate sum|min|max]——对给定的有序集合执行类似于集合的并集运算</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="发布与订阅"><a href="#发布与订阅" class="headerlink" title="发布与订阅"></a>发布与订阅</h3><blockquote>
-<p>订阅者负责订阅频道，发送者向频道发送二进制字符串消息。</p>
-<p>如何保证消息的可靠性</p>
-<p>消息积压会耗费过多内存</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>subscribe</td>
-<td>subscribe channel [channel …] ——订阅给定的一个或多个频道</td>
-</tr>
-<tr>
-<td>unsubscribe</td>
-<td>unsubscribe [channel [channel …]] ——退定给定的一个或多个频道，如果执行时没有给定任何频道，那么退订所有频道</td>
-</tr>
-<tr>
-<td>publish</td>
-<td>publish channel message ——向给定频道发消息</td>
-</tr>
-<tr>
-<td>psubscribe</td>
-<td>psubscribe pattern [pattern …] ——订阅与给定模式相匹配的所有频道</td>
-</tr>
-<tr>
-<td>punsubscribe</td>
-<td>punsubscribe [pattern [pattern …]] ——退订给定的模式，如果执行时没有给定任何模式，那么退订所有模式</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>能够对 列表、集合、有序集合进行排序。</p>
-<p>选项：</p>
-<ul>
-<li>降序、升序</li>
-<li>元素看作数字排序</li>
-<li>看作 二进制字符串排序</li>
-<li>使用被排序元素之外的 其他值 作为权重值排序</li>
-<li>可以从输入的列表、集合、有序集合以外的其他地方进行取值</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>sort</td>
-<td>sort source-key [BY pattern] [limit offset count] [get pattern [get pattern …]] [asc|desc] [alpha] [store dest-key] ——跟据给定的选项，对输入列表、集合或者有序集合进行排序，然后返回或者存储排序的结果</td>
-</tr>
-</tbody></table>
-<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><blockquote>
-<p>使用事务，保证元素修改发生冲突，不会出现数据问题。、</p>
-<p>事务会将命令打包，然后一次性、有序地执行的机制。命令加入事务队列，按照 FIFO 原则执行。</p>
-<p>事务执行不会中断，要么全部执行完，才会结束。</p>
-<p>multi 用于事务开始</p>
-<p>exec 代表事务执行</p>
-<p>watch 命令 是一个乐观锁</p>
-</blockquote>
-<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><blockquote>
-<p>expire 设置 key 过期时间</p>
-<p>过期键的判定：</p>
-<ol>
-<li>检查给定键是否存在于过期字典：如果存在，那么取得键的过期时间</li>
-<li>检查当前 unix 时间戳 是否大于键的过期时间：是，则过期，否，未过期</li>
-</ol>
-<p>一般过期策略：</p>
-<ul>
-<li>定时删除：内存友好，通过定时器删除，释放内存</li>
-<li>惰性删除：对cpu 时间来说最友好，取键的时候进行检查，删除操作仅在当前键操作，不会在其他键上</li>
-<li>定期删除：隔一段时间进行删除，限制删除时长和频率，难点在 时长和频率</li>
-</ul>
-<p>采用 惰性删除 和 定期删除</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>用例和描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>persist</td>
-<td>persist key-name ——移除键的过期时间</td>
-</tr>
-<tr>
-<td>ttl</td>
-<td>ttl key-name ——查看给定键距离过期还有多少秒</td>
-</tr>
-<tr>
-<td>expire</td>
-<td>expire key-name seconds ——让给定键在指定的秒数之后过期</td>
-</tr>
-<tr>
-<td>expireat</td>
-<td>expireat key-name timestamp ——将给定键的过期时间设置为给定的unix 时间戳</td>
-</tr>
-<tr>
-<td>pttl</td>
-<td>pttl key-name ——查看给定键距离过期时间还有多少毫秒，这个命令在 redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpire</td>
-<td>pexpire key-name milliseconds ——让给定键在指定的毫秒数之后过期，这个命令在redis 2.6 或以上可用</td>
-</tr>
-<tr>
-<td>pexpireat</td>
-<td>pexpireat key-name timestamp-milliseconds ——将一个毫秒级精度的 unix 时间戳设置为给定间的过期时间， redis 2.6 或以上可用</td>
-</tr>
-</tbody></table>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<ul>
-<li>《redis 设计与实现》</li>
-<li>《redis 实战》</li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis 了解与安装</title>
     <url>/blog/Redis/1738e583.html</url>
     <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
@@ -4812,6 +4812,74 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>Golang net包代码分析浅谈</title>
+    <url>/blog/Golang/91f8ab39.html</url>
+    <content><![CDATA[<blockquote>
+<p>事先声明：所有参考内容，会在结尾留下。</p>
+<p>为什么会对Golang 中 <code>net</code> 包进行分析，最近看完书中<code>netpoll</code>的讲解，之前也阅读过，但始终对于<code>net</code>包 和<code>netpoll</code>两者关系没有理清。然后又看到了字节跳动在自己开源的<code>netpoll</code>对于Go <code>net</code>包的评价。两者结合，对于net包的性能为何快，那么<code>netpoll</code>又扮演什么功能。</p>
+<p>本文仅对<code>net</code>包中<code>rpc</code>服务和客户端的创建流程，对于其中<code>netpoll</code>是何时被调用，之间的联系。</p>
+<p>思考不是很全面，如有瑕疵，欢迎建议。</p>
+<p>go version: 1.19.13</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="rpc服务和客户端"><a href="#rpc服务和客户端" class="headerlink" title="rpc服务和客户端"></a><code>rpc</code>服务和客户端</h2><h3 id="创建和使用"><a href="#创建和使用" class="headerlink" title="创建和使用"></a>创建和使用</h3><blockquote>
+<p>在Go中创建一个<code>rpc</code>服务和客户端，其中基本上实现了rpc 协议的解码和编码、rpc 服务和客户端服务的连接和请求处理。下面先看一段代码示例和基本流程。</p>
+</blockquote>
+<p><img src="/./../images/image-20240429170943578.png" alt="image-20240429170943578"></p>
+<div class="tabs" id="rpc"><ul class="nav-tabs"><li class="tab active"><a href="#rpc-1">rpc client</a></li><li class="tab"><a href="#rpc-2">rpc server</a></li></ul><div class="tab-content"><div class="tab-pane active" id="rpc-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	client, err := rpc.Dial(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;localhost:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;dialing:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> reply <span class="type">string</span></span><br><span class="line">	err = client.Call(<span class="string">&quot;HelloService.Hello&quot;</span>, <span class="string">&quot;world&quot;</span>, &amp;reply)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(reply)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="rpc-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HelloService <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *HelloService)</span></span> Hello(request <span class="type">string</span>, reply *<span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	*reply = <span class="string">&quot;hello &quot;</span> + request</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	srv := rpc.NewServer()</span><br><span class="line">	srv.RegisterName(<span class="string">&quot;HelloService&quot;</span>, <span class="built_in">new</span>(HelloService))</span><br><span class="line"></span><br><span class="line">	listener, err := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;ListenTCP error:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		conn, err := listener.Accept()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(<span class="string">&quot;Accept error:&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">go</span> srv.ServeConn(conn)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<p>上述代码流程里，我们实现了基本<code>rpc</code>服务创建，<code>rpc</code>客户端请求，在<code>hello server</code>处理请求数据，返回组合的数据，打印了<code>hello world</code>。 </p>
+<hr>
+<h3 id="rpc服务流程详细分析"><a href="#rpc服务流程详细分析" class="headerlink" title="rpc服务流程详细分析"></a><code>rpc</code>服务流程详细分析</h3><blockquote>
+<p>针对上面的<code>rpc</code>服务创建流程，具体流程是怎么做的，<code>netpoll</code> 又充当了什么角色，为什么说<code>net</code>包实现的<code>rpc</code>是<code>BIO</code>模式的。</p>
+<p>下面对于其中<code>Listen</code>函数、<code>Accept</code>函数、<code>ServeConn</code>函数具体流程进行分析。</p>
+</blockquote>
+<h4 id="Listen函数"><a href="#Listen函数" class="headerlink" title="Listen函数"></a><code>Listen</code>函数</h4><blockquote>
+<p>先看一下<code>Listen</code>函数(由<code>Listener</code>结构实现)中，其<code>Listener</code>底层数据结构主要字段。</p>
+<p>从下图我们看到，<code>Listener</code> 结构体最终涉及调用了 <code>pollDesc</code>，而<code>pollDesc</code>是<code>netpoll</code>功能的主要数据结构，<code>pollDesc</code>封装了操作系统的文件描述符，从而监控了网络<code>IO</code>的请求。 而在<code>netpoll</code>中，在<code>linux</code>中主要通过<code>epoll</code>模型实现。</p>
+</blockquote>
+<img src="./../images/image-20240429180552177.png" alt="image-20240429180552177" style="zoom:50%;" />
+
+<blockquote>
+<p>下面我们看一下整体函数调用链路。</p>
+</blockquote>
+<p><img src="/./../images/image-20240429182001877.png" alt="image-20240429182001877"></p>
+<blockquote>
+<p>接下来再对应实际代码分析一下。由上图和下列代码组合来看，到<code>socket</code>函数中，通过调用<code>sysScoket</code>函数创建系统<code>fd</code>文件标识符，然后通过<code>newFD</code>函数，构建<code>netFD</code>网络文件标识符。最终通过<code>sotype</code>判断，走向<code>listenStream</code>函数，调用系统内核<code>bind</code>函数和<code>Listen</code>函数完成<code>tcp</code>三次握手前的准备。</p>
+<p>在<code>fd.init</code>函数流程：调用<code>pollDesc</code>中<code>init</code>函数（在这里开始使用<code>netpoll</code>组件中的函数）</p>
+<ol>
+<li>通过全局<code>serverInit(sync.Once全局变量)</code>执行<code>runtime_pollServerInit</code>，创建<code>epoll</code>的<code>fd</code>和<code>event</code></li>
+<li>然后调用<code>runtime_pollOpen</code>打开系统<code>fd</code>，通过全局<code>pollcache</code>缓存链表中创建获取<code>pollDesc</code>。</li>
+<li>通过<code>epollctl</code>将<code>fd</code>和<code>pd</code>绑定，去顶事件的监听类型，加入监听队列。</li>
+</ol>
+<p>在<code>pollCache</code>中，会构建一个全局资源<code>pollcache</code>，当链表中没有对应<code>pd</code>，则会根据参数，创建一批。<strong>并且会保证这些数据结构在不会触发垃圾收集的内存中初始化，只会保证<code>epoll</code>和<code>kqueue</code>引用</strong>（引自《Go语言涉及与实现》）。</p>
+</blockquote>
+<p><img src="/./../images/image-20240506180954123.png" alt="image-20240506180954123.png"></p>
+<div class="tabs" id="listen函数"><ul class="nav-tabs"><li class="tab active"><a href="#listen函数-1">socket 函数</a></li><li class="tab"><a href="#listen函数-2">listenStream 函数</a></li><li class="tab"><a href="#listen函数-3">poll_runtime_pollOpen</a></li><li class="tab"><a href="#listen函数-4">pollcache.alloc()</a></li></ul><div class="tab-content"><div class="tab-pane active" id="listen函数-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(ctx context.Context, net <span class="type">string</span>, family, sotype, proto <span class="type">int</span>, ipv6only <span class="type">bool</span>, laddr, raddr sockaddr, ctrlFn <span class="keyword">func</span>(<span class="type">string</span>, <span class="type">string</span>, syscall.RawConn)</span></span> <span class="type">error</span>) (fd *netFD, err <span class="type">error</span>) &#123;</span><br><span class="line">	s, err := sysSocket(family, sotype, proto)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err = setDefaultSockopts(s, family, sotype, ipv6only); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		poll.CloseFunc(s)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> fd, err = newFD(s, family, sotype, net); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		poll.CloseFunc(s)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> laddr != <span class="literal">nil</span> &amp;&amp; raddr == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">switch</span> sotype &#123;</span><br><span class="line">		<span class="keyword">case</span> syscall.SOCK_STREAM, syscall.SOCK_SEQPACKET:</span><br><span class="line">			<span class="keyword">if</span> err := fd.listenStream(laddr, listenerBacklog(), ctrlFn); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				fd.Close()</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> fd, <span class="literal">nil</span></span><br><span class="line">		<span class="keyword">case</span> syscall.SOCK_DGRAM:</span><br><span class="line">			<span class="keyword">if</span> err := fd.listenDatagram(laddr, ctrlFn); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				fd.Close()</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> fd, <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	****</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">return</span> fd, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="listen函数-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(fd *netFD)</span></span> listenStream(laddr sockaddr, backlog <span class="type">int</span>, ctrlFn <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>, <span class="type">string</span>, syscall.RawConn)</span></span> <span class="type">error</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> err <span class="type">error</span></span><br><span class="line">	<span class="keyword">if</span> err = setDefaultListenerSockopts(fd.pfd.Sysfd); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> lsa syscall.Sockaddr</span><br><span class="line">	<span class="keyword">if</span> lsa, err = laddr.sockaddr(fd.family); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ctrlFn != <span class="literal">nil</span> &#123;</span><br><span class="line">		c, err := newRawConn(fd)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> err := ctrlFn(fd.ctrlNetwork(), laddr.String(), c); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err = syscall.Bind(fd.pfd.Sysfd, lsa); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> os.NewSyscallError(<span class="string">&quot;bind&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 调用sysListen</span></span><br><span class="line">	<span class="keyword">if</span> err = listenFunc(fd.pfd.Sysfd, backlog); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> os.NewSyscallError(<span class="string">&quot;listen&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err = fd.init(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)</span><br><span class="line">	fd.setAddr(fd.addrFunc()(lsa), <span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="listen函数-3"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//go:linkname poll_runtime_pollOpen internal/poll.runtime_pollOpen</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">poll_runtime_pollOpen</span><span class="params">(fd <span class="type">uintptr</span>)</span></span> (*pollDesc, <span class="type">int</span>) &#123;</span><br><span class="line">	pd := pollcache.alloc()</span><br><span class="line">	lock(&amp;pd.lock)</span><br><span class="line">	wg := pd.wg.Load()</span><br><span class="line">	<span class="keyword">if</span> wg != <span class="number">0</span> &amp;&amp; wg != pdReady &#123;</span><br><span class="line">		throw(<span class="string">&quot;runtime: blocked write on free polldesc&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	rg := pd.rg.Load()</span><br><span class="line">	<span class="keyword">if</span> rg != <span class="number">0</span> &amp;&amp; rg != pdReady &#123;</span><br><span class="line">		throw(<span class="string">&quot;runtime: blocked read on free polldesc&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	pd.fd = fd</span><br><span class="line">	pd.closing = <span class="literal">false</span></span><br><span class="line">	pd.setEventErr(<span class="literal">false</span>)</span><br><span class="line">	pd.rseq++</span><br><span class="line">	pd.rg.Store(<span class="number">0</span>)</span><br><span class="line">	pd.rd = <span class="number">0</span></span><br><span class="line">	pd.wseq++</span><br><span class="line">	pd.wg.Store(<span class="number">0</span>)</span><br><span class="line">	pd.wd = <span class="number">0</span></span><br><span class="line">	pd.self = pd</span><br><span class="line">	pd.publishInfo()</span><br><span class="line">	unlock(&amp;pd.lock)</span><br><span class="line"></span><br><span class="line">	errno := netpollopen(fd, pd)</span><br><span class="line">	<span class="keyword">if</span> errno != <span class="number">0</span> &#123;</span><br><span class="line">		pollcache.free(pd)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="type">int</span>(errno)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> pd, <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="listen函数-4"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pollCache)</span></span> alloc() *pollDesc &#123;</span><br><span class="line">	lock(&amp;c.lock)</span><br><span class="line">	<span class="keyword">if</span> c.first == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> pdSize = unsafe.Sizeof(pollDesc&#123;&#125;)</span><br><span class="line">		n := pollBlockSize / pdSize</span><br><span class="line">		<span class="keyword">if</span> n == <span class="number">0</span> &#123;</span><br><span class="line">			n = <span class="number">1</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Must be in non-GC memory because can be referenced</span></span><br><span class="line">		<span class="comment">// only from epoll/kqueue internals.</span></span><br><span class="line">		mem := persistentalloc(n*pdSize, <span class="number">0</span>, &amp;memstats.other_sys)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="type">uintptr</span>(<span class="number">0</span>); i &lt; n; i++ &#123;</span><br><span class="line">			pd := (*pollDesc)(add(mem, i*pdSize))</span><br><span class="line">			pd.link = c.first</span><br><span class="line">			c.first = pd</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	pd := c.first</span><br><span class="line">	c.first = pd.link</span><br><span class="line">	lockInit(&amp;pd.lock, lockRankPollDesc)</span><br><span class="line">	unlock(&amp;c.lock)</span><br><span class="line">	<span class="keyword">return</span> pd</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<h4 id="Accept函数"><a href="#Accept函数" class="headerlink" title="Accept函数"></a><code>Accept</code>函数</h4><p>在分析<code>Accept</code>函数前，我们先看一下流程调用图。</p>
+<p><img src="/./../images/image-20240506193733741.png" alt="image-20240506193733741"></p>
+<p>根据上面的<code>Listen</code>函数分析，此时我们创建完对的系统<code>fd</code>和<code>pd(pollDesc)</code>。通过调用系统级别<code>accept</code>函数，监听系统<code>fd</code>，此时判断的<code>err</code>为<code>syscall.EAGAIN</code>，然后<code>netpoll</code>中调用<code>pollWait</code>阻塞，判断合适时，跳出，通过系统<code>accept</code>获取<code>fd(scoket)</code>，然后组合信息封装成<code>TCPConn</code>，给到下面的<code>ServeConn</code>函数处理。</p>
+<div class="tabs" id="accept函数"><ul class="nav-tabs"><li class="tab active"><a href="#accept函数-1">netFD-accept</a></li><li class="tab"><a href="#accept函数-2">FD-accept</a></li><li class="tab"><a href="#accept函数-3">poll_runtime_pollWait</a></li></ul><div class="tab-content"><div class="tab-pane active" id="accept函数-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(fd *netFD)</span></span> accept() (netfd *netFD, err <span class="type">error</span>) &#123;</span><br><span class="line">	d, rsa, errcall, err := fd.pfd.Accept()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> errcall != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">			err = wrapSyscallError(errcall, err)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> netfd, err = newFD(d, fd.family, fd.sotype, fd.net); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		poll.CloseFunc(d)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err = netfd.init(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		netfd.Close()</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	lsa, _ := syscall.Getsockname(netfd.pfd.Sysfd)</span><br><span class="line">	netfd.setAddr(netfd.addrFunc()(lsa), netfd.addrFunc()(rsa))</span><br><span class="line">	<span class="keyword">return</span> netfd, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="accept函数-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(fd *FD)</span></span> Accept() (<span class="type">int</span>, syscall.Sockaddr, <span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> err := fd.readLock(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>, <span class="literal">nil</span>, <span class="string">&quot;&quot;</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> fd.readUnlock()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := fd.pd.prepareRead(fd.isFile); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>, <span class="literal">nil</span>, <span class="string">&quot;&quot;</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		s, rsa, errcall, err := accept(fd.Sysfd)</span><br><span class="line">		<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> s, rsa, <span class="string">&quot;&quot;</span>, err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">switch</span> err &#123;</span><br><span class="line">		<span class="keyword">case</span> syscall.EINTR:</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		<span class="keyword">case</span> syscall.EAGAIN:</span><br><span class="line">			<span class="keyword">if</span> fd.pd.pollable() &#123;</span><br><span class="line">                <span class="comment">// poll_runtime_pollWait</span></span><br><span class="line">				<span class="keyword">if</span> err = fd.pd.waitRead(fd.isFile); err == <span class="literal">nil</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> syscall.ECONNABORTED:</span><br><span class="line">			<span class="comment">// This means that a socket on the listen</span></span><br><span class="line">			<span class="comment">// queue was closed before we Accept()ed it;</span></span><br><span class="line">			<span class="comment">// it&#x27;s a silly error, so try again.</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>, <span class="literal">nil</span>, errcall, err</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="accept函数-3"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//go:linkname poll_runtime_pollWait internal/poll.runtime_pollWait</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">poll_runtime_pollWait</span><span class="params">(pd *pollDesc, mode <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	errcode := netpollcheckerr(pd, <span class="type">int32</span>(mode))</span><br><span class="line">	<span class="keyword">if</span> errcode != pollNoError &#123;</span><br><span class="line">		<span class="keyword">return</span> errcode</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// As for now only Solaris, illumos, and AIX use level-triggered IO.</span></span><br><span class="line">	<span class="keyword">if</span> GOOS == <span class="string">&quot;solaris&quot;</span> || GOOS == <span class="string">&quot;illumos&quot;</span> || GOOS == <span class="string">&quot;aix&quot;</span> &#123;</span><br><span class="line">		netpollarm(pd, mode)</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 阻塞</span></span><br><span class="line">	<span class="keyword">for</span> !netpollblock(pd, <span class="type">int32</span>(mode), <span class="literal">false</span>) &#123;</span><br><span class="line">		errcode = netpollcheckerr(pd, <span class="type">int32</span>(mode))</span><br><span class="line">		<span class="keyword">if</span> errcode != pollNoError &#123;</span><br><span class="line">			<span class="keyword">return</span> errcode</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Can happen if timeout has fired and unblocked us,</span></span><br><span class="line">		<span class="comment">// but before we had a chance to run, timeout has been reset.</span></span><br><span class="line">		<span class="comment">// Pretend it has not happened and retry.</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> pollNoError</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div></div></div>
+
+<h4 id="ServeConn函数"><a href="#ServeConn函数" class="headerlink" title="ServeConn函数"></a><code>ServeConn</code>函数</h4><p>在<code>ServeConn</code>函数流程中，先构建<code>gobServeCodec</code>结构，然后交给<code>ServeCodec</code>函数进行逐个调用处理。在<code>ServeCodec</code>函数中，进行每个请求体解析，然后分配一个<code>goroutinue</code>给到对应函数，通过反射的<code>call</code>函数进行调用返回。</p>
+<div class="tabs" id="serveconn函数"><ul class="nav-tabs"><li class="tab active"><a href="#serveconn函数-1">ServeConn</a></li><li class="tab"><a href="#serveconn函数-2">ServeCodec</a></li></ul><div class="tab-content"><div class="tab-pane active" id="serveconn函数-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ServeConn runs the server on a single connection.</span></span><br><span class="line"><span class="comment">// ServeConn blocks, serving the connection until the client hangs up.</span></span><br><span class="line"><span class="comment">// The caller typically invokes ServeConn in a go statement.</span></span><br><span class="line"><span class="comment">// ServeConn uses the gob wire format (see package gob) on the</span></span><br><span class="line"><span class="comment">// connection. To use an alternate codec, use ServeCodec.</span></span><br><span class="line"><span class="comment">// See NewClient&#x27;s comment for information about concurrent access.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(server *Server)</span></span> ServeConn(conn io.ReadWriteCloser) &#123;</span><br><span class="line">	buf := bufio.NewWriter(conn)</span><br><span class="line">	srv := &amp;gobServerCodec&#123;</span><br><span class="line">		rwc:    conn,</span><br><span class="line">		dec:    gob.NewDecoder(conn),</span><br><span class="line">		enc:    gob.NewEncoder(buf),</span><br><span class="line">		encBuf: buf,</span><br><span class="line">	&#125;</span><br><span class="line">	server.ServeCodec(srv)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="serveconn函数-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ServeCodec is like ServeConn but uses the specified codec to</span></span><br><span class="line"><span class="comment">// decode requests and encode responses.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(server *Server)</span></span> ServeCodec(codec ServerCodec) &#123;</span><br><span class="line">	sending := <span class="built_in">new</span>(sync.Mutex)</span><br><span class="line">	wg := <span class="built_in">new</span>(sync.WaitGroup)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		service, mtype, req, argv, replyv, keepReading, err := server.readRequest(codec)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> debugLog &amp;&amp; err != io.EOF &#123;</span><br><span class="line">				log.Println(<span class="string">&quot;rpc:&quot;</span>, err)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> !keepReading &#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// send a response if we actually managed to read a header.</span></span><br><span class="line">			<span class="keyword">if</span> req != <span class="literal">nil</span> &#123;</span><br><span class="line">				server.sendResponse(sending, req, invalidRequest, codec, err.Error())</span><br><span class="line">				server.freeRequest(req)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		wg.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> service.call(server, sending, wg, mtype, req, argv, replyv, codec)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// We&#x27;ve seen that there are no more requests.</span></span><br><span class="line">	<span class="comment">// Wait for responses to be sent before closing codec.</span></span><br><span class="line">	wg.Wait()</span><br><span class="line">	codec.Close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
+
+<hr>
+<h3 id="rpc客户端详细分析"><a href="#rpc客户端详细分析" class="headerlink" title="rpc客户端详细分析"></a><code>rpc</code>客户端详细分析</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p>《Go语言设计与实现》</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Golang</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>菜鸟的理解</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>网络基础</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
     <content><![CDATA[<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="BS架构"><a href="#BS架构" class="headerlink" title="BS架构"></a>BS架构</h3><p>浏览器   </p>
@@ -4857,55 +4925,6 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <tags>
         <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Golang net包代码分析浅谈</title>
-    <url>/blog/Golang/91f8ab39.html</url>
-    <content><![CDATA[<blockquote>
-<p>事先声明：所有参考内容，会在结尾留下。</p>
-<p>为什么会对Golang 中 <code>net</code> 包进行分析，最近看完书中<code>netpoll</code>的讲解，之前也阅读过，但始终对于<code>net</code>包 和<code>netpoll</code>两者关系没有理清。然后又看到了字节跳动在自己开源的<code>netpoll</code>对于Go <code>net</code>包的评价。两者结合，对于net包的性能为何快，那么<code>netpoll</code>又扮演什么功能。</p>
-<p>本文仅对<code>net</code>包中<code>rpc</code>服务和客户端的创建流程，对于其中<code>netpoll</code>是何时被调用，之间的联系。</p>
-<p>思考不是很全面，如有瑕疵，欢迎建议。</p>
-<p>go version: 1.19.13</p>
-</blockquote>
-<span id="more"></span>
-
-<h2 id="rpc服务和客户端"><a href="#rpc服务和客户端" class="headerlink" title="rpc服务和客户端"></a><code>rpc</code>服务和客户端</h2><h3 id="创建和使用"><a href="#创建和使用" class="headerlink" title="创建和使用"></a>创建和使用</h3><blockquote>
-<p>在Go中创建一个<code>rpc</code>服务和客户端，其中基本上实现了rpc 协议的解码和编码、rpc 服务和客户端服务的连接和请求处理。下面先看一段代码示例和基本流程。</p>
-</blockquote>
-<p><img src="/./../images/image-20240429170943578.png" alt="image-20240429170943578"></p>
-<div class="tabs" id="rpc"><ul class="nav-tabs"><li class="tab active"><a href="#rpc-1">rpc client</a></li><li class="tab"><a href="#rpc-2">rpc server</a></li></ul><div class="tab-content"><div class="tab-pane active" id="rpc-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	client, err := rpc.Dial(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;localhost:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;dialing:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> reply <span class="type">string</span></span><br><span class="line">	err = client.Call(<span class="string">&quot;HelloService.Hello&quot;</span>, <span class="string">&quot;world&quot;</span>, &amp;reply)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(reply)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="rpc-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net&quot;</span></span><br><span class="line">	<span class="string">&quot;net/rpc&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HelloService <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *HelloService)</span></span> Hello(request <span class="type">string</span>, reply *<span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	*reply = <span class="string">&quot;hello &quot;</span> + request</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	srv := rpc.NewServer()</span><br><span class="line">	srv.RegisterName(<span class="string">&quot;HelloService&quot;</span>, <span class="built_in">new</span>(HelloService))</span><br><span class="line"></span><br><span class="line">	listener, err := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:8080&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(<span class="string">&quot;ListenTCP error:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		conn, err := listener.Accept()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(<span class="string">&quot;Accept error:&quot;</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">go</span> srv.ServeConn(conn)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
-
-<p>上述代码流程里，我们实现了基本<code>rpc</code>服务创建，<code>rpc</code>客户端请求，在<code>hello server</code>处理请求数据，返回组合的数据，打印了<code>hello world</code>。 </p>
-<hr>
-<h3 id="rpc服务流程详细分析"><a href="#rpc服务流程详细分析" class="headerlink" title="rpc服务流程详细分析"></a><code>rpc</code>服务流程详细分析</h3><blockquote>
-<p>针对上面的<code>rpc</code>服务创建流程，具体流程是怎么做的，<code>netpoll</code> 又充当了什么角色，为什么说<code>net</code>包实现的<code>rpc</code>是<code>BIO</code>模式的。</p>
-<p>下面对于其中<code>Listen</code>函数、<code>Accept</code>函数、<code>ServeConn</code>函数具体流程进行分析。</p>
-</blockquote>
-<h4 id="Listen函数"><a href="#Listen函数" class="headerlink" title="Listen函数"></a><code>Listen</code>函数</h4><blockquote>
-<p>先看一下<code>Listen</code>函数中，底层数据结构主要字段。</p>
-<p>从下图我们看到，<code>Listener</code> 结构体最终涉及调用了 <code>pollDesc</code>，而<code>pollDesc</code>是<code>netpoll</code>功能的主要数据结构，<code>pollDesc</code>封装了操作系统的文件描述符，从而监控了网络<code>IO</code>的请求。 而在<code>netpoll</code>中，在<code>linux</code>中主要通过<code>epoll</code>模型实现。</p>
-</blockquote>
-<p><img src="/./../images/image-20240429180552177.png" alt="image-20240429180552177"></p>
-<blockquote>
-<p>下面我们看一下整体函数调用链路。</p>
-</blockquote>
-<p><img src="/./../images/image-20240429182001877.png" alt="image-20240429182001877"></p>
-<blockquote>
-<p>接下来再对应实际代码分析一下。</p>
-</blockquote>
-<h4 id="Accept函数"><a href="#Accept函数" class="headerlink" title="Accept函数"></a><code>Accept</code>函数</h4><h4 id="ServeConn函数"><a href="#ServeConn函数" class="headerlink" title="ServeConn函数"></a><code>ServeConn</code>函数</h4><hr>
-<h3 id="rpc客户端详细分析"><a href="#rpc客户端详细分析" class="headerlink" title="rpc客户端详细分析"></a><code>rpc</code>客户端详细分析</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<p>《Go语言设计与实现》</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Golang</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-        <tag>菜鸟的理解</tag>
       </tags>
   </entry>
   <entry>
