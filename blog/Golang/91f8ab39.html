@@ -30,7 +30,7 @@
 <meta property="og:description" content="事先声明：所有参考内容，会在结尾留下。 为什么会对Golang 中 net 包进行分析，最近看完书中netpoll的讲解，之前也阅读过，但始终对于net包 和netpoll两者关系没有理清。然后又看到了字节跳动在自己开源的netpoll对于Go net包的评价。两者结合，对于net包的性能为何快，那么netpoll又扮演什么功能。 本文仅对net包中rpc服务和客户端的创建流程，对于其中netp">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://groot-guo.github.io/images/image-20240429170943578.png">
-<meta property="og:image" content="https://groot-guo.github.io/blog/images/image-20240429180552177.png">
+<meta property="og:image" content="https://groot-guo.github.io/images/image-20240429180552177.png">
 <meta property="og:image" content="https://groot-guo.github.io/images/image-20240429182001877.png">
 <meta property="og:image" content="https://groot-guo.github.io/images/image-20240506180954123.png">
 <meta property="og:image" content="https://groot-guo.github.io/images/image-20240506193733741.png">
@@ -306,8 +306,7 @@
 <p>先看一下<code>Listen</code>函数(由<code>Listener</code>结构实现)中，其<code>Listener</code>底层数据结构主要字段。</p>
 <p>从下图我们看到，<code>Listener</code> 结构体最终涉及调用了 <code>pollDesc</code>，而<code>pollDesc</code>是<code>netpoll</code>功能的主要数据结构，<code>pollDesc</code>封装了操作系统的文件描述符，从而监控了网络<code>IO</code>的请求。 而在<code>netpoll</code>中，在<code>linux</code>中主要通过<code>epoll</code>模型实现。</p>
 </blockquote>
-<img src="./../images/image-20240429180552177.png" alt="image-20240429180552177" style="zoom:50%;" />
-
+<p><img src="/./../images/image-20240429180552177.png" alt="alt"></p>
 <blockquote>
 <p>下面我们看一下整体函数调用链路。</p>
 </blockquote>

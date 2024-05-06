@@ -538,28 +538,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Elasticsearch-基础</title>
-    <url>/blog/Elasticsearch/e74898e6.html</url>
-    <content><![CDATA[<h2 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h2><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
-<p>index 模块</p>
-<p>store 模块</p>
-<p>queryParser 模块</p>
-<p>search 模块</p>
-<p>similarity 模块</p>
-<h3 id="核心术语"><a href="#核心术语" class="headerlink" title="核心术语"></a>核心术语</h3><p>Term：索引最小的存储单元和查询单元</p>
-<p>词典（字典）：Term 集合</p>
-<p>倒排表：多个词组成</p>
-<p>正向信息：原始文档信息</p>
-<p>段：索引中最小的独立存储单元。生成，只能读，不能写。</p>
-<h3 id="段合并"><a href="#段合并" class="headerlink" title="段合并"></a>段合并</h3>]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Django 框架了解</title>
     <url>/blog/Python/8c959f94.html</url>
     <content><![CDATA[<h2 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h2><p>项目与应用的关系</p>
@@ -981,6 +959,28 @@
 ]]></content>
       <categories>
         <category>Python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Elasticsearch-基础</title>
+    <url>/blog/Elasticsearch/e74898e6.html</url>
+    <content><![CDATA[<h2 id="Elasticsearch-基础"><a href="#Elasticsearch-基础" class="headerlink" title="Elasticsearch-基础"></a>Elasticsearch-基础</h2><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><h2 id="Luncne"><a href="#Luncne" class="headerlink" title="Luncne"></a>Luncne</h2><h3 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h3><p>analysis 模块</p>
+<p>index 模块</p>
+<p>store 模块</p>
+<p>queryParser 模块</p>
+<p>search 模块</p>
+<p>similarity 模块</p>
+<h3 id="核心术语"><a href="#核心术语" class="headerlink" title="核心术语"></a>核心术语</h3><p>Term：索引最小的存储单元和查询单元</p>
+<p>词典（字典）：Term 集合</p>
+<p>倒排表：多个词组成</p>
+<p>正向信息：原始文档信息</p>
+<p>段：索引中最小的独立存储单元。生成，只能读，不能写。</p>
+<h3 id="段合并"><a href="#段合并" class="headerlink" title="段合并"></a>段合并</h3>]]></content>
+      <categories>
+        <category>Elasticsearch</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -1503,6 +1503,243 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>微服务</title>
+    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
+    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
+</blockquote>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
+<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
+<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
+<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
+</ul>
+<p><strong>触发降级</strong>：</p>
+<ul>
+<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
+<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
+</ul>
+<p><strong>恢复</strong>：</p>
+<ul>
+<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
+</ul>
+<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
+</blockquote>
+<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
+<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
+<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
+</ul>
+<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
+<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
+</ul>
+<p><strong>触发熔断</strong>：</p>
+<ul>
+<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
+<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
+</ul>
+<p><strong>半开状态</strong>：</p>
+<ul>
+<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
+<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
+</ul>
+<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+</blockquote>
+<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
+<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
+<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
+</ul>
+<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
+</ul>
+<p><strong>运行时控制</strong>：</p>
+<ul>
+<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
+<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
+</ul>
+<p><strong>处理请求</strong>：</p>
+<ul>
+<li>获取到令牌的请求可以正常处理。</li>
+<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
+</ul>
+<p><strong>动态调整</strong>：</p>
+<ul>
+<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
+</ul>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
+<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
+<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
+</ul>
+<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
+<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
+<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
+</ul>
+<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<ul>
+<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
+<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
+<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
+<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
+</ul>
+<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
+<ul>
+<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
+<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
+<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
+<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
+</ul>
+<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
+<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
+<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>微服务</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql 简单入门</title>
+    <url>/blog/Mysql/534e2ed6.html</url>
+    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
+<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
+
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
+
+<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
+
+<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
+<span id="more"></span>
+
+<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
+
+<p>修改字符集也可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>可以修改为 192.168.1.% 表示本网用户</p>
+<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
+<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
+<ul>
+<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
+<li>DML 语句 数据库操作语言：插入删除修改查看</li>
+<li>DCL 语句 数据库控制语言：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
+
+<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
+<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
+<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
+<p>DOUBLE ,精度比 float 高</p>
+<p>decimal 更精准的小数</p>
+<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
+<p>varchar 类型：变长，存储速度慢，节省空间</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
+<p>set 集合 表示多选一，或者多选多</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
+<p>表的设计<br>    1.not null 与 default</p>
+<p>​				not null  不为空，default 默认值</p>
+<p>create table tb1(id int not null default 2,name char(20) not null);</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
+<p>​	2.unique 		</p>
+<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					多列唯一  表示每列都唯一	</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					组合唯一  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​	3.primary key （索引优化查询）</p>
+<p>​			主键 &#x3D; not null + unique</p>
+<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
+<p>​			primary key  (索引优化)</p>
+<p>​	4.auto_increment</p>
+<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
+<p>外键 foreign key </p>
+<p>被关联表   主表 先创建</p>
+<p>关联表 从表 后创建，因为先创外键无法匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
+<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
+<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
+<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
+<p>的关系，凡是多的都是外键。</p>
+<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
+<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
+<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
+<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
+<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
+<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
+<p>min()		求最小</p>
+<p>max()		求最大</p>
+<p>avg()		求平均</p>
+<p>sum() 		求和	</p>
+<p>count（）求总个数</p>
+<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
+
+<p>​		内连接：符合条件查询</p>
+<p>​		左连接：有限显示左表记录</p>
+<p>​		右连接：优先显示右边记录</p>
+<p>​		全外连接：显示左右两个表全部记录</p>
+<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
+<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
+<p> 级联删方式</p>
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux 基本认识</title>
     <url>/blog/Linux/793ef77.html</url>
     <content><![CDATA[<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>redhat 发行版，收费版的Linux</p>
@@ -2006,243 +2243,6 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <categories>
         <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>微服务</title>
-    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
-    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
-</blockquote>
-<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
-<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
-<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
-</ul>
-<span id="more"></span>
-
-<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
-<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
-</ul>
-<p><strong>触发降级</strong>：</p>
-<ul>
-<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
-<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
-</ul>
-<p><strong>恢复</strong>：</p>
-<ul>
-<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
-</ul>
-<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
-</blockquote>
-<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
-<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
-<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
-</ul>
-<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
-<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
-</ul>
-<p><strong>触发熔断</strong>：</p>
-<ul>
-<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
-<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
-</ul>
-<p><strong>半开状态</strong>：</p>
-<ul>
-<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
-<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
-</ul>
-<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
-</blockquote>
-<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
-<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
-<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
-</ul>
-<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
-</ul>
-<p><strong>运行时控制</strong>：</p>
-<ul>
-<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
-<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
-</ul>
-<p><strong>处理请求</strong>：</p>
-<ul>
-<li>获取到令牌的请求可以正常处理。</li>
-<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
-</ul>
-<p><strong>动态调整</strong>：</p>
-<ul>
-<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
-</ul>
-<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
-<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
-<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
-</ul>
-<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
-<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
-<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
-</ul>
-<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
-<ul>
-<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
-<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
-<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
-<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
-</ul>
-<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
-<ul>
-<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
-<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
-<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
-<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
-</ul>
-<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
-<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
-<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>微服务</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql 简单入门</title>
-    <url>/blog/Mysql/534e2ed6.html</url>
-    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
-<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
-
-<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
-
-<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
-
-<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
-<span id="more"></span>
-
-<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
-
-<p>修改字符集也可以使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>可以修改为 192.168.1.% 表示本网用户</p>
-<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>登录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
-
-<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
-<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
-<ul>
-<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
-<li>DML 语句 数据库操作语言：插入删除修改查看</li>
-<li>DCL 语句 数据库控制语言：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
-
-<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
-<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
-<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
-<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
-<p>DOUBLE ,精度比 float 高</p>
-<p>decimal 更精准的小数</p>
-<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
-<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
-<p>varchar 类型：变长，存储速度慢，节省空间</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
-<p>set 集合 表示多选一，或者多选多</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
-<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
-<p>表的设计<br>    1.not null 与 default</p>
-<p>​				not null  不为空，default 默认值</p>
-<p>create table tb1(id int not null default 2,name char(20) not null);</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
-<p>​	2.unique 		</p>
-<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					多列唯一  表示每列都唯一	</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					组合唯一  </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​	3.primary key （索引优化查询）</p>
-<p>​			主键 &#x3D; not null + unique</p>
-<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
-<p>​			primary key  (索引优化)</p>
-<p>​	4.auto_increment</p>
-<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
-<p>外键 foreign key </p>
-<p>被关联表   主表 先创建</p>
-<p>关联表 从表 后创建，因为先创外键无法匹配</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
-<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
-<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
-<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
-<p>的关系，凡是多的都是外键。</p>
-<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
-<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
-<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
-<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
-<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
-<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
-<p>min()		求最小</p>
-<p>max()		求最大</p>
-<p>avg()		求平均</p>
-<p>sum() 		求和	</p>
-<p>count（）求总个数</p>
-<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
-
-<p>​		内连接：符合条件查询</p>
-<p>​		左连接：有限显示左表记录</p>
-<p>​		右连接：优先显示右边记录</p>
-<p>​		全外连接：显示左右两个表全部记录</p>
-<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
-<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
-<p> 级联删方式</p>
-]]></content>
-      <categories>
-        <category>Mysql</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -4839,8 +4839,7 @@ utf-8是目前最常用的字符编码格式
 <p>先看一下<code>Listen</code>函数(由<code>Listener</code>结构实现)中，其<code>Listener</code>底层数据结构主要字段。</p>
 <p>从下图我们看到，<code>Listener</code> 结构体最终涉及调用了 <code>pollDesc</code>，而<code>pollDesc</code>是<code>netpoll</code>功能的主要数据结构，<code>pollDesc</code>封装了操作系统的文件描述符，从而监控了网络<code>IO</code>的请求。 而在<code>netpoll</code>中，在<code>linux</code>中主要通过<code>epoll</code>模型实现。</p>
 </blockquote>
-<img src="./../images/image-20240429180552177.png" alt="image-20240429180552177" style="zoom:50%;" />
-
+<p><img src="/./../images/image-20240429180552177.png" alt="alt"></p>
 <blockquote>
 <p>下面我们看一下整体函数调用链路。</p>
 </blockquote>
