@@ -610,9 +610,7 @@ func (client *Client) input() {
 
 在`Call`函数调用中，通过`Call`结构体中的`Done`字段(`channel`)来进行调用结束，以及`err`的返回。`Call`函数中，通过调用`Go`函数，构建`Call`结构体，然后调用`send`函数发送。
 
-{% tabs call %}
 
-<!-- tab call-go -->
 
 ```go
 // Go invokes the function asynchronously. It returns the Call structure representing
@@ -647,9 +645,7 @@ func (client *Client) Call(serviceMethod string, args any, reply any) error {
 }
 ```
 
-<!-- endtab -->
 
-<!-- tab send-->
 
 ```go
 func (client *Client) send(call *Call) {
@@ -686,11 +682,7 @@ func (client *Client) send(call *Call) {
 }
 ```
 
-<!-- endtab -->
 
-{% entabs %}
-
-----
 
 ## 总结
 
@@ -706,7 +698,7 @@ client端：
 
 发送请求时，主协程会通过创建一个协程，处理请求返回信息。
 
-
+---
 
 ## 参考
 
