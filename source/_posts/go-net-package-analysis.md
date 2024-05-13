@@ -1,5 +1,5 @@
 ---
-title: Golang net包代码分析浅谈
+title: Golang net包rpc代码分析浅谈
 tags:
   - 博客
   - 菜鸟的理解
@@ -16,7 +16,7 @@ updated: 2024-04-28 02:30:46
 >
 >本文仅对`net`包中`rpc`服务和客户端的创建流程，对于其中`netpoll`是何时被调用，之间的联系。
 >
->思考不是很全面，如有瑕疵，欢迎建议。
+><font color=red>todo：文章某些内容细节没有分析到位，后续补充。</font>
 >
 >go version: 1.19.13
 
@@ -26,7 +26,7 @@ updated: 2024-04-28 02:30:46
 
 ### 创建和使用
 
-> 在Go中创建一个`rpc`服务和客户端，其中基本上实现了rpc 协议的解码和编码、rpc 服务和客户端服务的连接和请求处理。下面先看一段代码示例和基本流程。
+> 在Go中创建一个`rpc`服务和客户端，其中基本上实现了rpc 协议的解码和编码、rpc 服务和客户端服务的连接和请求处理。下面先看一段代码示例和基本流程。 
 
 ![image-20240429170943578](./../images/image-20240429170943578.png)
 
@@ -478,9 +478,233 @@ func (server *Server) ServeCodec(codec ServerCodec) {
 
 ### `rpc`客户端详细分析
 
+#### `Dail`函数
 
+在`Dail`函数中，传入`tcp`和`ip`，与服务端建立连接，返回一个`Conn`实例，然后通过构建一个新的`Client`实例，用于处理函数请求。在`Client`创建中，会先创建`buf`和`gobClientCodec`，在通过`gobClientCodec`构建`Client`中，会创建一个`goroutine`处理`client`的`input`函数，然后返回`Client`。
+
+{% tabs rpc-Dail %}
+
+<!-- tab rpc.Dail -->
+
+```go
+// Dial connects to an RPC server at the specified network address.
+func Dial(network, address string) (*Client, error) {
+	conn, err := net.Dial(network, address)
+	if err != nil {
+		return nil, err
+	}
+	return NewClient(conn), nil
+}
+```
+
+<!-- endtab -->
+
+<!-- tab rpc-Client -->
+
+```go
+// NewClient returns a new Client to handle requests to the
+// set of services at the other end of the connection.
+// It adds a buffer to the write side of the connection so
+// the header and payload are sent as a unit.
+//
+// The read and write halves of the connection are serialized independently,
+// so no interlocking is required. However each half may be accessed
+// concurrently so the implementation of conn should protect against
+// concurrent reads or concurrent writes.
+func NewClient(conn io.ReadWriteCloser) *Client {
+	encBuf := bufio.NewWriter(conn)
+	client := &gobClientCodec{conn, gob.NewDecoder(conn), gob.NewEncoder(encBuf), encBuf}
+	return NewClientWithCodec(client)
+}
+
+// NewClientWithCodec is like NewClient but uses the specified
+// codec to encode requests and decode responses.
+func NewClientWithCodec(codec ClientCodec) *Client {
+	client := &Client{
+		codec:   codec,
+		pending: make(map[uint64]*Call),
+	}
+	go client.input()
+	return client
+}
+```
+
+<!-- endtab -->
+
+<!-- tab client-input -->
+
+```go
+func (client *Client) input() {
+	var err error
+	var response Response
+	for err == nil {
+		response = Response{}
+		err = client.codec.ReadResponseHeader(&response)
+		if err != nil {
+			break
+		}
+		seq := response.Seq
+		client.mutex.Lock()
+		call := client.pending[seq]
+		delete(client.pending, seq)
+		client.mutex.Unlock()
+
+		switch {
+		case call == nil:
+			// We've got no pending call. That usually means that
+			// WriteRequest partially failed, and call was already
+			// removed; response is a server telling us about an
+			// error reading request body. We should still attempt
+			// to read error body, but there's no one to give it to.
+			err = client.codec.ReadResponseBody(nil)
+			if err != nil {
+				err = errors.New("reading error body: " + err.Error())
+			}
+		case response.Error != "":
+			// We've got an error response. Give this to the request;
+			// any subsequent requests will get the ReadResponseBody
+			// error if there is one.
+			call.Error = ServerError(response.Error)
+			err = client.codec.ReadResponseBody(nil)
+			if err != nil {
+				err = errors.New("reading error body: " + err.Error())
+			}
+			call.done()
+		default:
+			err = client.codec.ReadResponseBody(call.Reply)
+			if err != nil {
+				call.Error = errors.New("reading body " + err.Error())
+			}
+			call.done()
+		}
+	}
+	// Terminate pending calls.
+	client.reqMutex.Lock()
+	client.mutex.Lock()
+	client.shutdown = true
+	closing := client.closing
+	if err == io.EOF {
+		if closing {
+			err = ErrShutdown
+		} else {
+			err = io.ErrUnexpectedEOF
+		}
+	}
+	for _, call := range client.pending {
+		call.Error = err
+		call.done()
+	}
+	client.mutex.Unlock()
+	client.reqMutex.Unlock()
+	if debugLog && err != io.EOF && !closing {
+		log.Println("rpc: client protocol error:", err)
+	}
+}
+```
+
+<!-- endtab -->
+
+{% endtabs %}
+
+#### `Call`函数
+
+在`Call`函数调用中，通过`Call`结构体中的`Done`字段(`channel`)来进行调用结束，以及`err`的返回。`Call`函数中，通过调用`Go`函数，构建`Call`结构体，然后调用`send`函数发送。
+
+{% tabs call %}
+
+<!-- tab call-go -->
+
+```go
+// Go invokes the function asynchronously. It returns the Call structure representing
+// the invocation. The done channel will signal when the call is complete by returning
+// the same Call object. If done is nil, Go will allocate a new channel.
+// If non-nil, done must be buffered or Go will deliberately crash.
+func (client *Client) Go(serviceMethod string, args any, reply any, done chan *Call) *Call {
+	call := new(Call)
+	call.ServiceMethod = serviceMethod
+	call.Args = args
+	call.Reply = reply
+	if done == nil {
+		done = make(chan *Call, 10) // buffered.
+	} else {
+		// If caller passes done != nil, it must arrange that
+		// done has enough buffer for the number of simultaneous
+		// RPCs that will be using that channel. If the channel
+		// is totally unbuffered, it's best not to run at all.
+		if cap(done) == 0 {
+			log.Panic("rpc: done channel is unbuffered")
+		}
+	}
+	call.Done = done
+	client.send(call)
+	return call
+}
+
+// Call invokes the named function, waits for it to complete, and returns its error status.
+func (client *Client) Call(serviceMethod string, args any, reply any) error {
+	call := <-client.Go(serviceMethod, args, reply, make(chan *Call, 1)).Done
+	return call.Error
+}
+```
+
+<!-- endtab -->
+
+<!-- tab send-->
+
+```go
+func (client *Client) send(call *Call) {
+	client.reqMutex.Lock()
+	defer client.reqMutex.Unlock()
+
+	// Register this call.
+	client.mutex.Lock()
+	if client.shutdown || client.closing {
+		client.mutex.Unlock()
+		call.Error = ErrShutdown
+		call.done()
+		return
+	}
+	seq := client.seq
+	client.seq++
+	client.pending[seq] = call
+	client.mutex.Unlock()
+
+	// Encode and send the request.
+	client.request.Seq = seq
+	client.request.ServiceMethod = call.ServiceMethod
+	err := client.codec.WriteRequest(&client.request, call.Args)
+	if err != nil {
+		client.mutex.Lock()
+		call = client.pending[seq]
+		delete(client.pending, seq)
+		client.mutex.Unlock()
+		if call != nil {
+			call.Error = err
+			call.done()
+		}
+	}
+}
+```
+
+<!-- endtab -->
+
+{% entabs %}
+
+----
 
 ## 总结
+
+server端：
+
+在`netpoll`组件里面处理网络I/O时，`net`包底层在`linux`系统里面使用对应的`epoll`模型，更为高效的创建和处理。但在处理对应连接请求时，主协程进行连接的接收，在server 实例中，调用`ServeConn`函数创建一个协程来单独处理网络连接请求，尽管已经很高效的运行了。但仍然有问题：**协程数量没有控制**。在`gnet`中，有效的解决了这些问题。
+
+client端：
+
+> 此处暂时理解不是很全面，后期进行补充。
+>
+> todo
+
+发送请求时，主协程会通过创建一个协程，处理请求返回信息。
 
 
 
