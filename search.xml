@@ -1406,6 +1406,243 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>微服务</title>
+    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
+    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
+</blockquote>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
+<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
+<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
+<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
+</ul>
+<p><strong>触发降级</strong>：</p>
+<ul>
+<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
+<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
+</ul>
+<p><strong>恢复</strong>：</p>
+<ul>
+<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
+</ul>
+<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
+</blockquote>
+<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
+<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
+<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
+</ul>
+<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
+</ul>
+<p><strong>运行时监测</strong>：</p>
+<ul>
+<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
+<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
+</ul>
+<p><strong>触发熔断</strong>：</p>
+<ul>
+<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
+<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
+</ul>
+<p><strong>半开状态</strong>：</p>
+<ul>
+<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
+<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
+</ul>
+<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
+<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
+</blockquote>
+<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
+<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
+<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
+</ul>
+<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
+<ul>
+<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
+</ul>
+<p><strong>运行时控制</strong>：</p>
+<ul>
+<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
+<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
+</ul>
+<p><strong>处理请求</strong>：</p>
+<ul>
+<li>获取到令牌的请求可以正常处理。</li>
+<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
+</ul>
+<p><strong>动态调整</strong>：</p>
+<ul>
+<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
+</ul>
+<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
+<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
+<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
+</ul>
+<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
+<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
+<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
+</ul>
+<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
+<ul>
+<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
+<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
+<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
+<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
+</ul>
+<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
+<ul>
+<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
+<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
+<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
+<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
+</ul>
+<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
+<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
+<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>微服务</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql 简单入门</title>
+    <url>/blog/Mysql/534e2ed6.html</url>
+    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
+<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
+
+<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
+
+<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
+
+<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
+<span id="more"></span>
+
+<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
+
+<p>修改字符集也可以使用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>可以修改为 192.168.1.% 表示本网用户</p>
+<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
+<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
+<ul>
+<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
+<li>DML 语句 数据库操作语言：插入删除修改查看</li>
+<li>DCL 语句 数据库控制语言：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
+
+<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
+<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
+<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
+<p>DOUBLE ,精度比 float 高</p>
+<p>decimal 更精准的小数</p>
+<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
+<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
+<p>varchar 类型：变长，存储速度慢，节省空间</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
+<p>set 集合 表示多选一，或者多选多</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
+<p>表的设计<br>    1.not null 与 default</p>
+<p>​				not null  不为空，default 默认值</p>
+<p>create table tb1(id int not null default 2,name char(20) not null);</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
+<p>​	2.unique 		</p>
+<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					多列唯一  表示每列都唯一	</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​					组合唯一  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>​	3.primary key （索引优化查询）</p>
+<p>​			主键 &#x3D; not null + unique</p>
+<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
+<p>​			primary key  (索引优化)</p>
+<p>​	4.auto_increment</p>
+<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
+<p>外键 foreign key </p>
+<p>被关联表   主表 先创建</p>
+<p>关联表 从表 后创建，因为先创外键无法匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
+<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
+<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
+<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
+<p>的关系，凡是多的都是外键。</p>
+<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
+<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
+<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
+<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
+<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
+<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
+<p>min()		求最小</p>
+<p>max()		求最大</p>
+<p>avg()		求平均</p>
+<p>sum() 		求和	</p>
+<p>count（）求总个数</p>
+<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
+
+<p>​		内连接：符合条件查询</p>
+<p>​		左连接：有限显示左表记录</p>
+<p>​		右连接：优先显示右边记录</p>
+<p>​		全外连接：显示左右两个表全部记录</p>
+<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
+<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
+<p> 级联删方式</p>
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>linux 基本认识</title>
     <url>/blog/Linux/793ef77.html</url>
     <content><![CDATA[<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>redhat 发行版，收费版的Linux</p>
@@ -1909,243 +2146,6 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <categories>
         <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>微服务</title>
-    <url>/blog/%E5%BE%AE%E6%9C%8D%E5%8A%A1/460c1130.html</url>
-    <content><![CDATA[<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h2 id="微服务基本策略"><a href="#微服务基本策略" class="headerlink" title="微服务基本策略"></a>微服务基本策略</h2><h3 id="降级-Fallback"><a href="#降级-Fallback" class="headerlink" title="降级 (Fallback)"></a>降级 (Fallback)</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>降级是在服务出现异常或资源紧张时，主动关闭或简化某些功能，以保证系统的核心功能依然可用。通过预先定义的降级规则，当触发条件满足时，会调用备用逻辑或返回预设的响应。</p>
-</blockquote>
-<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>在 go-chassis 中，可以通过配置文件定义降级规则，例如配置当服务响应时间超过某个阈值时触发降级。</li>
-<li>开发者需要为可能需要降级的服务编写备用处理逻辑。</li>
-<li>在服务启动时，go-chassis 会根据配置的规则对服务进行降级处理。</li>
-</ul>
-<span id="more"></span>
-
-<h4 id="降级过程"><a href="#降级过程" class="headerlink" title="降级过程"></a>降级过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义降级规则，包括触发条件（如响应时间超过500ms）和降级策略（如返回缓存数据或预设的默认响应）。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>服务在运行时，框架会实时监控服务的性能指标，如响应时间、错误率等。</li>
-<li>当监控指标达到降级规则预设的触发条件时，框架将启动降级流程。</li>
-</ul>
-<p><strong>触发降级</strong>：</p>
-<ul>
-<li>框架将不再调用正常的业务逻辑处理请求，而是执行降级策略。</li>
-<li>降级策略可能包括返回一个预定义的响应、调用备用逻辑（如返回缓存数据）或直接拒绝服务。</li>
-</ul>
-<p><strong>恢复</strong>：</p>
-<ul>
-<li>当监控指标恢复正常，框架会关闭降级策略，服务恢复正常调用流程。</li>
-</ul>
-<h3 id="熔断-Circuit-Breaker"><a href="#熔断-Circuit-Breaker" class="headerlink" title="熔断 (Circuit Breaker)"></a>熔断 (Circuit Breaker)</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p>熔断机制通过监控服务调用的失败率或响应时间，一旦达到设定的阈值，熔断器就会打开，后续的请求会自动失败而不会发送到下游服务，从而避免因一个服务的故障导致整个系统雪崩。</p>
-</blockquote>
-<h4 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>熔断功能可以通过配置文件来设置熔断策略，如失败率或响应时间。</li>
-<li>例如 使用 go-chassis 提供的熔断器组件， <code>circuit breaker</code>。</li>
-<li>定义熔断器的三种状态：关闭、打开和半开，以及状态转换的逻辑。</li>
-</ul>
-<h4 id="熔断过程"><a href="#熔断过程" class="headerlink" title="熔断过程"></a>熔断过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义熔断规则，包括失败率阈值、响应时间阈值以及熔断器状态转换的逻辑。</li>
-</ul>
-<p><strong>运行时监测</strong>：</p>
-<ul>
-<li>框架会跟踪服务的调用情况，包括成功、失败和超时等状态。</li>
-<li>当失败率或响应时间超过预设的阈值时，熔断器进入“打开”状态。</li>
-</ul>
-<p><strong>触发熔断</strong>：</p>
-<ul>
-<li>在熔断器打开的状态下，对下游服务的调用会被自动失败，不会真正发送请求。</li>
-<li>熔断器通常会有一个时间窗口，在这段时间内所有请求都会被熔断。</li>
-</ul>
-<p><strong>半开状态</strong>：</p>
-<ul>
-<li>经过一段时间后，熔断器会进入“半开”状态，允许部分请求尝试调用下游服务。</li>
-<li>如果这些请求成功，熔断器将关闭，服务恢复正常；如果失败，熔断器重新进入“打开”状态。</li>
-</ul>
-<h3 id="限流-Rate-Limiting"><a href="#限流-Rate-Limiting" class="headerlink" title="限流 (Rate Limiting)"></a>限流 (Rate Limiting)</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><blockquote>
-<p> 限流是限制系统处理请求的速率，防止系统因请求过多而超负荷运作。通过设置每秒请求数 (QPS) 或每分钟请求数 (TPS) 来控制请求量。</p>
-</blockquote>
-<h4 id="使用方法-2"><a href="#使用方法-2" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
-<li>通过配置文件设定限流规则，例如每秒允许的最大请求数。</li>
-<li>使用不同的限流算法，如令牌桶、漏桶等。</li>
-<li>开发者可以针对不同服务或API设置不同的限流策略。</li>
-</ul>
-<h4 id="限流过程"><a href="#限流过程" class="headerlink" title="限流过程"></a>限流过程</h4><p><strong>配置阶段</strong>：</p>
-<ul>
-<li>在配置文件中定义限流规则，如每秒允许的最大请求数（QPS）或每分钟允许的最大请求数（TPS）。</li>
-</ul>
-<p><strong>运行时控制</strong>：</p>
-<ul>
-<li>框架会根据配置的限流规则，使用限流算法（如令牌桶、漏桶）来控制请求的通过速率。</li>
-<li>每个请求在处理之前需要从限流器获取一个令牌，如果没有获取到，则请求被拒绝。</li>
-</ul>
-<p><strong>处理请求</strong>：</p>
-<ul>
-<li>获取到令牌的请求可以正常处理。</li>
-<li>如果请求超过了限流器的限制，则根据配置的规则进行处理，如直接拒绝、排队等待等。</li>
-</ul>
-<p><strong>动态调整</strong>：</p>
-<ul>
-<li>在服务运行过程中，可以根据实际情况动态调整限流规则，以应对不同的负载情况。</li>
-</ul>
-<h2 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h2><h3 id="什么是注册中心"><a href="#什么是注册中心" class="headerlink" title="什么是注册中心"></a>什么是注册中心</h3><h3 id="注册中心分发过程"><a href="#注册中心分发过程" class="headerlink" title="注册中心分发过程"></a>注册中心分发过程</h3><h4 id="1-服务注册"><a href="#1-服务注册" class="headerlink" title="1.服务注册"></a>1.服务注册</h4><ul>
-<li><strong>服务启动时注册</strong>：当一个微服务实例启动时，它会向注册中心注册自己，提供其网络位置（如IP地址和端口号）和其他元数据。</li>
-<li><strong>健康检查</strong>：注册中心通常会定期对已注册的服务实例进行健康检查，以确保它们仍然可用。</li>
-</ul>
-<h4 id="2-服务发现"><a href="#2-服务发现" class="headerlink" title="2. 服务发现"></a>2. 服务发现</h4><ul>
-<li><strong>服务消费者查询</strong>：当一个服务消费者需要调用另一个服务时，它会向注册中心查询可用服务的列表。</li>
-<li><strong>获取服务列表</strong>：注册中心返回一个可用服务实例的列表给消费者。</li>
-</ul>
-<h4 id="3-负载均衡"><a href="#3-负载均衡" class="headerlink" title="3. 负载均衡"></a>3. 负载均衡</h4><p>注册中心通常内置或与外部负载均衡器配合，进行请求分发：</p>
-<ul>
-<li><strong>轮询策略</strong>：注册中心可以简单地按顺序将请求分发给每个服务实例，这是最基础的负载均衡策略。</li>
-<li><strong>随机策略</strong>：注册中心随机选择一个服务实例来处理请求。</li>
-<li><strong>最少连接策略</strong>：注册中心会将请求分发给当前连接数最少的服务实例。</li>
-<li><strong>权重策略</strong>：根据服务实例配置的权重，注册中心按比例分发请求。</li>
-</ul>
-<h4 id="4-分发过程"><a href="#4-分发过程" class="headerlink" title="4.分发过程"></a>4.分发过程</h4><p>以下是注册中心分发请求的具体步骤：</p>
-<ul>
-<li><strong>请求到达</strong>：服务消费者的请求到达注册中心。</li>
-<li><strong>负载均衡决策</strong>：注册中心根据配置的负载均衡策略，选择一个服务实例。</li>
-<li><strong>服务实例信息返回</strong>：注册中心将选定的服务实例的信息（如IP和端口）返回给服务消费者。</li>
-<li><strong>请求转发</strong>：服务消费者使用返回的服务实例信息，将请求直接发送到该服务实例。</li>
-</ul>
-<h4 id="5-动态更新"><a href="#5-动态更新" class="headerlink" title="5. 动态更新"></a>5. 动态更新</h4><ul>
-<li><strong>服务实例变化</strong>：如果服务实例因故障或维护而下线，或新的服务实例上线，注册中心会动态更新服务列表。</li>
-<li><strong>健康检查失败</strong>：如果健康检查发现某个服务实例不再健康，注册中心会将其从可用列表中移除。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>微服务</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql 简单入门</title>
-    <url>/blog/Mysql/534e2ed6.html</url>
-    <content><![CDATA[<h2 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h2><h2 id="第一章mysql-入门"><a href="#第一章mysql-入门" class="headerlink" title="第一章mysql 入门"></a>第一章mysql 入门</h2><p>MySQL是基于 c&#x2F;s 架构的软件</p>
-<h4 id="添加环境变量到path"><a href="#添加环境变量到path" class="headerlink" title="添加环境变量到path"></a>添加环境变量到path</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cmd 初始化</span><br><span class="line">mysqld --initialize-insecure</span><br><span class="line">net start mysql  # 开启服务端</span><br><span class="line">net stop mysql	# 移除服务端</span><br><span class="line">mysql --install	# 安装服务  压缩包安装</span><br><span class="line">mysql --remove	# 移除服务</span><br></pre></td></tr></table></figure>
-
-<h4 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tasklist |findstr msyql  # 查进程</span><br><span class="line">taskkill /F /PID 进程号	#杀进程</span><br></pre></td></tr></table></figure>
-
-<h4 id="忘记密码"><a href="#忘记密码" class="headerlink" title="忘记密码"></a>忘记密码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1.先关闭服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2.跳过授权表开启服务</span></span><br><span class="line">mysqld --skip-grant-tables   # 开启服务端的约束条件</span><br><span class="line">mysql -uroot -p   #客户端连接</span><br><span class="line">update mysql.user set authentication_string =password(&#x27;&#x27;) where User =&#x27;root&#x27;;  #更改密码</span><br><span class="line">flush privileges;  # 刷新权限</span><br></pre></td></tr></table></figure>
-
-<p>win10 中跳过授权表可以放在文件中更改 MySQL 中 my.ini 文件，无创建 </p>
-<span id="more"></span>
-
-<h4 id="统一字符编码"><a href="#统一字符编码" class="headerlink" title="统一字符编码"></a>统一字符编码</h4><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 设置 MySQL 的安装目录 **后面的路径一定是安装 sql 的目录（自己的）</span></span><br><span class="line"><span class="attr">basedir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span></span><br><span class="line"><span class="comment"># 设置 MySQL 数据库的数据的存放目录，必是data</span></span><br><span class="line"><span class="attr">datadir</span>=C:\Program Files\MySQL\MySQL Server <span class="number">5.7</span>\data</span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="comment"># 忘记密码添加  skip-grant-tables 改完就删了</span></span><br><span class="line"><span class="comment"># mysql端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="attr">collation-server</span>=utf8_general_ci</span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
-
-<p>修改字符集也可以使用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有字符集格式</span><br><span class="line">SHOW VARIABLES LIKE &#x27;char%&#x27;;</span><br><span class="line"># 修改某个为utf8</span><br><span class="line">SET character_set_client = utf8 ;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="进入-MySQL"><a href="#进入-MySQL" class="headerlink" title="进入 MySQL"></a>进入 MySQL</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">\s; # 查看 MySQL 软件配置</span><br><span class="line">show databases; # 查看所有的数据库</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建-MySQL-用户"><a href="#创建-MySQL-用户" class="headerlink" title="创建 MySQL 用户"></a>创建 MySQL 用户</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mysql</span><br><span class="line"># 查看所有用户信息</span><br><span class="line">select * from user</span><br><span class="line"># 进入MySQL数据库下</span><br><span class="line">create user &#x27;mjj@&#x27;192.168.1.1&#x27; identified by &#x27;123&#x27;&#x27;;</span><br><span class="line"># 创建之后要进行刷新</span><br><span class="line">flush privileges;</span><br><span class="line"># 删除用户</span><br><span class="line">drop user &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改用户</span><br><span class="line">rename user &#x27;ggy&#x27;@&#x27;localhoet&#x27; to &#x27;ggy&#x27;@&#x27;localhost&#x27;;</span><br><span class="line"># 修改密码</span><br><span class="line">set password for &#x27;ggy&#x27;@&#x27;localhost&#x27;=Password(&#x27;123&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>可以修改为 192.168.1.% 表示本网用户</p>
-<h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>@后面加的主机地址，需要设置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看权限</span><br><span class="line">show grants for &#x27;用户&#x27;@&#x27;IP地址&#x27;;</span><br><span class="line"># 授权 mjj 用户对。。文件操作</span><br><span class="line">grant select ,insert,update on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 授权所有权限</span><br><span class="line"># 对文件db1.t1有任意操作</span><br><span class="line">grant all privileges on db1.t1 to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对db1数据库中的文件任意操作</span><br><span class="line">grant all privileges on db1.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"># 对数据库所有文件任意操作</span><br><span class="line">grant all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line"># 取消权限</span><br><span class="line">revoke all privileges on *.* to &quot;mjj&quot;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>登录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -umjj - h 192.168.1.1 -P 3306 -p123</span><br></pre></td></tr></table></figure>
-
-<h2 id="第二章MySQL命令"><a href="#第二章MySQL命令" class="headerlink" title="第二章MySQL命令"></a>第二章MySQL命令</h2><p>SQL命令</p>
-<p>SQL语言主要用于存储数据、查询数据、更行数据和管理数据库系统、分为三种：</p>
-<ul>
-<li>DDL 语句 数据库定义语言：数据库、表、视图、索引、</li>
-<li>DML 语句 数据库操作语言：插入删除修改查看</li>
-<li>DCL 语句 数据库控制语言：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select user();</span><br><span class="line"># 查看所有数据库;</span><br><span class="line">show databases;</span><br><span class="line"># 创建数据库</span><br><span class="line">create database db1;# 后面可加 charset=&quot;utf8&quot; 或gbk</span><br><span class="line">alter database db1 charset=&quot;gbk&quot;;</span><br><span class="line">create table t1(id int, name char(10))engine=innodb;</span><br><span class="line"># sql 语言是强类型 定义什么就必须加什么名称 </span><br><span class="line"># engine=innodb 存储引擎</span><br><span class="line">insert into t1(id,name) values(1,&#x27;alex&#x27;),(2,&#x27;ss&#x27;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看数据库</span><br><span class="line">show databases;</span><br><span class="line"># 查看当前库</span><br><span class="line">show create database db1;</span><br><span class="line"># 查看所在的库</span><br><span class="line">select database();</span><br><span class="line"># 选择数据库</span><br><span class="line">use 数据库名;</span><br><span class="line"># 删除数据库</span><br><span class="line">DROP DATABASE 数据库名;</span><br><span class="line"># 修改数据库</span><br><span class="line">alter database db1 charset utf8;</span><br></pre></td></tr></table></figure>
-
-<h4 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">			show create table t1;</span><br><span class="line"># 查看所有的表</span><br><span class="line">show tables; </span><br><span class="line"># 查看表的详细结构</span><br><span class="line">desc t1; </span><br><span class="line"># 增加表</span><br><span class="line">create table t1(id int,name char(10));	</span><br><span class="line"># 修改表的结构</span><br><span class="line">alter table t1 modify name char(6);</span><br><span class="line"># name变大写的</span><br><span class="line">alter table t1 change name NAME char(7);</span><br><span class="line"># 删除表</span><br><span class="line">drop table t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 插入数据</span><br><span class="line">insert into t1(id,name) values(1,&#x27;ss&#x27;),(2,&#x27;222&#x27;);</span><br><span class="line">insert into t1 value(3,&#x27;sss&#x27;);</span><br><span class="line"># 更新数据</span><br><span class="line">update db1.t1 set name=&#x27;ssss&#x27;;</span><br><span class="line">update db1.t1 set name=&#x27;sel&#x27; where id=2;</span><br><span class="line"># 删除数据</span><br><span class="line">delete from t1;</span><br><span class="line">delete from t1 where id=2;</span><br><span class="line"># 查找数据</span><br><span class="line">select id from t1;</span><br><span class="line">select id,name from t1;</span><br><span class="line">select * from t1;</span><br><span class="line">select * from db1.t1 where id=2;</span><br><span class="line"># 复制表 复制表结构和记录</span><br><span class="line">create table b1 from select * from db1.t1;</span><br><span class="line"># 只要结构</span><br><span class="line">create table b1 from select * from db1.t1 where 1&gt;2;</span><br><span class="line">create table b2 like db2.t1;</span><br></pre></td></tr></table></figure>
-
-<h4 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h4><p>mysql 5.5版本之后默认为innodb存储引擎<br>另外还有mysiam、memory、blackhone<br>#memory，在重启mysql或者重启机器后，表内数据清空<br>#blackhole，往表内插入任何数据，都相当于丢入黑洞，表内永远不存记录</p>
-<h2 id="第三章数据类型"><a href="#第三章数据类型" class="headerlink" title="第三章数据类型"></a>第三章数据类型</h2><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>tinyint[数字] [<strong>unsigned无符号]</strong> 小整数  -128··127  布尔值可以用  tinyint(1)表示True 0表示False</p>
-<p>int 后面的类型是显示宽度，不够补0，其他都是存储宽度，zerofill 用0 填充</p>
-<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>FLOAT</p>
-<p>DOUBLE ,精度比 float 高</p>
-<p>decimal 更精准的小数</p>
-<h4 id="日期"><a href="#日期" class="headerlink" title="日期"></a>日期</h4><p>YEAR<br>    YYYY<br>DATE<br>    YYYY-MM-DD<br>TIME<br>    HH：MM：SS<br>DATETIME  用的最多</p>
-<h4 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h4><p>char  类型：定长，简单粗暴，浪费空间，存取快</p>
-<p>varchar 类型：变长，存储速度慢，节省空间</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>enum 枚举 表示多选一</p>
-<p>set 集合 表示多选一，或者多选多</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>小结：	<br>数据类型：<br>        整型：tinyint int bigint<br>        浮点型： float double decimal<br>        时间：year date time datetime<br>        字符：char 定长 &gt; varchar 变长 &gt; text 文本<br>        枚举：enum<br>        集合：set<br>        布尔：boolean  tinyint(1) 存1 表示true,存0 表示false<br>        函数： now() 根据字段的数据类型获取当前的时间格式<br>                    char_length: 获取字符长度<br>                     length():获取字节数<br>        sql中默认是有符号的<br>        如果设置无符号unsigned<br>        用0填充 zefofill<br>        对字段进行  约束</p>
-<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><p>保证数据的完整性和一致性</p>
-<p>表的设计<br>    1.not null 与 default</p>
-<p>​				not null  不为空，default 默认值</p>
-<p>create table tb1(id int not null default 2,name char(20) not null);</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table tb1(id int not null default 2,name char(20) not null);</span><br><span class="line">insert into tb1  values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into tb1(name) values(&#x27;武sir&#x27;);</span><br><span class="line">insert into tb1(id) values(3);</span><br></pre></td></tr></table></figure>
-<p>​	2.unique 		</p>
-<p>​			单列唯一的，不重复的，重复的数据不能插入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep(id int not null,name varchar(20) unique);</span><br><span class="line">insert into dep(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					多列唯一  表示每列都唯一	</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep2(id int unique,name varchar(20) unique);</span><br><span class="line">insert into dep2(id,name) values(1,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​					组合唯一  </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table dep3(</span><br><span class="line">	id int,</span><br><span class="line">	name varchar(20),</span><br><span class="line">	unique(id,name)		</span><br><span class="line">);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex&#x27;);</span><br><span class="line">insert into dep3(id,name) values(1,&#x27;alex2&#x27;);</span><br><span class="line">insert into dep3(id,name) values(2,&#x27;alex&#x27;);</span><br></pre></td></tr></table></figure>
-
-<p>​	3.primary key （索引优化查询）</p>
-<p>​			主键 &#x3D; not null + unique</p>
-<p>​			sql 版本中，一张表只允许有一个主键，通常是id，cid，nid，sid</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table stu(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);</span><br><span class="line">insert into stu(name) values (&#x27;alex&#x27;);</span><br><span class="line">	</span><br><span class="line">化学反应： not null + unique</span><br><span class="line">	create table stu2(</span><br><span class="line">	id int not null unique auto_increment,</span><br><span class="line">	name varchar(10) unique</span><br><span class="line">);			</span><br></pre></td></tr></table></figure>
-<p>​			primary key  (索引优化)</p>
-<p>​	4.auto_increment</p>
-<p>truncate table t1; 数据量大，删除速度比上一条快，直接从零开始。</p>
-<p>外键 foreign key </p>
-<p>被关联表   主表 先创建</p>
-<p>关联表 从表 后创建，因为先创外键无法匹配</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">constraint fk_dep forirgin key(dep_id) references dep(id)</span><br><span class="line"># 设置外键dep_id 关联 dep（id）</span><br><span class="line">on delete cascade # 同步删除</span><br><span class="line">on update cascade # 同步更新</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三章表和表的关系"><a href="#第三章表和表的关系" class="headerlink" title="第三章表和表的关系"></a>第三章表和表的关系</h3><p>分析步骤：</p>
-<p>先左表：<br>        1.先从左表的多条记录可以对应右表的一条记录，如果是，则证明左表的一个字段foreign key；右表一个字段（通常是 id）</p>
-<p>​		2.再右表的多条记录可以对应左表的一条记录，如果是，则证明右表的一个字段foreign key；左表一个自字段（通常是id）</p>
-<h4 id="3-1多对一"><a href="#3-1多对一" class="headerlink" title="3.1多对一"></a>3.1多对一</h4><p>只有步骤 1 或者步骤 2 成立</p>
-<p>的关系，凡是多的都是外键。</p>
-<h4 id="3-2多对多"><a href="#3-2多对多" class="headerlink" title="3.2多对多"></a>3.2多对多</h4><p>同时成立</p>
-<h4 id="3-3一对一"><a href="#3-3一对一" class="headerlink" title="3.3一对一"></a>3.3一对一</h4><p>步骤 1 和 2 都不成立</p>
-<h3 id="第四章表的查询"><a href="#第四章表的查询" class="headerlink" title="第四章表的查询"></a>第四章表的查询</h3><h4 id="4-1单表查询"><a href="#4-1单表查询" class="headerlink" title="4.1单表查询"></a>4.1单表查询</h4><p>​			一、单表查询的语法<br>​			SELECT 字段1,字段2… FROM 表名<br>​                  WHERE 条件<br>​                  GROUP BY field<br>​                  HAVING 筛选<br>​                  ORDER BY field<br>​                  LIMIT 限制条数<br>​			二、关键字的执行优先级（重点）</p>
-<p>重点中的重点：关键字的执行优先级<br>    from<br>    where<br>    group by<br>    having 以前的版本不可以单独使用，现在可以<br>    select<br>    distinct<br>    order by（asc升序，desc降序）<br>    limit<br>        1.找到表:from<br>        2.拿着where指定的约束条件，去文件&#x2F;表中取出一条条记录<br>        3.将取出的一条条记录进行分组group by，如果没有group by，则整体作为一组<br>        4.将分组的结果进行having过滤<br>        5.执行select<br>        6.去重<br>        7.将结果按条件排序：order by<br>        8.限制结果的显示条数</p>
-<p>在my.ini 配置中设置ONLY_FULL_GROUP_BY </p>
-<p>分组之后 要想查询组内的信息，必须使用聚合函数，不能在 where 中使用必须分组</p>
-<p>min()		求最小</p>
-<p>max()		求最大</p>
-<p>avg()		求平均</p>
-<p>sum() 		求和	</p>
-<p>count（）求总个数</p>
-<h4 id="4-2多表查询"><a href="#4-2多表查询" class="headerlink" title="4.2多表查询"></a>4.2多表查询</h4><h5 id="4-2-1多表连接查询"><a href="#4-2-1多表连接查询" class="headerlink" title="4.2.1多表连接查询"></a>4.2.1多表连接查询</h5><p>外连接操作</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表</span><br><span class="line">	<span class="keyword">FROM</span> 表<span class="number">1</span> <span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> 表<span class="number">2</span></span><br><span class="line">	<span class="keyword">ON</span> 表<span class="number">1.</span>字段 <span class="operator">=</span> 表<span class="number">2.</span>字段</span><br></pre></td></tr></table></figure>
-
-<p>​		内连接：符合条件查询</p>
-<p>​		左连接：有限显示左表记录</p>
-<p>​		右连接：优先显示右边记录</p>
-<p>​		全外连接：显示左右两个表全部记录</p>
-<h5 id="4-2-2符合条件连接查询"><a href="#4-2-2符合条件连接查询" class="headerlink" title="4.2.2符合条件连接查询"></a>4.2.2符合条件连接查询</h5><h5 id="4-2-3子查询"><a href="#4-2-3子查询" class="headerlink" title="4.2.3子查询"></a>4.2.3子查询</h5><p>子查询是将一个查询语句嵌套在另一个查询语句中</p>
-<p>一个查询语句查询的结果作为另一个查询语句的条件</p>
-<p> 级联删方式</p>
-]]></content>
-      <categories>
-        <category>Mysql</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -3008,157 +3008,6 @@ utf-8是目前最常用的字符编码格式
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
 <p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80OTY1ODQ1NDU=">硬核 | Redis 布隆（Bloom Filter）过滤器原理与实战 - 知乎 (zhihu.com)<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis 了解与安装</title>
-    <url>/blog/Redis/1738e583.html</url>
-    <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
-<li>Redis 和 memcached 区别？</li>
-</ul>
-<p>对比 Memcache的共同点：</p>
-<ol>
-<li>redis 是缓存到内存中，</li>
-<li>属于 key - value</li>
-</ol>
-<p>不同的;</p>
-<ol>
-<li>redis 可以做持久化（将数据保存磁盘上）</li>
-<li>支持更丰富的数据类型，value 可以是字符串，链表，哈希，memcache只支持字符串</li>
-</ol>
-<ul>
-<li>如何高效的找到redis中所有以oldboy开头的key</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>什么是一致性哈希</li>
-</ul>
-<span id="more"></span>
-
-<blockquote>
-<p>首先一致性哈希满足以下几个方面：<br>平衡性<br>单调性<br>分散性<br>负载<br>平滑性<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-<p>将整个哈希空间虚拟成一个0 ~ 2^32无符号的圆形，然后把每个服务器进行哈希，然后将对应ip哈希到邻近服务器上。</p>
-<ul>
-<li>redis是单进程单线程的吗？</li>
-</ul>
-<p>首先redis是单线程单进程，如果需要，只能多开几个redis进程</p>
-<ol>
-<li>本身性能很高，每秒处理10万次的读写</li>
-<li>代码更清晰，逻辑更简单</li>
-<li>不用考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗</li>
-<li>不存在多进程或多线程导致的切换而消耗CPU</li>
-<li>事件处理类型是IO多路复用</li>
-<li>将并行事件，串行化发生。</li>
-</ol>
-<ul>
-<li>redis中数据库默认是多少个db及作用？</li>
-</ul>
-<blockquote>
-<p>共16 db，存储key-value格式信息。相当于不同的库</p>
-</blockquote>
-<ul>
-<li>如果redis中的某个列表中的数据量非常大，如果实现循环显示每一个值？</li>
-</ul>
-<blockquote>
-<p>利用xrange 方法实现生成器循环，然后yield生成器</p>
-</blockquote>
-<ul>
-<li>redis 如何实现主从复制？以及数据同步机制？</li>
-</ul>
-<p>redis 是一个非关系型数据库（No -SQL）</p>
-<p>储存结构 字节 python读取时</p>
-<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><hr>
-<ul>
-<li><a href="#redisobject">redisObject</a></li>
-<li><a href="#junmp">string</a><ul>
-<li><a href="#jump">int</a>（存放整数类型）</li>
-<li><a href="#jump">SDS</a>（存放浮点、字符串、字节类型）</li>
-</ul>
-</li>
-<li><a href="#jump">list</a><ul>
-<li><a href="#jump">链表</a>（linkedlist）双向链表</li>
-<li><a href="#jump">压缩列表</a>（ziplist）压缩列表</li>
-</ul>
-</li>
-<li><a href="#jump">hash</a><ul>
-<li><a href="#jump">压缩列表</a> （以上述相同）</li>
-<li><a href="#jump">字典</a>（使用散列表解决，解决冲突的方法是链表法）</li>
-</ul>
-</li>
-<li><a href="#jump">set</a></li>
-<li><a href="#jump">zset</a></li>
-<li><a href="#jump">跳表</a> skiplist</li>
-</ul>
-<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a><span id="redisobject">redisObject</span></h4><hr>
-<p>Redis的key是顶层模型，value是扁平化的。Redis中，所有value都是一个object，它的结构如下：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span>&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> [type] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [encoding] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [lru] REDIS_LRU_BITS;</span><br><span class="line">  <span class="type">int</span> refcount;</span><br><span class="line">  <span class="type">void</span> *prt;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
-
-<p>相关字段说明：</p>
-<ul>
-<li>type：数据类型，例如string、hash、list等。</li>
-<li>encoding：内部编码，就是数据结构。指的是当前这个value底层是用的什么数据结构。因为同一个数据类型底层也有多种数据结构的实现。</li>
-<li>REDIS_LRU_BITS：当前对象可以保留的时长。在键的过期策略中用到。</li>
-<li>refcount：对象引用计数，用于GC。</li>
-<li>ptr：指针，指向以encoding的方式实现这个对象的实际地址。</li>
-</ul>
-<h4 id="string"><a href="#string" class="headerlink" title="string"></a><span id="string">string</span></h4><hr>
-<p>string类型有两种底层存储结构。Redis会根据存储的数据及用户的操作指令自动选择合适的结构：</p>
-<ul>
-<li>int：存放整型类型</li>
-<li>SDS：存放浮点、字符串、字节类型</li>
-</ul>
-<blockquote>
-<p>SDS：简单动态字符串（simple dynamic string）</p>
-</blockquote>
-<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a><span id="SDS">SDS</span></h5><p>SDS的内部数据结构：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">  <span class="comment">// buf 中已占用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> len;</span><br><span class="line">  <span class="comment">// buf 中剩余可用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">  <span class="comment">// 数据空间</span></span><br><span class="line">  <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其底层就是char数组。buf最大容量就是512M，可以放字符串、浮点数、字节。但为什么没用数组？</p>
-<p>因为buf 会有动态扩容和缩容的需求。如果直接使用数组，那每次对字符串的修改都会导致重新分配内存，效率很低。</p>
-<p>buf扩容过程如下：</p>
-<ul>
-<li>如果修改后len长度将小于1M，这时分配给 free 的大小 &#x3D;&#x3D; len。<br>例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 &#x3D; 21 byte</li>
-<li>如果修改后len长度 &gt;&#x3D; 1M，这时分配给 free 的大小 &#x3D;&#x3D; 1M。<br>例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
-</ul>
-<p>惰性空间释放指的是当字符串缩短时，并没有真正的缩容，而是移动 free 的指针。这样一来字符串长度增加时，就不用重新分配内存了。但这样会造成内存的浪费，redis 提供了api来真正释放内存。</p>
-<h4 id="list"><a href="#list" class="headerlink" title="list"></a><span id="list">list</span></h4><hr>
-<p>list 底层有两种数据结构：链表linklist和压缩列表ziplist。当list元素个数少且元素内容长度不大时，使用ziplist实现，否则linklist。</p>
-<h5 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h5><p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">  <span class="comment">// 表头节点</span></span><br><span class="line">  listNode *head;</span><br><span class="line">  <span class="comment">// 表尾节点</span></span><br><span class="line">  listNode *tail;</span><br><span class="line">  <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">  <span class="comment">// 节点值复制函数</span></span><br><span class="line">  <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值释放函数</span></span><br><span class="line">  <span class="type">void</span> *(*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值对比函数</span></span><br><span class="line">  <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
-
-<p>data存的其实就是一个指针。链表里面的元素是上面介绍的string。因为是双向链表，所以可以方便地把它当成一个栈或者队列使用。</p>
-<h5 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h5><p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
-<p>上图字段的含义：</p>
-<ul>
-<li>zlbytes：列表的长度</li>
-<li>zltail：指向最末元素</li>
-<li>zllen：元素的个数</li>
-<li>entry：元素的内容，里面记录了前一个Entry的长度，用于方便双向遍历</li>
-<li>zlend：恒为0xFF，作为ziplist的定界符</li>
-</ul>
-<p>压缩列表不只是list的底层，也是hash的底层实现之一。当hash的元素个数少且内容长度不大时，使用压缩列表来实现。</p>
-<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a><span id="hash">hash</span></h4><hr>
-<p>Hash 底层有两种实现：压缩列表和字典（dict）。</p>
-<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
-<p>在键增加或者减少时，会扩容或者缩容，并且进行rehash，根据hash值重新计算索引值。如果字典太大怎么办？</p>
-<p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。当负载因子触达阈值之后，只能申请新空间，但并不将老的数据搬移到新散列表中。当有新数据要插入时，将新数据插入新散列表中，并且从老的散列表中拿出一个数据放入到新散列表。每次插入一个数据到散列表，都重复上面的过程。经过多次插入操作之后，老的散列表中的数据就一点一点全部搬移到新散列表中了。这样没有了集中的一次一次性数据搬移，插入操作就都变得很快乐。这个被称为渐进式rehash。</p>
-<h4 id="set"><a href="#set" class="headerlink" title="set"></a><span id="set">set</span></h4><hr>
-<p>set里面没有重复的集合。set的实现比较简单。如果是整数类型，就直接使用整数集合intset。使用二分查找来辅助，速度还是挺快的。不过在插入的时候由于要移动元素，时间复杂度是 O(N)。</p>
-<p>如果不是整数类型，就是用上面在hash那一节介绍的字典。key 为 set 的值，value 为空。</p>
-<h4 id="zset"><a href="#zset" class="headerlink" title="zset"></a><span id="zset">zset</span></h4><hr>
-<p>zset是可排序的set。与hash的实现方式类似，如果元素个数不大，就使用压缩列表ziplist来存储。不过由于zset包含了score的排序信息，所以在ziplist内部，是按照score排序递增来存储的。意味着每次插入数据都要移动之后的数据。</p>
-<h4 id="跳表（skiplist）"><a href="#跳表（skiplist）" class="headerlink" title="跳表（skiplist）"></a><span id="">跳表</span>（skiplist）</h4><p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
-<p>如图所示，比如我们要查找8，先在最上层L2查找，发现在1 和9 之间；然后去L1层查找，发现在5和9之间；然后去L0查找，发现在7和9之间，然后找到8。</p>
-<p>当元素较多时，跳跃表可以显著减少查找次数。</p>
-<p>同list类似，Redis内部也不是直接使用的跳跃表，而是使用了一个自定义的数据结构来持有跳跃表。下图左边蓝色部分是skiplist，右边是4个zskiplistNode。zskiplistNode内部有很多层L1、L2等，指针指向这一层的下一个结点。BW是回退指针，用于查找的时候回退。然后下面是score和对象本身object。</p>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -4139,6 +3988,157 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>Redis 了解与安装</title>
+    <url>/blog/Redis/1738e583.html</url>
+    <content><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="Redis相关问题"><a href="#Redis相关问题" class="headerlink" title="Redis相关问题"></a>Redis相关问题</h3><ul>
+<li>Redis 和 memcached 区别？</li>
+</ul>
+<p>对比 Memcache的共同点：</p>
+<ol>
+<li>redis 是缓存到内存中，</li>
+<li>属于 key - value</li>
+</ol>
+<p>不同的;</p>
+<ol>
+<li>redis 可以做持久化（将数据保存磁盘上）</li>
+<li>支持更丰富的数据类型，value 可以是字符串，链表，哈希，memcache只支持字符串</li>
+</ol>
+<ul>
+<li>如何高效的找到redis中所有以oldboy开头的key</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">key oldboy<span class="operator">*</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么是一致性哈希</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p>首先一致性哈希满足以下几个方面：<br>平衡性<br>单调性<br>分散性<br>负载<br>平滑性<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWUxNDc2ZWYyNjVkYTBiOGQ0MTllZjI=">https://juejin.im/post/5ae1476ef265da0b8d419ef2<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<p>将整个哈希空间虚拟成一个0 ~ 2^32无符号的圆形，然后把每个服务器进行哈希，然后将对应ip哈希到邻近服务器上。</p>
+<ul>
+<li>redis是单进程单线程的吗？</li>
+</ul>
+<p>首先redis是单线程单进程，如果需要，只能多开几个redis进程</p>
+<ol>
+<li>本身性能很高，每秒处理10万次的读写</li>
+<li>代码更清晰，逻辑更简单</li>
+<li>不用考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗</li>
+<li>不存在多进程或多线程导致的切换而消耗CPU</li>
+<li>事件处理类型是IO多路复用</li>
+<li>将并行事件，串行化发生。</li>
+</ol>
+<ul>
+<li>redis中数据库默认是多少个db及作用？</li>
+</ul>
+<blockquote>
+<p>共16 db，存储key-value格式信息。相当于不同的库</p>
+</blockquote>
+<ul>
+<li>如果redis中的某个列表中的数据量非常大，如果实现循环显示每一个值？</li>
+</ul>
+<blockquote>
+<p>利用xrange 方法实现生成器循环，然后yield生成器</p>
+</blockquote>
+<ul>
+<li>redis 如何实现主从复制？以及数据同步机制？</li>
+</ul>
+<p>redis 是一个非关系型数据库（No -SQL）</p>
+<p>储存结构 字节 python读取时</p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><hr>
+<ul>
+<li><a href="#redisobject">redisObject</a></li>
+<li><a href="#junmp">string</a><ul>
+<li><a href="#jump">int</a>（存放整数类型）</li>
+<li><a href="#jump">SDS</a>（存放浮点、字符串、字节类型）</li>
+</ul>
+</li>
+<li><a href="#jump">list</a><ul>
+<li><a href="#jump">链表</a>（linkedlist）双向链表</li>
+<li><a href="#jump">压缩列表</a>（ziplist）压缩列表</li>
+</ul>
+</li>
+<li><a href="#jump">hash</a><ul>
+<li><a href="#jump">压缩列表</a> （以上述相同）</li>
+<li><a href="#jump">字典</a>（使用散列表解决，解决冲突的方法是链表法）</li>
+</ul>
+</li>
+<li><a href="#jump">set</a></li>
+<li><a href="#jump">zset</a></li>
+<li><a href="#jump">跳表</a> skiplist</li>
+</ul>
+<h4 id="redisObject"><a href="#redisObject" class="headerlink" title="redisObject"></a><span id="redisobject">redisObject</span></h4><hr>
+<p>Redis的key是顶层模型，value是扁平化的。Redis中，所有value都是一个object，它的结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span>&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> [type] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [encoding] <span class="number">4</span>;</span><br><span class="line">  <span class="type">unsigned</span> [lru] REDIS_LRU_BITS;</span><br><span class="line">  <span class="type">int</span> refcount;</span><br><span class="line">  <span class="type">void</span> *prt;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+
+<p>相关字段说明：</p>
+<ul>
+<li>type：数据类型，例如string、hash、list等。</li>
+<li>encoding：内部编码，就是数据结构。指的是当前这个value底层是用的什么数据结构。因为同一个数据类型底层也有多种数据结构的实现。</li>
+<li>REDIS_LRU_BITS：当前对象可以保留的时长。在键的过期策略中用到。</li>
+<li>refcount：对象引用计数，用于GC。</li>
+<li>ptr：指针，指向以encoding的方式实现这个对象的实际地址。</li>
+</ul>
+<h4 id="string"><a href="#string" class="headerlink" title="string"></a><span id="string">string</span></h4><hr>
+<p>string类型有两种底层存储结构。Redis会根据存储的数据及用户的操作指令自动选择合适的结构：</p>
+<ul>
+<li>int：存放整型类型</li>
+<li>SDS：存放浮点、字符串、字节类型</li>
+</ul>
+<blockquote>
+<p>SDS：简单动态字符串（simple dynamic string）</p>
+</blockquote>
+<h5 id="SDS"><a href="#SDS" class="headerlink" title="SDS"></a><span id="SDS">SDS</span></h5><p>SDS的内部数据结构：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">  <span class="comment">// buf 中已占用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> len;</span><br><span class="line">  <span class="comment">// buf 中剩余可用的字符长度</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">  <span class="comment">// 数据空间</span></span><br><span class="line">  <span class="type">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其底层就是char数组。buf最大容量就是512M，可以放字符串、浮点数、字节。但为什么没用数组？</p>
+<p>因为buf 会有动态扩容和缩容的需求。如果直接使用数组，那每次对字符串的修改都会导致重新分配内存，效率很低。</p>
+<p>buf扩容过程如下：</p>
+<ul>
+<li>如果修改后len长度将小于1M，这时分配给 free 的大小 &#x3D;&#x3D; len。<br>例如修改后10 字节，那么free 为10，buf 实际长度变成了10 + 10 + 1 &#x3D; 21 byte</li>
+<li>如果修改后len长度 &gt;&#x3D; 1M，这时分配给 free 的大小 &#x3D;&#x3D; 1M。<br>例如修改后 30M，那么给 free是 1M，buf实际长度变成了30M + 1M + 1byte</li>
+</ul>
+<p>惰性空间释放指的是当字符串缩短时，并没有真正的缩容，而是移动 free 的指针。这样一来字符串长度增加时，就不用重新分配内存了。但这样会造成内存的浪费，redis 提供了api来真正释放内存。</p>
+<h4 id="list"><a href="#list" class="headerlink" title="list"></a><span id="list">list</span></h4><hr>
+<p>list 底层有两种数据结构：链表linklist和压缩列表ziplist。当list元素个数少且元素内容长度不大时，使用ziplist实现，否则linklist。</p>
+<h5 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h5><p>Redis使用的是双向列表。为了方便操作，使用list结构来维持链表。如图：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">  <span class="comment">// 表头节点</span></span><br><span class="line">  listNode *head;</span><br><span class="line">  <span class="comment">// 表尾节点</span></span><br><span class="line">  listNode *tail;</span><br><span class="line">  <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">  <span class="comment">// 节点值复制函数</span></span><br><span class="line">  <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值释放函数</span></span><br><span class="line">  <span class="type">void</span> *(*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">  <span class="comment">// 节点值对比函数</span></span><br><span class="line">  <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+
+<p>data存的其实就是一个指针。链表里面的元素是上面介绍的string。因为是双向链表，所以可以方便地把它当成一个栈或者队列使用。</p>
+<h5 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h5><p>与上面链表对应，有点类似数组，通过一片连续的内存空间来存储数据。与数组唯一不同点：允许存储的结构大小不同。每个节点上增加一个length属性记录这个节点的长度，这样方便地得到下一个节点的位置。</p>
+<p>上图字段的含义：</p>
+<ul>
+<li>zlbytes：列表的长度</li>
+<li>zltail：指向最末元素</li>
+<li>zllen：元素的个数</li>
+<li>entry：元素的内容，里面记录了前一个Entry的长度，用于方便双向遍历</li>
+<li>zlend：恒为0xFF，作为ziplist的定界符</li>
+</ul>
+<p>压缩列表不只是list的底层，也是hash的底层实现之一。当hash的元素个数少且内容长度不大时，使用压缩列表来实现。</p>
+<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a><span id="hash">hash</span></h4><hr>
+<p>Hash 底层有两种实现：压缩列表和字典（dict）。</p>
+<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><p>字典类似java中map，python中dict。与java中hashmap类似，redis底层也是使用的散列表作为字典的实现，解决hash冲突使用的是链表法。Redis同样使用了一个数据结构来维持散列表：</p>
+<p>在键增加或者减少时，会扩容或者缩容，并且进行rehash，根据hash值重新计算索引值。如果字典太大怎么办？</p>
+<p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。当负载因子触达阈值之后，只能申请新空间，但并不将老的数据搬移到新散列表中。当有新数据要插入时，将新数据插入新散列表中，并且从老的散列表中拿出一个数据放入到新散列表。每次插入一个数据到散列表，都重复上面的过程。经过多次插入操作之后，老的散列表中的数据就一点一点全部搬移到新散列表中了。这样没有了集中的一次一次性数据搬移，插入操作就都变得很快乐。这个被称为渐进式rehash。</p>
+<h4 id="set"><a href="#set" class="headerlink" title="set"></a><span id="set">set</span></h4><hr>
+<p>set里面没有重复的集合。set的实现比较简单。如果是整数类型，就直接使用整数集合intset。使用二分查找来辅助，速度还是挺快的。不过在插入的时候由于要移动元素，时间复杂度是 O(N)。</p>
+<p>如果不是整数类型，就是用上面在hash那一节介绍的字典。key 为 set 的值，value 为空。</p>
+<h4 id="zset"><a href="#zset" class="headerlink" title="zset"></a><span id="zset">zset</span></h4><hr>
+<p>zset是可排序的set。与hash的实现方式类似，如果元素个数不大，就使用压缩列表ziplist来存储。不过由于zset包含了score的排序信息，所以在ziplist内部，是按照score排序递增来存储的。意味着每次插入数据都要移动之后的数据。</p>
+<h4 id="跳表（skiplist）"><a href="#跳表（skiplist）" class="headerlink" title="跳表（skiplist）"></a><span id="">跳表</span>（skiplist）</h4><p>跳表（skiplist）是另一种实现dict的数据结构。跳表是对链表的一个增强。我们在使用链表的时候，即使元素有序排列的，但如果要查找一个元素，也从头查找下去，复杂度是O（N）。而跳表顾名思义，就是跳跃了一些元素，可以抽象多层。</p>
+<p>如图所示，比如我们要查找8，先在最上层L2查找，发现在1 和9 之间；然后去L1层查找，发现在5和9之间；然后去L0查找，发现在7和9之间，然后找到8。</p>
+<p>当元素较多时，跳跃表可以显著减少查找次数。</p>
+<p>同list类似，Redis内部也不是直接使用的跳跃表，而是使用了一个自定义的数据结构来持有跳跃表。下图左边蓝色部分是skiplist，右边是4个zskiplistNode。zskiplistNode内部有很多层L1、L2等，指针指向这一层的下一个结点。BW是回退指针，用于查找的时候回退。然后下面是score和对象本身object。</p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>scrapy 爬虫</title>
     <url>/blog/Python/88f0a041.html</url>
     <content><![CDATA[<h2 id="Scrapy"><a href="#Scrapy" class="headerlink" title="Scrapy"></a>Scrapy</h2><p>scrapy 框架，异步爬虫框架。</p>
@@ -4316,151 +4316,6 @@ utf-8是目前最常用的字符编码格式
 ]]></content>
       <categories>
         <category>Python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP协议</title>
-    <url>/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/51aeee82.html</url>
-    <content><![CDATA[<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><h2 id="TCP流程"><a href="#TCP流程" class="headerlink" title="TCP流程"></a>TCP流程</h2><h3 id="建立连接（三次握手）"><a href="#建立连接（三次握手）" class="headerlink" title="建立连接（三次握手）"></a>建立连接（三次握手）</h3><ol>
-<li>双方初始阶段都是从 close 状态开始，</li>
-<li>服务端从close 状态，监听某个端口，然后进行 listen 状态。</li>
-<li>客户端主动发起连接，发送 SYN，变成 SYN-SENT 状态。</li>
-<li>服务端收到，将连接插入到半连接队列，返回 SYN 和 ACK（客户端得 SYN），自己变成 SYN-REVD</li>
-<li>客户端发送 ACK 给 服务端， 变更为 ESTABLISHED 状态。</li>
-<li>服务端收到，将连接从半连接队列取出，移入全连接队列，变更为 ESTABLISHED 状态。</li>
-<li>进程调用 accept 函数，从全连接队列中取出已完成得连接建立得 socket 连接。</li>
-</ol>
-<h3 id="断开连接（四次挥手）"><a href="#断开连接（四次挥手）" class="headerlink" title="断开连接（四次挥手）"></a>断开连接（四次挥手）</h3><ol>
-<li>客户端向服务器发送 FIN 报文，从 ESTABLEISHED 状态 切换至 FIN-WAIT-1，此时客户端变成了 half-close(半关闭) 状态，无法发送报文，只能接受；</li>
-<li>服务收到客户端确认，发送ACK，变成 CLOSED-WAIT 状态。</li>
-<li>客户端收到ACK，变成 FIN-WAIT2 状态。</li>
-<li>服务端再向 客户端发送 FIN， 进入 LAST-ACK 状态。</li>
-<li>客户端收到 FIN 后，进入 TIME—WAIT 状态，发送ACK 给服务端。</li>
-<li>服务端收到关闭，客户端进入等待， 最长 2MSL 后或者没有服务端重发请求后，客户端关闭，否则要重新 发送 ACK</li>
-</ol>
-<p><strong>画图</strong> ———————————————–</p>
-<span id="more"></span>
-
-<h2 id="建立连接的问题"><a href="#建立连接的问题" class="headerlink" title="建立连接的问题"></a>建立连接的问题</h2><h3 id="为什么不是两次"><a href="#为什么不是两次" class="headerlink" title="为什么不是两次"></a>为什么不是两次</h3><p>根本原因：无法确认客户端得接受能力</p>
-<p>如果存在客户端发送 SYN 报文滞留在网络中，进行重传，可能会建立两次连接，</p>
-<p>这时客户端连接已经关闭，服务端却发送资源，造成资源浪费。</p>
-<h3 id="SYN-包丢失原因"><a href="#SYN-包丢失原因" class="headerlink" title="SYN 包丢失原因"></a>SYN 包丢失原因</h3><ul>
-<li>开启 tcp_tw_recycle 参数，并且处于 NAT 环境下 ；</li>
-<li>Accpet 队列满了 </li>
-<li>SYN 队列满了（SYN 队列满了，应该时 服务器返回给客户端信息，客户端没有应答，即SYN 攻击现象 ）</li>
-</ul>
-<h4 id="SYN-包丢失原因之一-Accept-队列满了"><a href="#SYN-包丢失原因之一-Accept-队列满了" class="headerlink" title="SYN 包丢失原因之一 Accept 队列满了"></a>SYN 包丢失原因之一 Accept 队列满了</h4><p>Linux 内核会维护两个队列：</p>
-<ul>
-<li>半连接队列，也称 SYN 队列</li>
-<li>全连接队列，也称 Accept 队列</li>
-</ul>
-<p>全连接队列太小，或者已满，会造成后续连接被废弃。</p>
-<p>如果出现 Recv-Q 超过 Send-Q，就说明发生了 Accpet 队列满得情况。</p>
-<p>解决办法：</p>
-<ol>
-<li>调大 Accept 队列的最大长度，调大的方式增大 backlog 或 somaxconn 的值；</li>
-<li>检查系统或者代码为什么调用 accpet() 不及时</li>
-</ol>
-<p>检查办法，tcp_abort_on_overflow 的值</p>
-<p>为 0： 表示当全连接队列满了，server 会扔掉 client 发过来的 ack</p>
-<p>为1：表示当全连接队列满了，server 发送 reset 包给 client，表示废弃这个握手过程和这个连接</p>
-<p>设置为1 ，客户端异常中可以看到很多的 connection reset by peer 的错误， 无论 0， 1，SYN 报文都不会被正常应答。</p>
-<p>只有当 全连接队列有空位时，再次收到的请求由于包含 ACK，仍然会触发服务器成功建立连接。</p>
-<p>设置为0 提高连接简历的成功率，长期溢出时，才需要设置1通知客户端</p>
-<h3 id="SYN-Flood-攻击原理"><a href="#SYN-Flood-攻击原理" class="headerlink" title="SYN Flood 攻击原理"></a>SYN Flood 攻击原理</h3><p>原理：客户端再短时间伪造大量不存在的 IP 地址，并向服务端发送 SYN。</p>
-<h4 id="如何应对？"><a href="#如何应对？" class="headerlink" title="如何应对？"></a>如何应对？</h4><ol>
-<li>增加SYN 连接（适当增加半连接队列大小 tcp_max_syn_backlog，但需要同时增加全连接队列大小）</li>
-<li>减少 SYN + ACK 重试次数，避免大量的超时重试（针对 大量 SYN_RECV 状态的 TCP 连接，设置 tcp_synack_retries ，降低重试次数，加快连接断开）</li>
-<li>利用 SYN cookie 技术，收到 SYN 不立即分配，计算出 cookie，携带返回客户端，再次收到时，验证合法性分配资源。（设置 tcp_syncookies &#x3D; 1 ，0 关闭，1 仅当 SYN 队列无法容纳时，启用它， 2 无条件开启功能）</li>
-</ol>
-<p>backlog 可以再应用程序中配置，python 再 listen 方法中可以设置，nginx 可以在配置文件中设置。</p>
-<h2 id="断开连接的问题"><a href="#断开连接的问题" class="headerlink" title="断开连接的问题"></a>断开连接的问题</h2><h3 id="TIME-WAIT作用"><a href="#TIME-WAIT作用" class="headerlink" title="TIME_WAIT作用"></a>TIME_WAIT作用</h3><ol>
-<li>防止旧的连接数据包</li>
-<li>保证连接正确关闭</li>
-</ol>
-<p>防止旧的连接数据包</p>
-<p>1MSL 表示报文得最大生存时间</p>
-<p>经过2MSL 即可让两个方向上的数据包在网络中都自然消失。</p>
-<p>TIME_WAIT 状态的连接过多会造成内存资源和本地端口资源的占用。</p>
-<p>linux 提供两个系统参数快速回收处于 TIME_WAIT 状态的连接</p>
-<ul>
-<li>net.ipv4.tcp_tw_reuse（适用发起方），开始后，客户端调用 connect() 函数时，内核会随机找一个time_wait 状态超过 1s 的连接给新的连接复用</li>
-<li>net.ipv4.tcp_tw_recycle， 开始后允许处于 time_wait 状态的 连接被快速回收</li>
-</ul>
-<p>以上条件生效，前提需要打开 tcp 时间戳，设置 tcp_timestamps &#x3D; 1</p>
-<p>如果开启 tcp_tw_recycle 和 tcp_timestamps ，会开启 <span class="exturl" data-url="aHR0cHM6Ly92LmZsb21vYXBwLmNvbS9taW5lLz9tZW1vX2lkPU5EVTBOamd6T1Rn">https://v.flomoapp.com/mine/?memo_id=NDU0NjgzOTg<i class="fa fa-external-link-alt"></i></span> per-host 的PAWS 机制， 该机制会导致报文丢失。</p>
-<h3 id="为什么是四次挥手而不是三次"><a href="#为什么是四次挥手而不是三次" class="headerlink" title="为什么是四次挥手而不是三次"></a>为什么是四次挥手而不是三次</h3><p>服务器收到 FIN ，往往不会立即返回，因为这个时候不是所有报文都已经发送完成，所以需要等全部完成，才发送 FIN，先发送 ACK 表示已经收到，再发 FIN，就造成四次挥手。</p>
-<p><strong>改为三次挥手？</strong></p>
-<p>会导致客户端因为服务端长时间未发送，可能没有收到 FIN 包，不断重试。</p>
-<h3 id="等待2MSL-意义"><a href="#等待2MSL-意义" class="headerlink" title="等待2MSL 意义"></a>等待2MSL 意义</h3><ul>
-<li>1MSL 确保四次挥手中主动关闭方最后的ACK 报文最终能够到达对端</li>
-<li>1MSL 确保对端没有收到 ACK 重传的 FIN 报文可以到达</li>
-</ul>
-<h2 id="TCP-中的-机制"><a href="#TCP-中的-机制" class="headerlink" title="TCP 中的 机制"></a>TCP 中的 机制</h2><h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a><strong>拥塞控制</strong></h3><p>处理的问题：网络环境差，发生丢包时，需要发送端注意。</p>
-<p>维护两个核心状态：</p>
-<ul>
-<li>拥塞窗口（Congestion Window， cwnd）</li>
-<li>慢启动阈值 （Slow Start Threshold， ssthresh）</li>
-</ul>
-<p>涉及算法：</p>
-<ul>
-<li>慢启动</li>
-<li>拥塞避免</li>
-<li>快速重传和快速恢复</li>
-</ul>
-<h4 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a><strong>拥塞窗口</strong></h4><p>拥塞窗口是发送端的限制。</p>
-<p>根据接收窗口和拥塞窗口的大小，取最小值，确定 发送窗口。</p>
-<p><strong>慢启动</strong></p>
-<ol>
-<li>三次握手，确定双方接收窗口大小</li>
-<li>确定拥塞窗口大小</li>
-<li>开始传输一段时间后，发送端每收到一个 ack，拥塞窗口 + 1 （即每经过一个 RTT， cwnd 翻倍）</li>
-</ol>
-<p>慢启动阈值就是控制 cwnd 到达阈值后，不需要再无限翻倍的扩大。</p>
-<p><strong>拥塞避免</strong></p>
-<p>到达阈值后， cwnd &#x3D; 1&#x2F; cwnd + cwnd</p>
-<p><strong>快速重传</strong></p>
-<p>当发生丢包时，发送端收到重复ack，里面进行重传。</p>
-<p><strong>选择性重传</strong> （SACK， Selective Acknowledgment） </p>
-<p>接收端在回复ack 报文时，增加 SACK 属性，通过 left edge和 right edge 通知发送端，收到哪些数据，然后进行选择重传。</p>
-<p><strong>快速恢复</strong></p>
-<p>此阶段会发生的改变：</p>
-<ul>
-<li>拥塞阈值降低为 cwnd 一半</li>
-<li>cwnd 的大小变为 拥塞阈值</li>
-<li>cwnd 线性增加</li>
-</ul>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="TCP的流量控制-（滑动窗口）"><a href="#TCP的流量控制-（滑动窗口）" class="headerlink" title="TCP的流量控制 （滑动窗口）"></a>TCP的流量控制 （滑动窗口）</h3><p>流量控制，主要体现的地方就是，发送数据存放的发送缓存区，接收数据存放的接收缓存区。</p>
-<p><strong>发送窗口</strong></p>
-<p>四个部分</p>
-<ul>
-<li>已发送已确认</li>
-<li>已发送未确认</li>
-<li>未发送可发送</li>
-<li>未发送不可发送</li>
-</ul>
-<p>发送窗口就是图中被框住的范围。SND 即send, WND 即window, UNA 即unacknowledged, 表示未被确认，NXT 即next, 表示下一个发送的位置。</p>
-<p><strong>接收窗口</strong></p>
-<p>REV 机 receive， NXT 表示下一个接受的位置， WND 表示接收窗口大小。</p>
-<p><strong>流量控制过程</strong></p>
-<ol>
-<li>初始化，双方都有 200 字节。</li>
-<li>发送端发送 100 字节，所以nxt需要向右移动 100 字节，可用窗口减少 100 字节。</li>
-<li>接收端处理能力不够，处理40字节，所以发送端要缩小，缓冲队列中 60 字节没有接收。接收端在 ack 报文中带上滑动窗口 140 字节，发送端调整。</li>
-<li>发送端 una 调整向右 40 字节。</li>
-</ol>
-<h3 id="PAWS-机制"><a href="#PAWS-机制" class="headerlink" title="PAWS 机制"></a>PAWS 机制</h3><p>原理：在客户端与服务端发送 seq 时，加入 时间戳，如果时间戳过期，那么默认会丢弃数据包。</p>
-<p>作用：防止TCP 包中的序列化发送绕回。</p>
-<p><strong>per-host 的 PAWS 机制</strong></p>
-<p>定义：针对每一个 IP 进行 PAWS 检查，不同 IP 之间是独立的。</p>
-<p><strong>为什么不能在 NAT 中开启</strong></p>
-<p>由于NAT 技术时网络地址转换技术，会将一个 IP 地址对应给多个客户端，导致 不同客户端之前发送 SYN 包时，携带时间戳时不一致的，会造成丢包情况。</p>
-]]></content>
-      <categories>
-        <category>计算机基础</category>
       </categories>
       <tags>
         <tag>笔记</tag>
@@ -4652,6 +4507,151 @@ utf-8是目前最常用的字符编码格式
       </tags>
   </entry>
   <entry>
+    <title>TCP协议</title>
+    <url>/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/51aeee82.html</url>
+    <content><![CDATA[<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><h2 id="TCP流程"><a href="#TCP流程" class="headerlink" title="TCP流程"></a>TCP流程</h2><h3 id="建立连接（三次握手）"><a href="#建立连接（三次握手）" class="headerlink" title="建立连接（三次握手）"></a>建立连接（三次握手）</h3><ol>
+<li>双方初始阶段都是从 close 状态开始，</li>
+<li>服务端从close 状态，监听某个端口，然后进行 listen 状态。</li>
+<li>客户端主动发起连接，发送 SYN，变成 SYN-SENT 状态。</li>
+<li>服务端收到，将连接插入到半连接队列，返回 SYN 和 ACK（客户端得 SYN），自己变成 SYN-REVD</li>
+<li>客户端发送 ACK 给 服务端， 变更为 ESTABLISHED 状态。</li>
+<li>服务端收到，将连接从半连接队列取出，移入全连接队列，变更为 ESTABLISHED 状态。</li>
+<li>进程调用 accept 函数，从全连接队列中取出已完成得连接建立得 socket 连接。</li>
+</ol>
+<h3 id="断开连接（四次挥手）"><a href="#断开连接（四次挥手）" class="headerlink" title="断开连接（四次挥手）"></a>断开连接（四次挥手）</h3><ol>
+<li>客户端向服务器发送 FIN 报文，从 ESTABLEISHED 状态 切换至 FIN-WAIT-1，此时客户端变成了 half-close(半关闭) 状态，无法发送报文，只能接受；</li>
+<li>服务收到客户端确认，发送ACK，变成 CLOSED-WAIT 状态。</li>
+<li>客户端收到ACK，变成 FIN-WAIT2 状态。</li>
+<li>服务端再向 客户端发送 FIN， 进入 LAST-ACK 状态。</li>
+<li>客户端收到 FIN 后，进入 TIME—WAIT 状态，发送ACK 给服务端。</li>
+<li>服务端收到关闭，客户端进入等待， 最长 2MSL 后或者没有服务端重发请求后，客户端关闭，否则要重新 发送 ACK</li>
+</ol>
+<p><strong>画图</strong> ———————————————–</p>
+<span id="more"></span>
+
+<h2 id="建立连接的问题"><a href="#建立连接的问题" class="headerlink" title="建立连接的问题"></a>建立连接的问题</h2><h3 id="为什么不是两次"><a href="#为什么不是两次" class="headerlink" title="为什么不是两次"></a>为什么不是两次</h3><p>根本原因：无法确认客户端得接受能力</p>
+<p>如果存在客户端发送 SYN 报文滞留在网络中，进行重传，可能会建立两次连接，</p>
+<p>这时客户端连接已经关闭，服务端却发送资源，造成资源浪费。</p>
+<h3 id="SYN-包丢失原因"><a href="#SYN-包丢失原因" class="headerlink" title="SYN 包丢失原因"></a>SYN 包丢失原因</h3><ul>
+<li>开启 tcp_tw_recycle 参数，并且处于 NAT 环境下 ；</li>
+<li>Accpet 队列满了 </li>
+<li>SYN 队列满了（SYN 队列满了，应该时 服务器返回给客户端信息，客户端没有应答，即SYN 攻击现象 ）</li>
+</ul>
+<h4 id="SYN-包丢失原因之一-Accept-队列满了"><a href="#SYN-包丢失原因之一-Accept-队列满了" class="headerlink" title="SYN 包丢失原因之一 Accept 队列满了"></a>SYN 包丢失原因之一 Accept 队列满了</h4><p>Linux 内核会维护两个队列：</p>
+<ul>
+<li>半连接队列，也称 SYN 队列</li>
+<li>全连接队列，也称 Accept 队列</li>
+</ul>
+<p>全连接队列太小，或者已满，会造成后续连接被废弃。</p>
+<p>如果出现 Recv-Q 超过 Send-Q，就说明发生了 Accpet 队列满得情况。</p>
+<p>解决办法：</p>
+<ol>
+<li>调大 Accept 队列的最大长度，调大的方式增大 backlog 或 somaxconn 的值；</li>
+<li>检查系统或者代码为什么调用 accpet() 不及时</li>
+</ol>
+<p>检查办法，tcp_abort_on_overflow 的值</p>
+<p>为 0： 表示当全连接队列满了，server 会扔掉 client 发过来的 ack</p>
+<p>为1：表示当全连接队列满了，server 发送 reset 包给 client，表示废弃这个握手过程和这个连接</p>
+<p>设置为1 ，客户端异常中可以看到很多的 connection reset by peer 的错误， 无论 0， 1，SYN 报文都不会被正常应答。</p>
+<p>只有当 全连接队列有空位时，再次收到的请求由于包含 ACK，仍然会触发服务器成功建立连接。</p>
+<p>设置为0 提高连接简历的成功率，长期溢出时，才需要设置1通知客户端</p>
+<h3 id="SYN-Flood-攻击原理"><a href="#SYN-Flood-攻击原理" class="headerlink" title="SYN Flood 攻击原理"></a>SYN Flood 攻击原理</h3><p>原理：客户端再短时间伪造大量不存在的 IP 地址，并向服务端发送 SYN。</p>
+<h4 id="如何应对？"><a href="#如何应对？" class="headerlink" title="如何应对？"></a>如何应对？</h4><ol>
+<li>增加SYN 连接（适当增加半连接队列大小 tcp_max_syn_backlog，但需要同时增加全连接队列大小）</li>
+<li>减少 SYN + ACK 重试次数，避免大量的超时重试（针对 大量 SYN_RECV 状态的 TCP 连接，设置 tcp_synack_retries ，降低重试次数，加快连接断开）</li>
+<li>利用 SYN cookie 技术，收到 SYN 不立即分配，计算出 cookie，携带返回客户端，再次收到时，验证合法性分配资源。（设置 tcp_syncookies &#x3D; 1 ，0 关闭，1 仅当 SYN 队列无法容纳时，启用它， 2 无条件开启功能）</li>
+</ol>
+<p>backlog 可以再应用程序中配置，python 再 listen 方法中可以设置，nginx 可以在配置文件中设置。</p>
+<h2 id="断开连接的问题"><a href="#断开连接的问题" class="headerlink" title="断开连接的问题"></a>断开连接的问题</h2><h3 id="TIME-WAIT作用"><a href="#TIME-WAIT作用" class="headerlink" title="TIME_WAIT作用"></a>TIME_WAIT作用</h3><ol>
+<li>防止旧的连接数据包</li>
+<li>保证连接正确关闭</li>
+</ol>
+<p>防止旧的连接数据包</p>
+<p>1MSL 表示报文得最大生存时间</p>
+<p>经过2MSL 即可让两个方向上的数据包在网络中都自然消失。</p>
+<p>TIME_WAIT 状态的连接过多会造成内存资源和本地端口资源的占用。</p>
+<p>linux 提供两个系统参数快速回收处于 TIME_WAIT 状态的连接</p>
+<ul>
+<li>net.ipv4.tcp_tw_reuse（适用发起方），开始后，客户端调用 connect() 函数时，内核会随机找一个time_wait 状态超过 1s 的连接给新的连接复用</li>
+<li>net.ipv4.tcp_tw_recycle， 开始后允许处于 time_wait 状态的 连接被快速回收</li>
+</ul>
+<p>以上条件生效，前提需要打开 tcp 时间戳，设置 tcp_timestamps &#x3D; 1</p>
+<p>如果开启 tcp_tw_recycle 和 tcp_timestamps ，会开启 <span class="exturl" data-url="aHR0cHM6Ly92LmZsb21vYXBwLmNvbS9taW5lLz9tZW1vX2lkPU5EVTBOamd6T1Rn">https://v.flomoapp.com/mine/?memo_id=NDU0NjgzOTg<i class="fa fa-external-link-alt"></i></span> per-host 的PAWS 机制， 该机制会导致报文丢失。</p>
+<h3 id="为什么是四次挥手而不是三次"><a href="#为什么是四次挥手而不是三次" class="headerlink" title="为什么是四次挥手而不是三次"></a>为什么是四次挥手而不是三次</h3><p>服务器收到 FIN ，往往不会立即返回，因为这个时候不是所有报文都已经发送完成，所以需要等全部完成，才发送 FIN，先发送 ACK 表示已经收到，再发 FIN，就造成四次挥手。</p>
+<p><strong>改为三次挥手？</strong></p>
+<p>会导致客户端因为服务端长时间未发送，可能没有收到 FIN 包，不断重试。</p>
+<h3 id="等待2MSL-意义"><a href="#等待2MSL-意义" class="headerlink" title="等待2MSL 意义"></a>等待2MSL 意义</h3><ul>
+<li>1MSL 确保四次挥手中主动关闭方最后的ACK 报文最终能够到达对端</li>
+<li>1MSL 确保对端没有收到 ACK 重传的 FIN 报文可以到达</li>
+</ul>
+<h2 id="TCP-中的-机制"><a href="#TCP-中的-机制" class="headerlink" title="TCP 中的 机制"></a>TCP 中的 机制</h2><h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a><strong>拥塞控制</strong></h3><p>处理的问题：网络环境差，发生丢包时，需要发送端注意。</p>
+<p>维护两个核心状态：</p>
+<ul>
+<li>拥塞窗口（Congestion Window， cwnd）</li>
+<li>慢启动阈值 （Slow Start Threshold， ssthresh）</li>
+</ul>
+<p>涉及算法：</p>
+<ul>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>快速重传和快速恢复</li>
+</ul>
+<h4 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a><strong>拥塞窗口</strong></h4><p>拥塞窗口是发送端的限制。</p>
+<p>根据接收窗口和拥塞窗口的大小，取最小值，确定 发送窗口。</p>
+<p><strong>慢启动</strong></p>
+<ol>
+<li>三次握手，确定双方接收窗口大小</li>
+<li>确定拥塞窗口大小</li>
+<li>开始传输一段时间后，发送端每收到一个 ack，拥塞窗口 + 1 （即每经过一个 RTT， cwnd 翻倍）</li>
+</ol>
+<p>慢启动阈值就是控制 cwnd 到达阈值后，不需要再无限翻倍的扩大。</p>
+<p><strong>拥塞避免</strong></p>
+<p>到达阈值后， cwnd &#x3D; 1&#x2F; cwnd + cwnd</p>
+<p><strong>快速重传</strong></p>
+<p>当发生丢包时，发送端收到重复ack，里面进行重传。</p>
+<p><strong>选择性重传</strong> （SACK， Selective Acknowledgment） </p>
+<p>接收端在回复ack 报文时，增加 SACK 属性，通过 left edge和 right edge 通知发送端，收到哪些数据，然后进行选择重传。</p>
+<p><strong>快速恢复</strong></p>
+<p>此阶段会发生的改变：</p>
+<ul>
+<li>拥塞阈值降低为 cwnd 一半</li>
+<li>cwnd 的大小变为 拥塞阈值</li>
+<li>cwnd 线性增加</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="TCP的流量控制-（滑动窗口）"><a href="#TCP的流量控制-（滑动窗口）" class="headerlink" title="TCP的流量控制 （滑动窗口）"></a>TCP的流量控制 （滑动窗口）</h3><p>流量控制，主要体现的地方就是，发送数据存放的发送缓存区，接收数据存放的接收缓存区。</p>
+<p><strong>发送窗口</strong></p>
+<p>四个部分</p>
+<ul>
+<li>已发送已确认</li>
+<li>已发送未确认</li>
+<li>未发送可发送</li>
+<li>未发送不可发送</li>
+</ul>
+<p>发送窗口就是图中被框住的范围。SND 即send, WND 即window, UNA 即unacknowledged, 表示未被确认，NXT 即next, 表示下一个发送的位置。</p>
+<p><strong>接收窗口</strong></p>
+<p>REV 机 receive， NXT 表示下一个接受的位置， WND 表示接收窗口大小。</p>
+<p><strong>流量控制过程</strong></p>
+<ol>
+<li>初始化，双方都有 200 字节。</li>
+<li>发送端发送 100 字节，所以nxt需要向右移动 100 字节，可用窗口减少 100 字节。</li>
+<li>接收端处理能力不够，处理40字节，所以发送端要缩小，缓冲队列中 60 字节没有接收。接收端在 ack 报文中带上滑动窗口 140 字节，发送端调整。</li>
+<li>发送端 una 调整向右 40 字节。</li>
+</ol>
+<h3 id="PAWS-机制"><a href="#PAWS-机制" class="headerlink" title="PAWS 机制"></a>PAWS 机制</h3><p>原理：在客户端与服务端发送 seq 时，加入 时间戳，如果时间戳过期，那么默认会丢弃数据包。</p>
+<p>作用：防止TCP 包中的序列化发送绕回。</p>
+<p><strong>per-host 的 PAWS 机制</strong></p>
+<p>定义：针对每一个 IP 进行 PAWS 检查，不同 IP 之间是独立的。</p>
+<p><strong>为什么不能在 NAT 中开启</strong></p>
+<p>由于NAT 技术时网络地址转换技术，会将一个 IP 地址对应给多个客户端，导致 不同客户端之前发送 SYN 包时，携带时间戳时不一致的，会造成丢包情况。</p>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数据结构</title>
     <url>/blog/uncategorized/7ade1d5c.html</url>
     <content><![CDATA[<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>​		稳定性：任意相等的两个数据，排序前后的相对位置不会改变</p>
@@ -4773,6 +4773,26 @@ utf-8是目前最常用的字符编码格式
 <div class="tabs" id="rpc-dail"><ul class="nav-tabs"><li class="tab active"><a href="#rpc-dail-1">rpc.Dail</a></li><li class="tab"><a href="#rpc-dail-2">rpc-Client</a></li><li class="tab"><a href="#rpc-dail-3">client-input</a></li></ul><div class="tab-content"><div class="tab-pane active" id="rpc-dail-1"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Dial connects to an RPC server at the specified network address.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Dial</span><span class="params">(network, address <span class="type">string</span>)</span></span> (*Client, <span class="type">error</span>) &#123;</span><br><span class="line">	conn, err := net.Dial(network, address)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> NewClient(conn), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="rpc-dail-2"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// NewClient returns a new Client to handle requests to the</span></span><br><span class="line"><span class="comment">// set of services at the other end of the connection.</span></span><br><span class="line"><span class="comment">// It adds a buffer to the write side of the connection so</span></span><br><span class="line"><span class="comment">// the header and payload are sent as a unit.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// The read and write halves of the connection are serialized independently,</span></span><br><span class="line"><span class="comment">// so no interlocking is required. However each half may be accessed</span></span><br><span class="line"><span class="comment">// concurrently so the implementation of conn should protect against</span></span><br><span class="line"><span class="comment">// concurrent reads or concurrent writes.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewClient</span><span class="params">(conn io.ReadWriteCloser)</span></span> *Client &#123;</span><br><span class="line">	encBuf := bufio.NewWriter(conn)</span><br><span class="line">	client := &amp;gobClientCodec&#123;conn, gob.NewDecoder(conn), gob.NewEncoder(encBuf), encBuf&#125;</span><br><span class="line">	<span class="keyword">return</span> NewClientWithCodec(client)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NewClientWithCodec is like NewClient but uses the specified</span></span><br><span class="line"><span class="comment">// codec to encode requests and decode responses.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewClientWithCodec</span><span class="params">(codec ClientCodec)</span></span> *Client &#123;</span><br><span class="line">	client := &amp;Client&#123;</span><br><span class="line">		codec:   codec,</span><br><span class="line">		pending: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">uint64</span>]*Call),</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">go</span> client.input()</span><br><span class="line">	<span class="keyword">return</span> client</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="rpc-dail-3"><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(client *Client)</span></span> input() &#123;</span><br><span class="line">	<span class="keyword">var</span> err <span class="type">error</span></span><br><span class="line">	<span class="keyword">var</span> response Response</span><br><span class="line">	<span class="keyword">for</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">		response = Response&#123;&#125;</span><br><span class="line">		err = client.codec.ReadResponseHeader(&amp;response)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		seq := response.Seq</span><br><span class="line">		client.mutex.Lock()</span><br><span class="line">		call := client.pending[seq]</span><br><span class="line">		<span class="built_in">delete</span>(client.pending, seq)</span><br><span class="line">		client.mutex.Unlock()</span><br><span class="line"></span><br><span class="line">		<span class="keyword">switch</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> call == <span class="literal">nil</span>:</span><br><span class="line">			<span class="comment">// We&#x27;ve got no pending call. That usually means that</span></span><br><span class="line">			<span class="comment">// WriteRequest partially failed, and call was already</span></span><br><span class="line">			<span class="comment">// removed; response is a server telling us about an</span></span><br><span class="line">			<span class="comment">// error reading request body. We should still attempt</span></span><br><span class="line">			<span class="comment">// to read error body, but there&#x27;s no one to give it to.</span></span><br><span class="line">			err = client.codec.ReadResponseBody(<span class="literal">nil</span>)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				err = errors.New(<span class="string">&quot;reading error body: &quot;</span> + err.Error())</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> response.Error != <span class="string">&quot;&quot;</span>:</span><br><span class="line">			<span class="comment">// We&#x27;ve got an error response. Give this to the request;</span></span><br><span class="line">			<span class="comment">// any subsequent requests will get the ReadResponseBody</span></span><br><span class="line">			<span class="comment">// error if there is one.</span></span><br><span class="line">			call.Error = ServerError(response.Error)</span><br><span class="line">			err = client.codec.ReadResponseBody(<span class="literal">nil</span>)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				err = errors.New(<span class="string">&quot;reading error body: &quot;</span> + err.Error())</span><br><span class="line">			&#125;</span><br><span class="line">			call.done()</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			err = client.codec.ReadResponseBody(call.Reply)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				call.Error = errors.New(<span class="string">&quot;reading body &quot;</span> + err.Error())</span><br><span class="line">			&#125;</span><br><span class="line">			call.done()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Terminate pending calls.</span></span><br><span class="line">	client.reqMutex.Lock()</span><br><span class="line">	client.mutex.Lock()</span><br><span class="line">	client.shutdown = <span class="literal">true</span></span><br><span class="line">	closing := client.closing</span><br><span class="line">	<span class="keyword">if</span> err == io.EOF &#123;</span><br><span class="line">		<span class="keyword">if</span> closing &#123;</span><br><span class="line">			err = ErrShutdown</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			err = io.ErrUnexpectedEOF</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, call := <span class="keyword">range</span> client.pending &#123;</span><br><span class="line">		call.Error = err</span><br><span class="line">		call.done()</span><br><span class="line">	&#125;</span><br><span class="line">	client.mutex.Unlock()</span><br><span class="line">	client.reqMutex.Unlock()</span><br><span class="line">	<span class="keyword">if</span> debugLog &amp;&amp; err != io.EOF &amp;&amp; !closing &#123;</span><br><span class="line">		log.Println(<span class="string">&quot;rpc: client protocol error:&quot;</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div></div>
 
 <h4 id="Call函数"><a href="#Call函数" class="headerlink" title="Call函数"></a><code>Call</code>函数</h4><p>在<code>Call</code>函数调用中，通过<code>Call</code>结构体中的<code>Done</code>字段(<code>channel</code>)来进行调用结束，以及<code>err</code>的返回。<code>Call</code>函数中，通过调用<code>Go</code>函数，构建<code>Call</code>结构体，然后调用<code>send</code>函数发送。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Go invokes the function asynchronously. It returns the Call structure representing</span></span><br><span class="line"><span class="comment">// the invocation. The done channel will signal when the call is complete by returning</span></span><br><span class="line"><span class="comment">// the same Call object. If done is nil, Go will allocate a new channel.</span></span><br><span class="line"><span class="comment">// If non-nil, done must be buffered or Go will deliberately crash.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(client *Client)</span></span> Go(serviceMethod <span class="type">string</span>, args any, reply any, done <span class="keyword">chan</span> *Call) *Call &#123;</span><br><span class="line">	call := <span class="built_in">new</span>(Call)</span><br><span class="line">	call.ServiceMethod = serviceMethod</span><br><span class="line">	call.Args = args</span><br><span class="line">	call.Reply = reply</span><br><span class="line">	<span class="keyword">if</span> done == <span class="literal">nil</span> &#123;</span><br><span class="line">		done = <span class="built_in">make</span>(<span class="keyword">chan</span> *Call, <span class="number">10</span>) <span class="comment">// buffered.</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// If caller passes done != nil, it must arrange that</span></span><br><span class="line">		<span class="comment">// done has enough buffer for the number of simultaneous</span></span><br><span class="line">		<span class="comment">// RPCs that will be using that channel. If the channel</span></span><br><span class="line">		<span class="comment">// is totally unbuffered, it&#x27;s best not to run at all.</span></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">cap</span>(done) == <span class="number">0</span> &#123;</span><br><span class="line">			log.Panic(<span class="string">&quot;rpc: done channel is unbuffered&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	call.Done = done</span><br><span class="line">	client.send(call)</span><br><span class="line">	<span class="keyword">return</span> call</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Call invokes the named function, waits for it to complete, and returns its error status.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(client *Client)</span></span> Call(serviceMethod <span class="type">string</span>, args any, reply any) <span class="type">error</span> &#123;</span><br><span class="line">	call := &lt;-client.Go(serviceMethod, args, reply, <span class="built_in">make</span>(<span class="keyword">chan</span> *Call, <span class="number">1</span>)).Done</span><br><span class="line">	<span class="keyword">return</span> call.Error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(client *Client)</span></span> send(call *Call) &#123;</span><br><span class="line">	client.reqMutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> client.reqMutex.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Register this call.</span></span><br><span class="line">	client.mutex.Lock()</span><br><span class="line">	<span class="keyword">if</span> client.shutdown || client.closing &#123;</span><br><span class="line">		client.mutex.Unlock()</span><br><span class="line">		call.Error = ErrShutdown</span><br><span class="line">		call.done()</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	seq := client.seq</span><br><span class="line">	client.seq++</span><br><span class="line">	client.pending[seq] = call</span><br><span class="line">	client.mutex.Unlock()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Encode and send the request.</span></span><br><span class="line">	client.request.Seq = seq</span><br><span class="line">	client.request.ServiceMethod = call.ServiceMethod</span><br><span class="line">	err := client.codec.WriteRequest(&amp;client.request, call.Args)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		client.mutex.Lock()</span><br><span class="line">		call = client.pending[seq]</span><br><span class="line">		<span class="built_in">delete</span>(client.pending, seq)</span><br><span class="line">		client.mutex.Unlock()</span><br><span class="line">		<span class="keyword">if</span> call != <span class="literal">nil</span> &#123;</span><br><span class="line">			call.Error = err</span><br><span class="line">			call.done()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>server端：</p>
+<p>在<code>netpoll</code>组件里面处理网络I&#x2F;O时，<code>net</code>包底层在<code>linux</code>系统里面使用对应的<code>epoll</code>模型，更为高效的创建和处理。但在处理对应连接请求时，主协程进行连接的接收，在server 实例中，调用<code>ServeConn</code>函数创建一个协程来单独处理网络连接请求，尽管已经很高效的运行了。但仍然有问题：<strong>协程数量没有控制</strong>。在<code>gnet</code>中，有效的解决了这些问题。</p>
+<p>client端：</p>
+<blockquote>
+<p>此处暂时理解不是很全面，后期进行补充。</p>
+<p>todo</p>
+</blockquote>
+<p>发送请求时，主协程会通过创建一个协程，处理请求返回信息。</p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
+<p>《Go语言设计与实现》</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Golang</category>
@@ -4825,6 +4845,69 @@ utf-8是目前最常用的字符编码格式
 <h2 id="GIL锁"><a href="#GIL锁" class="headerlink" title="GIL锁"></a>GIL锁</h2><p>全局解释器锁。用于限制一个进程中同一时刻只有一个线程被cpu调度。</p>
 <p>扩展：默认GIL锁在执行100个cpu指令.</p>
 <p>主线程会默认等子线程</p>
+]]></content>
+      <tags>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据分析与数据挖掘</title>
+    <url>/blog/uncategorized/7ade1d5c.html</url>
+    <content><![CDATA[<h2 id="jupyter-notebook"><a href="#jupyter-notebook" class="headerlink" title="jupyter notebook"></a>jupyter notebook</h2><p>魔法命令</p>
+<h2 id="Numpy-安装与导入"><a href="#Numpy-安装与导入" class="headerlink" title="Numpy 安装与导入"></a>Numpy 安装与导入</h2><p>安装</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install numpy</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>机器学习：学习一种学习算法，从数据中学习并建立成模型来对新的数据进行预测的计算科学。</p>
+<p>适用于：</p>
+<p>1.不存在已知算法解决方案的复杂问题</p>
+<p>2.需要大量手动调整或者规则列表超长的问题</p>
+<p>3.可以适应环境波动的系统</p>
+<p>基础概念：</p>
+<p>1.提供给算法的包含所需解决方案的训练数据，称为标签</p>
+<p>2.属性加上其值，就是特征</p>
+<p>3.通过给定的特征来预测一个目标数值，叫回归任务</p>
+<p>4.用于训练模型的数据叫数据集</p>
+<p>5.用于测试模型精度的数据叫测试集</p>
+<p>6.每一条数据叫一个样本（x），样本对应的结果叫标签（y0）</p>
+<p>7.模型在训练数据上表现良好，泛化不好叫过度拟合，反之欠拟合</p>
+<p>8.模型训练就是通过训练数据找到算法最合适的参数</p>
+<p>核心问题：算法好坏和数据好坏</p>
+<p>复杂问题，数据比算法更重要</p>
+<p>数据处理主要解决的问题：</p>
+<p>1.数据量不足</p>
+<p>2.训练数据不具备代表性</p>
+<p>3.质量差的数据</p>
+<p>4.特征筛选</p>
+<span id="more"></span>
+
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><p>机器学习的关键是提取一组好的用来训练的特征集，这个过程叫特征工程，包括：</p>
+<p>1.特征选择 从现有特征中选择最有用的特征进行训练</p>
+<p>2.特征提取 将现有特征进行整合，产生更有用的特征，比如降维算法</p>
+<p>3.通过收集 新数据创造新特征</p>
+<p>机器学习项目的数据处理流程</p>
+<p>1.真实数据观察全局</p>
+<p>2.选择性能指标、检查假设</p>
+<p>3.获取数据</p>
+<p>​	创建工作区、快速查看数据结构、创建测试集</p>
+<p>4.从可视化中探索数据</p>
+<p>​	将数据可视化、寻找相关性、试验不同的属性组合</p>
+<p>5.机器学习前的数据准备</p>
+<p>​	数据清理、自定义转换器、特征缩放、转换流水线</p>
+<p>6.选择训练模型</p>
+<p>​	评估训练集、交叉验证、分析最佳模型及其错误、测试集评</p>
+<p>7.模型调优</p>
+<p>8.分析最佳模型和测试集评估</p>
+<p>9.系统维护和监控</p>
+<p>总结：</p>
+<p>1.目标：给机器学习提供更好的数据，才可以得到精度高的模型，来预测新的数据</p>
+<p>2.需要：</p>
+<p>​	提供足够数据量的数据</p>
+<p>​	训练数据要具备代表性</p>
+<p>​	数据质量不能太差</p>
+<p>​	关键部分是提取出一组好的特征集来训练模型</p>
+<p>3.一个机器学习项目的完成流程 和 前期的数据处理与特征工程</p>
 ]]></content>
       <tags>
         <tag>笔记</tag>
@@ -5201,69 +5284,6 @@ utf-8是目前最常用的字符编码格式
       <categories>
         <category>Node Js</category>
       </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据分析与数据挖掘</title>
-    <url>/blog/uncategorized/7ade1d5c.html</url>
-    <content><![CDATA[<h2 id="jupyter-notebook"><a href="#jupyter-notebook" class="headerlink" title="jupyter notebook"></a>jupyter notebook</h2><p>魔法命令</p>
-<h2 id="Numpy-安装与导入"><a href="#Numpy-安装与导入" class="headerlink" title="Numpy 安装与导入"></a>Numpy 安装与导入</h2><p>安装</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install numpy</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>机器学习：学习一种学习算法，从数据中学习并建立成模型来对新的数据进行预测的计算科学。</p>
-<p>适用于：</p>
-<p>1.不存在已知算法解决方案的复杂问题</p>
-<p>2.需要大量手动调整或者规则列表超长的问题</p>
-<p>3.可以适应环境波动的系统</p>
-<p>基础概念：</p>
-<p>1.提供给算法的包含所需解决方案的训练数据，称为标签</p>
-<p>2.属性加上其值，就是特征</p>
-<p>3.通过给定的特征来预测一个目标数值，叫回归任务</p>
-<p>4.用于训练模型的数据叫数据集</p>
-<p>5.用于测试模型精度的数据叫测试集</p>
-<p>6.每一条数据叫一个样本（x），样本对应的结果叫标签（y0）</p>
-<p>7.模型在训练数据上表现良好，泛化不好叫过度拟合，反之欠拟合</p>
-<p>8.模型训练就是通过训练数据找到算法最合适的参数</p>
-<p>核心问题：算法好坏和数据好坏</p>
-<p>复杂问题，数据比算法更重要</p>
-<p>数据处理主要解决的问题：</p>
-<p>1.数据量不足</p>
-<p>2.训练数据不具备代表性</p>
-<p>3.质量差的数据</p>
-<p>4.特征筛选</p>
-<span id="more"></span>
-
-<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h3><p>机器学习的关键是提取一组好的用来训练的特征集，这个过程叫特征工程，包括：</p>
-<p>1.特征选择 从现有特征中选择最有用的特征进行训练</p>
-<p>2.特征提取 将现有特征进行整合，产生更有用的特征，比如降维算法</p>
-<p>3.通过收集 新数据创造新特征</p>
-<p>机器学习项目的数据处理流程</p>
-<p>1.真实数据观察全局</p>
-<p>2.选择性能指标、检查假设</p>
-<p>3.获取数据</p>
-<p>​	创建工作区、快速查看数据结构、创建测试集</p>
-<p>4.从可视化中探索数据</p>
-<p>​	将数据可视化、寻找相关性、试验不同的属性组合</p>
-<p>5.机器学习前的数据准备</p>
-<p>​	数据清理、自定义转换器、特征缩放、转换流水线</p>
-<p>6.选择训练模型</p>
-<p>​	评估训练集、交叉验证、分析最佳模型及其错误、测试集评</p>
-<p>7.模型调优</p>
-<p>8.分析最佳模型和测试集评估</p>
-<p>9.系统维护和监控</p>
-<p>总结：</p>
-<p>1.目标：给机器学习提供更好的数据，才可以得到精度高的模型，来预测新的数据</p>
-<p>2.需要：</p>
-<p>​	提供足够数据量的数据</p>
-<p>​	训练数据要具备代表性</p>
-<p>​	数据质量不能太差</p>
-<p>​	关键部分是提取出一组好的特征集来训练模型</p>
-<p>3.一个机器学习项目的完成流程 和 前期的数据处理与特征工程</p>
-]]></content>
       <tags>
         <tag>笔记</tag>
       </tags>
